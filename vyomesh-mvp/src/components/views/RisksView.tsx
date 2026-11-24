@@ -42,7 +42,7 @@ export default function RisksView({ dept }: { dept: Department }) {
                   <td>
                     {r.whoImpacted}
                     {r.mostVulnerable && (
-                      <div><span className="vuln">Most vulnerable: {r.mostVulnerable}</span></div>
+                      <div><span className="vuln">{r.mostVulnerable}</span></div>
                     )}
                   </td>
                   <td>{r.whatMakesWorse}</td>
@@ -64,7 +64,7 @@ export default function RisksView({ dept }: { dept: Department }) {
                   <dt>Who is impacted</dt>
                   <dd>
                     {s.whoImpacted}
-                    {s.mostVulnerable && <div><span className="vuln">Most vulnerable: {s.mostVulnerable}</span></div>}
+                    {s.mostVulnerable && <div><span className="vuln">{s.mostVulnerable}</span></div>}
                   </dd>
                 </div>
                 <div>

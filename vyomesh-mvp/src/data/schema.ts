@@ -122,7 +122,6 @@ export interface CaseStudyDetail {
   impact: string;
   response: string;
   whatChanged: string;
-  lesson: string;
 }
 
 export interface CaseStudy {

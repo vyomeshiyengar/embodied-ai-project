@@ -230,7 +230,6 @@ table.data .name { font-weight: 600; color: var(--navy); width: 24%; }
 .cs-sections { margin: 8px 0 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
 .cs-sections dt { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
 .cs-sections dd { margin: 0; font-size: 14.5px; }
-.cs-sections .lesson { grid-column: 1 / -1; background: #fff; border: 1px solid #e2d39f; border-radius: 8px; padding: 10px 14px; }
 .cs-card .full, td .full { display: inline-block; margin-top: 4px; font-size: 11.5px; font-weight: 600; color: var(--label); background: #f6ecf6; border-radius: 999px; padding: 1px 8px; }
 .cs-card.on .full { background: rgba(255,255,255,0.18); color: #fff; }
 td .full { margin-left: 8px; margin-top: 0; vertical-align: 1px; }

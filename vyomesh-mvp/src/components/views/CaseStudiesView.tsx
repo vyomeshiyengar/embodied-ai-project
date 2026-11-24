@@ -11,7 +11,6 @@ const DETAIL_FIELDS: [keyof Omit<CaseStudyDetail, 'title'>, string][] = [
   ['impact', 'Impact on the community'],
   ['response', 'Response'],
   ['whatChanged', 'What changed'],
-  ['lesson', 'Lesson'],
 ];
 
 export default function CaseStudiesView({
@@ -127,7 +126,7 @@ export default function CaseStudiesView({
             {selected.detail ? (
               <dl className="cs-sections">
                 {DETAIL_FIELDS.map(([key, label]) => (
-                  <div key={key} className={key === 'lesson' ? 'lesson' : undefined}>
+                  <div key={key}>
                     <dt>{label}</dt>
                     <dd>{selected.detail![key]}</dd>
                   </div>
