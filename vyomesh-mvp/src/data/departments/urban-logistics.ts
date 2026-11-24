@@ -429,30 +429,51 @@ const urbanLogistics: Department = {
         relatedRegulationIds: ['tort'],
       },
       {
-        id: 'toronto-san-francisco',
-        detail: {
-          title: "Toronto and San Francisco: banning versus capping",
-          deployed:
-            "Tiny Mile operated delivery robots in Toronto from 2019 to 2021, and Starship, Marble and other companies tested robots in San Francisco in 2017.",
-          whatHappened:
-            "In Toronto, the Accessibility Advisory Committee and disability groups argued that the robots created a new barrier for disabled residents. In San Francisco, supervisors first proposed an outright ban and then settled on strict permits.",
-          impact:
-            "Tiny Mile left Toronto. San Francisco's rules allowed 9 robots citywide and 3 per company, capped speed at 3 mph, limited robots to industrial areas and required human chaperones, which effectively restricted them to testing.",
-          response:
-            "Toronto banned robots from sidewalks and cycle tracks in December 2021. San Francisco chose a cap-and-permit approach, which it later loosened into pilot zones.",
-          whatChanged:
-            "Disability advocates became central to the debate, and companies moved to friendlier cities and states.",
-        },
-        place: 'Toronto and San Francisco',
-        response: 'Ban vs. cap-and-permit',
-        note: "Toronto banned sidewalk and cycle-track robots in December 2021, and Ottawa told businesses that robots aren't allowed. San Francisco's 2017 ordinance allowed 9 robots citywide at 3 mph in industrial zones, with human chaperones.",
+        id: 'toronto',
+        place: 'Toronto & Ottawa, ON',
+        response: 'Ban',
+        note: "Toronto banned sidewalk and cycle-track robots in December 2021, and Ottawa told businesses that robots aren't allowed.",
         locations: [
           { label: 'Toronto', lat: 43.65, lng: -79.38 },
           { label: 'Ottawa', lat: 45.42, lng: -75.7 },
-          { label: 'San Francisco', lat: 37.77, lng: -122.42 },
         ],
         relatedTypeIds: ['sidewalk-robots'],
-        relatedRegulationIds: ['local-bans', 'city-row'],
+        relatedRegulationIds: ['local-bans'],
+        detail: {
+          title: 'Toronto: banning sidewalk robots',
+          deployed:
+            "Tiny Mile operated sidewalk delivery robots in Toronto from 2019 to 2021.",
+          whatHappened:
+            "Toronto's Accessibility Advisory Committee and disability groups argued that the robots created a new barrier for disabled residents.",
+          impact:
+            "Tiny Mile left Toronto.",
+          response:
+            "Toronto banned robots from sidewalks and cycle tracks in December 2021.",
+          whatChanged:
+            "Disability advocates became central to the debate, and companies moved to friendlier cities and states.",
+        },
+      },
+      {
+        id: 'san-francisco',
+        place: 'San Francisco, CA',
+        response: 'Restrictive permits',
+        note: "San Francisco's 2017 ordinance allowed 9 robots citywide at 3 mph in industrial zones, with human chaperones.",
+        locations: [{ label: 'San Francisco', lat: 37.77, lng: -122.42 }],
+        relatedTypeIds: ['sidewalk-robots'],
+        relatedRegulationIds: ['city-row'],
+        detail: {
+          title: 'San Francisco: capping sidewalk robots',
+          deployed:
+            "Starship, Marble and other companies tested sidewalk delivery robots in San Francisco in 2017.",
+          whatHappened:
+            "San Francisco's supervisors originally proposed an outright ban and then settled on strict permits.",
+          impact:
+            "The city's rules allowed 9 robots citywide and 3 per company, capped speed at 3 mph, limited robots to industrial areas and required human chaperones, which effectively restricted them to testing.",
+          response:
+            "San Francisco chose a cap-and-permit approach, which it later loosened into pilot zones.",
+          whatChanged:
+            "Robot companies moved to friendlier cities and states.",
+        },
       },
       {
         id: 'shenzhen-shanghai',
