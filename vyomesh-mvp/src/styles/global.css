@@ -82,7 +82,6 @@ a { color: var(--types); }
 .tab-card.types .t { color: var(--types); }
 .tab-card.risks .t { color: var(--risks); }
 .tab-card.regs .t { color: var(--regs); }
-.tab-card.cases { background: var(--cases-bg); border-color: var(--cases-line); }
 .tab-card.cases .t { color: var(--navy); }
 .tab-card.active { border: 2px solid var(--navy); padding: 15px 19px; box-shadow: 0 6px 18px rgba(23, 40, 90, 0.12); }
 
