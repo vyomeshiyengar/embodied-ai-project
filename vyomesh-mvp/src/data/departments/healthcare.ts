@@ -439,6 +439,21 @@ const healthcare: Department = {
         response: 'Publicly funded program',
         note: 'State aging office gives ElliQ companions to isolated seniors; 3,500+ applied in 2025',
         locations: [{ label: 'Albany, NY', lat: 42.65, lng: -73.76 }],
+        detail: {
+          title: 'New York State: publicly funded AI companions',
+          deployed:
+            'ElliQ tabletop companions, statewide through county Offices for the Aging, starting May 2022 with 800 units.',
+          whatHappened:
+            'The state reports a 95% drop in loneliness and 30+ interactions per user per day (NYSOFA). Caveat: self-reported, no control group, announced jointly with the vendor.',
+          impact:
+            "Reached rural seniors who can't get to in-person programs. The state aging office runs on about $100 per senior (Boston Globe).",
+          response:
+            'Pilot → budget-funded program, expanding. Dutchess County uses case-manager assessments to decide who is a good match.',
+          whatChanged:
+            'Public reaction mostly positive; demand outstrips supply. No published data on jobs or on whether human contact rose or fell.',
+          lesson:
+            'Buy robots as part of a case-management service, not instead of one. Require independent evaluation and data terms in the contract.',
+        },
         relatedTypeIds: ['companions'],
         relatedRegulationIds: ['public-funding'],
       },
@@ -447,6 +462,17 @@ const healthcare: Department = {
         place: 'Seoul (Seocho), Yongin, Chuncheon, Goesan — South Korea',
         response: 'Municipal procurement',
         note: 'Districts issue Hyodol care dolls to seniors living alone, partly to detect "lonely deaths"',
+        detail: {
+          title: 'Korean municipalities: care dolls against "lonely deaths"',
+          deployed:
+            'Hyodol AI dolls (and similar devices) issued by Seoul districts, Yongin, Chuncheon and rural counties. About 14,500 are in use.',
+          whatHappened:
+            'A Chuncheon study of 42 seniors found average depression scores fell from 5.76 to 4.69 (out of 15) over six months (Korea Times). Dolls flag inactivity to family or caseworkers. Korea recorded 3,920+ lonely deaths in 2024.',
+          impact: 'Older women living alone became the main users. Some say they now prefer the doll to people.',
+          response: 'Municipal procurement, often framed as a safety-net service.',
+          whatChanged: 'Faster detection of seniors in trouble; new questions about dependency and in-home monitoring.',
+          lesson: 'Inactivity alerts are a real safety gain; the companionship script needs limits and a human on the other end.',
+        },
         locations: [
           { label: 'Seoul', lat: 37.48, lng: 127.03 },
           { label: 'Yongin', lat: 37.24, lng: 127.18 },
@@ -461,6 +487,18 @@ const healthcare: Department = {
         response: 'Subsidy',
         note: '~50% of robot cost, up to ¥100,000 per robot, for nursing homes',
         locations: [{ label: 'Japan', lat: 35.68, lng: 139.69 }],
+        detail: {
+          title: 'Japan: a national bet on care robots',
+          deployed:
+            'National and prefectural subsidies since 2015 for monitoring, transfer and companion robots in nursing homes.',
+          whatHappened:
+            'By 2019 only ~10% of 9,000+ elder-care facilities had any care robot. Ethnographic work found robots often created more work for caregivers (MIT Tech Review).',
+          impact: 'Robot-adopting nursing homes had 3–8% more staff, and some saw lower turnover (WEF / Eggleston).',
+          response: 'Subsidy, R&D funding, no ban.',
+          whatChanged: 'Monitoring sensors stuck; lifting and companion robots mostly did not.',
+          lesson:
+            'Fund what care workers ask for (monitoring, admin relief), not what engineers find impressive. Robots complemented staff rather than replacing them.',
+        },
         relatedTypeIds: ['rehab', 'monitoring'],
       },
       {
@@ -468,17 +506,22 @@ const healthcare: Department = {
         place: 'Gothenburg region, Sweden',
         response: 'Integrated into 911',
         note: 'AED drones dispatched alongside ambulances by SOS Alarm',
-        locations: [{ label: 'Gothenburg', lat: 57.71, lng: 11.97 }],
+        locations: [
+          { label: 'Gothenburg', lat: 57.71, lng: 11.97 },
+          { label: 'Trollhättan', lat: 58.28, lng: 12.29 },
+        ],
+        detail: {
+          title: 'Gothenburg region, Sweden: AED drones in the 911 system',
+          deployed:
+            'Everdrone drones carrying defibrillators, dispatched by the national emergency operator in semi-urban areas around Gothenburg, from 2020.',
+          whatHappened:
+            "Drones beat the ambulance in about two-thirds of cases, by ~3 minutes; in confirmed cardiac arrests the drone's AED was used in most cases (Lancet Digital Health via ScienceDaily). First life saved in Trollhättan, Dec 2021.",
+          impact: 'Covered ~200,000 residents by 2022. Works best in suburbs, far from hospitals.',
+          response: 'Integrated pilot run by public health and emergency agencies with a university.',
+          whatChanged: 'Faster defibrillation; bystanders became part of the response chain. No reported job losses.',
+          lesson: 'Put drones inside emergency dispatch rather than beside it, and measure against ambulance times.',
+        },
         relatedTypeIds: ['aed-drones'],
-      },
-      {
-        id: 'beachwood',
-        place: 'Beachwood (Cleveland), OH',
-        response: 'Permanent service',
-        note: 'First long-term US hospital prescription drone delivery (Aug 2026)',
-        locations: [{ label: 'Beachwood', lat: 41.46, lng: -81.51 }],
-        relatedTypeIds: ['medical-drones'],
-        relatedRegulationIds: ['faa'],
       },
       {
         id: 'advocate',
@@ -493,16 +536,30 @@ const healthcare: Department = {
         relatedTypeIds: ['medical-drones'],
       },
       {
-        id: 'north-texas',
-        place: 'Richardson, Plano, North Richland Hills, TX',
-        response: 'Zoning; pushback',
-        note: 'Hub zoning categories created; Richardson asked Amazon for a new noise study after complaints',
+        id: 'cleveland-north-texas',
+        place: 'Cleveland and North Texas',
+        response: 'Permanent service; zoning pushback',
+        note: 'Beachwood (Cleveland), OH made hospital prescription drone delivery permanent (Aug 2026); Richardson, Plano and North Richland Hills, TX created hub zoning categories and Richardson asked Amazon for a new noise study after complaints',
         locations: [
+          { label: 'Beachwood', lat: 41.46, lng: -81.51 },
           { label: 'Richardson', lat: 32.95, lng: -96.73 },
           { label: 'Plano', lat: 33.02, lng: -96.7 },
           { label: 'North Richland Hills', lat: 32.83, lng: -97.23 },
         ],
-        relatedRegulationIds: ['drone-zoning', 'state-drone-preemption'],
+        relatedTypeIds: ['medical-drones'],
+        relatedRegulationIds: ['faa', 'drone-zoning', 'state-drone-preemption'],
+        detail: {
+          title: 'Cleveland and North Texas: prescription drones meet residents',
+          deployed:
+            'Zipline P2 drones lowering prescriptions to homes in Beachwood, OH (Cleveland Clinic, Aug 2026); Zipline, Wing and Amazon drones across 30+ North Texas suburbs.',
+          whatHappened:
+            'Cleveland Clinic made the service permanent, with pharmacists loading the drop boxes (DroneXL). In Richardson, TX, residents complained of a drone every few minutes, and an Amazon drone hit an apartment building.',
+          impact: 'Faster medication access for eligible patients; noise and privacy complaints near hubs.',
+          response:
+            "Cities used zoning (Plano's hub land-use category) but state law bars them from regulating flights. Richardson found undoing its zoning too legally risky.",
+          whatChanged: 'Prescription delivery times fell to minutes; public trust became the binding constraint.',
+          lesson: 'Set noise, route and data conditions at the zoning stage. After approval, a city has little leverage.',
+        },
       },
       {
         id: 'pittsburgh',

@@ -7,6 +7,7 @@
  *  - `items[].model` picks the 3D model (see ModelKind). Reuse an existing one if nothing fits.
  *  - `regulation.laws[].levels` drives the Federal / State / City filter.
  *  - Case study `locations` take lat/lng; one study can have several pins.
+ *  - Case study `detail` is optional: add it for a full write-up (deployed, what happened, impact, response, what changed, lesson).
  */
 import type { Department } from '../schema';
 
@@ -77,6 +78,16 @@ const department: Department = {
         response: 'Pilot',
         note: 'Short note',
         locations: [{ label: 'Example City', lat: 40, lng: -100 }],
+        // Optional full write-up; omit for a short entry.
+        detail: {
+          title: 'Example City: what was deployed',
+          deployed: 'What was deployed, where and since when.',
+          whatHappened: 'Results, with the source in parentheses.',
+          impact: 'Impact on the community.',
+          response: 'How the government responded.',
+          whatChanged: 'What changed afterwards.',
+          lesson: 'The lesson for other cities.',
+        },
       },
     ],
   },

@@ -50,6 +50,17 @@ export default function WorldMap({ pins, selectedId, onSelect }: { pins: Pin[]; 
   }, [pins]);
 
   const sorted = [...pins].sort((a, b) => Number(a.study.id === selectedId) - Number(b.study.id === selectedId));
+  // Label the selected study's pins, skipping any that sit too close to an already-labelled one.
+  const labelled = new Set<Pin>();
+  const placedXY: [number, number][] = [];
+  for (const p of pins) {
+    if (p.study.id !== selectedId) continue;
+    const [x, y] = project(p.lng, p.lat);
+    if (placedXY.every(([px, py]) => Math.abs(px - x) > 110 || Math.abs(py - y) > 22)) {
+      labelled.add(p);
+      placedXY.push([x, y]);
+    }
+  }
 
   return (
     <div className="map-box">
@@ -71,7 +82,7 @@ export default function WorldMap({ pins, selectedId, onSelect }: { pins: Pin[]; 
                 {on && <circle className="ring" r={17} />}
                 <circle className="b" r={on ? 13 : 11} />
                 <text>{p.number}</text>
-                {on && (
+                {labelled.has(p) && (
                   <text className="pin-label" x={18} y={0} style={{ textAnchor: 'start' }}>
                     {p.label}
                   </text>

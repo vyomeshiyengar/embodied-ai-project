@@ -1,8 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { Department } from '../../data/schema';
+import type { CaseStudyDetail, Department } from '../../data/schema';
 import type { Tab } from '../../router';
 import { REGIONS, regionOf } from '../../data/regions';
 import WorldMap, { type Pin } from './WorldMap';
+
+/** Labels for the full case study write-up, in display order (sentence case). */
+const DETAIL_FIELDS: [keyof Omit<CaseStudyDetail, 'title'>, string][] = [
+  ['deployed', 'Deployed / where'],
+  ['whatHappened', 'What happened'],
+  ['impact', 'Impact on the community'],
+  ['response', 'Response'],
+  ['whatChanged', 'What changed'],
+  ['lesson', 'Lesson'],
+];
 
 export default function CaseStudiesView({
   dept,
@@ -75,6 +85,7 @@ export default function CaseStudiesView({
                     <span>
                       <span className="p">{s.place}</span>
                       <span className="r">{s.response}</span>
+                      {s.detail && <span className="full">Full case study</span>}
                     </span>
                   </button>
                 );
@@ -96,7 +107,10 @@ export default function CaseStudiesView({
                 {places.map((s, i) => (
                   <tr key={s.id} className={'row' + (s.id === focus ? ' highlight' : '')} onClick={() => onFocus(s.id)}>
                     <td>{i + 1}</td>
-                    <td className="name">{s.place}</td>
+                    <td className="name">
+                      {s.place}
+                      {s.detail && <span className="full">Full case study</span>}
+                    </td>
                     <td>{s.response}</td>
                     <td className="case">{s.note}</td>
                   </tr>
@@ -109,8 +123,19 @@ export default function CaseStudiesView({
         {selected && (
           <div className="cs-detail">
             <span className="resp">{selected.response}</span>
-            <h4>{selected.place}</h4>
-            <p>{selected.note}</p>
+            <h4>{selected.detail?.title ?? selected.place}</h4>
+            {selected.detail ? (
+              <dl className="cs-sections">
+                {DETAIL_FIELDS.map(([key, label]) => (
+                  <div key={key} className={key === 'lesson' ? 'lesson' : undefined}>
+                    <dt>{label}</dt>
+                    <dd>{selected.detail![key]}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : (
+              <p>{selected.note}</p>
+            )}
             {!!(selected.relatedTypeIds?.length || selected.relatedRegulationIds?.length) && (
               <div>
                 {selected.relatedTypeIds?.map((id) => (

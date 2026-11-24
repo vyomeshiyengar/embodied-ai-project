@@ -113,12 +113,26 @@ export interface CaseLocation {
   lng: number;
 }
 
+/** Optional long-form write-up shown in the case study's detail card. All fields are plain sentences. */
+export interface CaseStudyDetail {
+  /** e.g. "New York State: publicly funded AI companions" */
+  title: string;
+  deployed: string;
+  whatHappened: string;
+  impact: string;
+  response: string;
+  whatChanged: string;
+  lesson: string;
+}
+
 export interface CaseStudy {
   id: string;
   place: string;
   response: string;
   note: string;
   locations: CaseLocation[];
+  /** Full case study. Places with one get a "Full case study" marker on the map list. */
+  detail?: CaseStudyDetail;
   /** Optional links into the Types / Regulation tabs (ids from this department). */
   relatedTypeIds?: string[];
   relatedRegulationIds?: string[];
