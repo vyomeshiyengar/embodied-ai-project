@@ -25,17 +25,21 @@ URLs are shareable: `#/<department>/<tab>/<item>`, e.g. `#/healthcare/types/comp
 
 ## Adding a department (the only thing you should need to touch)
 
+All 10 sectors are listed in `src/data/departments/index.ts` (`SECTORS`). Five are live (01 Autonomous Mobility, 05 Urban Logistics & Delivery, 06 Construction & Public Works, 08 Parks & Public Space, 09 Healthcare & Social Services); the others show as "Coming soon" in the sector dropdown.
+
 1. Copy `src/data/departments/_template.ts` to `src/data/departments/<id>.ts`.
 2. Fill it in, following the four sections of your source doc (Types, Risks, Regulation, Case studies).
-3. Register it in `src/data/departments/index.ts`:
+3. In `src/data/departments/index.ts`, import it and set it as that sector's `department`:
    ```ts
-   import autonomousMobility from './autonomous-mobility';
-   export const departments = [urbanLogistics, parks, healthcare, autonomousMobility];
+   import sanitation from './sanitation';
+   { number: '04', name: 'Sanitation & Waste Management', department: sanitation },
    ```
 
-The 3D world, tables, filters, map and tab counts are all generated from the data. TypeScript will flag missing fields.
+Sections that haven't been researched yet can be left empty (`blackSwans: []`, `gaps: []`, `places: []`); the app shows a "not researched yet" note instead of an empty table.
 
 ### Field notes
+
+- **Optional extras** (shown only when present): `likelihood` / `severity` on risks and black swans, `realWorldCase` on black swans, `outlook` ("How it may progress") on types, `caseStudies.scenarios` (best / worst / surprise case and what a city should do, by horizon), and `sources` (a collapsible list at the bottom of the page).
 
 - **`types.layout`** — `'landscape'` (one continuous environment, used by all three departments) or `'tiles'` (one square per zone; the default, and the easiest for a first draft of a new department). For a landscape, give every zone an `area: { x, z, w, d }` on a 36 × 28 ground (x = left/right, z = back/front), set `theme` to `'park'` (grass and footpaths) or `'city'` (pavement plus `roads`), and give airspace zones a `below` setting (e.g. `'suburb'`, `'downtown'`) for what to draw underneath.
 

@@ -1,4 +1,5 @@
 import { departments, getDepartment } from './data/departments';
+import SectorPicker from './components/SectorPicker';
 import { useRoute, type Tab } from './router';
 import TypesView from './components/views/TypesView';
 import RisksView from './components/views/RisksView';
@@ -13,7 +14,7 @@ function tabCards(d: Department): { id: Tab; title: string; sub: string; cls: st
     {
       id: 'risks',
       title: 'Risks',
-      sub: `${d.risks.current.length} current · ${d.risks.blackSwans.length} black swans`,
+      sub: d.risks.blackSwans.length ? `${d.risks.current.length} current · ${d.risks.blackSwans.length} black swans` : `${d.risks.current.length} current`,
       cls: 'risks',
     },
     {
@@ -22,7 +23,12 @@ function tabCards(d: Department): { id: Tab; title: string; sub: string; cls: st
       sub: `${d.regulation.laws.length} laws · ${[...levels].filter((l) => l !== 'International').join(', ')}`,
       cls: 'regs',
     },
-    { id: 'cases', title: 'Case studies', sub: `${d.caseStudies.places.length} places · view on map`, cls: 'cases' },
+    {
+      id: 'cases',
+      title: 'Case studies',
+      sub: d.caseStudies.places.length ? `${d.caseStudies.places.length} places · view on map` : 'Coming soon',
+      cls: 'cases',
+    },
   ];
 }
 
@@ -39,18 +45,8 @@ export default function App() {
         </h1>
       </header>
 
-      <p className="label">Choose a department</p>
-      <nav className="dept-row" aria-label="Departments">
-        {departments.map((d) => (
-          <button
-            key={d.id}
-            className={'dept-pill' + (d.id === dept?.id ? ' active' : '')}
-            onClick={() => navigate({ deptId: d.id, tab: route.deptId === d.id ? route.tab : 'types' })}
-          >
-            {d.name}
-          </button>
-        ))}
-      </nav>
+      <p className="label">Choose a sector</p>
+      <SectorPicker currentId={dept?.id} onPick={(id) => navigate({ deptId: id, tab: route.deptId === id ? route.tab : 'types' })} />
 
       {!dept ? (
         <div className="landing">
@@ -96,6 +92,19 @@ export default function App() {
               onFocus={(id) => navigate({ deptId: dept.id, tab: 'cases', focus: id })}
               onOpen={(tab, id) => navigate({ deptId: dept.id, tab, focus: id })}
             />
+          )}
+
+          {dept.sources && dept.sources.length > 0 && (
+            <details className="sources">
+              <summary>Sources ({dept.sources.length})</summary>
+              <ul>
+                {dept.sources.map((src) => (
+                  <li key={src.url}>
+                    <a href={src.url} target="_blank" rel="noreferrer">{src.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </details>
           )}
         </main>
       )}

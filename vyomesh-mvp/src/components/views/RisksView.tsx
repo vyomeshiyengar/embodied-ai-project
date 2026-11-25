@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import type { Department } from '../../data/schema';
 
+function Ratings({ likelihood, severity }: { likelihood?: string; severity?: string }) {
+  if (!likelihood && !severity) return null;
+  const tone = (v?: string) => (!v ? '' : /very high|high/i.test(v) && !/low/i.test(v) ? ' hi' : /medium/i.test(v) ? ' mid' : ' lo');
+  return (
+    <div className="ratings">
+      {likelihood && <span className={'rating' + tone(likelihood)}>Likelihood: {likelihood.toLowerCase()}</span>}
+      {severity && <span className={'rating' + tone(severity)}>Severity: {severity.toLowerCase()}</span>}
+    </div>
+  );
+}
+
 export default function RisksView({ dept }: { dept: Department }) {
   const [mode, setMode] = useState<'current' | 'swans'>('current');
   const { current, blackSwans, intro } = dept.risks;
@@ -38,7 +49,10 @@ export default function RisksView({ dept }: { dept: Department }) {
             <tbody>
               {current.map((r) => (
                 <tr key={r.id} className="row">
-                  <td className="name">{r.name}</td>
+                  <td className="name">
+                    {r.name}
+                    <Ratings likelihood={r.likelihood} severity={r.severity} />
+                  </td>
                   <td>
                     {r.whoImpacted}
                     {r.mostVulnerable && (
@@ -52,12 +66,15 @@ export default function RisksView({ dept }: { dept: Department }) {
             </tbody>
           </table>
         </div>
+      ) : blackSwans.length === 0 ? (
+        <p className="empty-note">Black swan risks haven't been researched for this department yet.</p>
       ) : (
         <div className="swan-grid">
           {blackSwans.map((s, i) => (
             <article key={s.id} className="swan">
               <span className="k">Black swan {i + 1}</span>
               <h3>{s.name}</h3>
+              <Ratings likelihood={s.likelihood} severity={s.severity} />
               <p>{s.scenario}</p>
               <dl>
                 <div>
@@ -71,6 +88,12 @@ export default function RisksView({ dept }: { dept: Department }) {
                   <dt>What could make it worse</dt>
                   <dd>{s.whatMakesWorse}</dd>
                 </div>
+                {s.realWorldCase && (
+                  <div>
+                    <dt>Real-world case</dt>
+                    <dd>{s.realWorldCase}</dd>
+                  </div>
+                )}
               </dl>
             </article>
           ))}

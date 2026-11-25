@@ -10,7 +10,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { Department, TypeItem } from '../../data/schema';
 import ZoneTile, { TILE } from './ZoneTile';
 import Landscape, { AreaLabel } from './Landscape';
-import { Model, MOVING, FLYING, FLOATING, NO_TURN, FACES_Z, SLOW } from './models';
+import { Model, MOVING, FLYING, FLOATING, NO_TURN, FACES_Z, SLOW, LONG_RANGE } from './models';
 
 const GAP = 0.9;
 
@@ -94,7 +94,7 @@ function Item({ placed, color, selected, index, flyHeight = 1.6 }: { placed: Pla
     const t = clock.elapsedTime + phase;
     if (MOVING.includes(kind)) {
       const speed = SLOW.includes(kind) ? 0.3 : 0.5;
-      g.position.x = Math.sin(t * speed) * 0.6;
+      g.position.x = Math.sin(t * speed) * (LONG_RANGE.includes(kind) ? 1.8 : 0.6);
       const forward = Math.cos(t * speed) >= 0;
       if (FACES_Z.includes(kind)) g.rotation.y = forward ? Math.PI / 2 : -Math.PI / 2;
       else if (!NO_TURN.includes(kind)) g.rotation.y = forward ? 0 : Math.PI;

@@ -3,7 +3,7 @@ import type { Department } from '../schema';
 const parks: Department = {
   id: 'parks',
   number: '08',
-  name: 'Parks & Public Space Management',
+  name: 'Parks & Public Space',
   accent: '#4f8a3c',
   intro:
     'Physical AI has already begun to show up in parks, mostly as maintenance robots and drones. The governance questions that matter happen in three instances: where a robot or drone takes on work staff used to do (mowing, inspection, lifeguarding), where it watches the public (patrol robots, police drones), and where it shares space with wildlife and visitors who never agreed to it.',

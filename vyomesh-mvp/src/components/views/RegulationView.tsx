@@ -72,13 +72,14 @@ export default function RegulationView({ dept, focus }: { dept: Department; focu
                   {l.authority !== l.levels.join(' / ') && <span className="authority">{l.authority}</span>}
                 </td>
                 <td>{l.covers}</td>
-                <td className="case">{l.fallsShort}</td>
+                <td className="case">{l.fallsShort || <span className="muted">Not covered in the research yet.</span>}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      {gaps.length > 0 && (
       <div className="gaps">
         <h3>Who answers when it fails?</h3>
         <p className="sub">Gaps nothing currently covers</p>
@@ -93,6 +94,7 @@ export default function RegulationView({ dept, focus }: { dept: Department; focu
           ))}
         </ol>
       </div>
+      )}
     </section>
   );
 }

@@ -5,6 +5,7 @@
  */
 import { Html } from '@react-three/drei';
 import type { Road, Zone, ZoneArea as Area, ZoneSetting } from '../../data/schema';
+import { Anim } from './models';
 
 const GROUND = '#b9d99c';
 const PATH = '#e3d6b8';
@@ -397,6 +398,174 @@ function AreaScenery({ zone, setting }: { zone: Zone; setting?: ZoneSetting }) {
             <mesh position={[0, 0.4, 0]} castShadow><boxGeometry args={[1.6, 0.8, 1]} /><Mat c="#3a4a6b" /></mesh>
             <mesh position={[0, 0.85, 0]}><boxGeometry args={[1.75, 0.08, 1.15]} /><Mat c="#24386f" /></mesh>
             <mesh position={[0.5, 1.3, 0]}><cylinderGeometry args={[0.02, 0.04, 0.9]} /><Mat c="#8b93a6" /></mesh>
+          </group>
+        </group>
+      );
+    case 'highway':
+      return (
+        <group>
+          <Patch a={a} color="#c3c9bd" />
+          <Patch a={{ ...a, d: a.d * 0.62 }} color="#4f5666" y={0.03} />
+          {[-1, 1].map((sd) => (
+            <Line key={sd} from={[a.x - a.w / 2, a.z + sd * a.d * 0.31]} to={[a.x + a.w / 2, a.z + sd * a.d * 0.31]} width={0.12} color="#ffffff" y={0.04} />
+          ))}
+          {Array.from({ length: Math.floor(a.w / 1.6) }, (_, i) => (
+            <Line key={i} from={[a.x - a.w / 2 + i * 1.6, a.z]} to={[a.x - a.w / 2 + i * 1.6 + 0.8, a.z]} width={0.08} color="#f5d76e" y={0.04} />
+          ))}
+          {/* jersey barrier + transfer yard at the city edge */}
+          <mesh position={[a.x, 0.15, a.z - a.d * 0.36]} castShadow><boxGeometry args={[a.w, 0.3, 0.15]} /><Mat c="#d5d9e1" /></mesh>
+          <group position={[a.x + a.w / 2 - 3, 0, a.z + a.d * 0.4]}>
+            <mesh position={[0, 0.5, 0]} castShadow><boxGeometry args={[3.5, 1, 0.9]} /><Mat c="#aab6cb" /></mesh>
+            {[-1.1, 0, 1.1].map((x) => <mesh key={x} position={[x, 0.35, 0.46]}><planeGeometry args={[0.7, 0.7]} /><Mat c="#4a5468" /></mesh>)}
+          </group>
+        </group>
+      );
+    case 'airport':
+      return (
+        <group>
+          <Patch a={a} color="#d5d9e1" />
+          <group position={[a.x, 0, a.z - a.d / 2 + 1.1]}>
+            <mesh position={[0, 0.8, 0]} castShadow receiveShadow><boxGeometry args={[a.w * 0.8, 1.6, 1.6]} /><Mat c="#eef1f6" /></mesh>
+            <mesh position={[0, 1.65, 0.2]} rotation={[0.2, 0, 0]} castShadow><boxGeometry args={[a.w * 0.85, 0.12, 2.2]} /><Mat c="#8fa7c9" /></mesh>
+            {Array.from({ length: 8 }, (_, i) => (
+              <mesh key={i} position={[-a.w * 0.35 + (i * a.w * 0.7) / 7, 0.8, 0.81]}><planeGeometry args={[0.7, 1.1]} /><meshStandardMaterial color="#9fc3e6" /></mesh>
+            ))}
+            <mesh position={[a.w * 0.36, 2.6, -0.3]}><cylinderGeometry args={[0.2, 0.25, 2, 12]} /><Mat c="#eef1f6" /></mesh>
+            <mesh position={[a.w * 0.36, 3.7, -0.3]}><cylinderGeometry args={[0.45, 0.35, 0.4, 12]} /><Mat c="#8fa7c9" /></mesh>
+          </group>
+          {/* pickup curb lane */}
+          <Patch a={{ ...a, z: a.z + a.d * 0.12, d: 1.6 }} color="#5d6475" y={0.03} />
+          <Line from={[a.x - a.w * 0.4, a.z + a.d * 0.12 - 0.85]} to={[a.x + a.w * 0.4, a.z + a.d * 0.12 - 0.85]} width={0.12} color="#c75b4a" y={0.04} />
+        </group>
+      );
+    case 'transit-corridor':
+      return (
+        <group>
+          <Patch a={a} color="#cfd3da" />
+          <Patch a={{ ...a, z: a.z + a.d * 0.12, d: 1.8 }} color="#a54b4b" y={0.03} />
+          {[-1, 1].map((sd) => (
+            <Line key={sd} from={[a.x - a.w / 2, a.z + a.d * 0.12 + sd * 0.9]} to={[a.x + a.w / 2, a.z + a.d * 0.12 + sd * 0.9]} width={0.08} color="#ffffff" y={0.04} />
+          ))}
+          {/* buildings behind and a bus shelter */}
+          {[-0.36, -0.12, 0.12, 0.36].map((t, i) => (
+            <mesh key={t} position={[a.x + a.w * t, (2 + (i % 2)) / 2, a.z - a.d / 2 + 0.9]} castShadow>
+              <boxGeometry args={[a.w * 0.2, 2 + (i % 2), 1.3]} />
+              <Mat c={['#c9d1df', '#b8c3d6'][i % 2]} />
+            </mesh>
+          ))}
+          <group position={[a.x + a.w * 0.3, 0, a.z - 0.6]}>
+            <mesh position={[0, 0.9, 0]}><boxGeometry args={[1.3, 0.06, 0.5]} /><Mat c="#3a4a6b" /></mesh>
+            {[-0.6, 0.6].map((x) => <mesh key={x} position={[x, 0.45, 0]}><boxGeometry args={[0.05, 0.9, 0.05]} /><Mat c="#3a4a6b" /></mesh>)}
+            <mesh position={[0, 0.5, -0.24]}><planeGeometry args={[1.2, 0.7]} /><meshStandardMaterial color="#9fc3e6" transparent opacity={0.6} /></mesh>
+          </group>
+        </group>
+      );
+    case 'residential-street': {
+      const xs = [-0.36, -0.12, 0.12, 0.36];
+      return (
+        <group>
+          <Patch a={a} color="#cfe3b6" />
+          <Patch a={{ ...a, z: a.z + a.d * 0.12, d: 1.6 }} color="#5d6475" y={0.03} />
+          {xs.map((t, i) => (
+            <group key={t}>
+              <House p={[a.x + a.w * t, 0, a.z - a.d / 2 + 1.2]} s={0.85} roof={ROOFS[i % ROOFS.length]} />
+              {i % 2 === 0 && <Tree p={[a.x + a.w * t + 0.9, 0, a.z - a.d / 2 + 1.6]} s={0.6} />}
+            </group>
+          ))}
+        </group>
+      );
+    }
+    case 'office':
+      return (
+        <group>
+          <Patch a={a} color="#d5d9e1" />
+          <group position={[a.x, 0, a.z - a.d / 2 + 1.3]}>
+            <mesh position={[0, 1.5, 0]} castShadow receiveShadow><boxGeometry args={[a.w * 0.8, 3, 1.6]} /><Mat c="#dfe5ee" /></mesh>
+            {Array.from({ length: 4 }, (_, i) => [0.6, 1.3, 2.0, 2.7].map((y) => (
+              <mesh key={`${i}${y}`} position={[-a.w * 0.28 + (i * a.w * 0.56) / 3, y, 0.81]}><planeGeometry args={[0.6, 0.45]} /><meshStandardMaterial color="#8fb5df" /></mesh>
+            )))}
+            <mesh position={[a.w * 0.25, 3.4, 0]}><cylinderGeometry args={[0.02, 0.03, 0.8]} /><Mat c="#8b93a6" /></mesh>
+          </group>
+        </group>
+      );
+    case 'construction-site': {
+      const piles: [number, number][] = [[-0.38, -0.3], [0.32, -0.32], [-0.4, 0.3]];
+      return (
+        <group>
+          <Patch a={a} color="#c9a97c" />
+          {/* site fence */}
+          {[[a.x, a.z - a.d / 2, a.w, 0], [a.x - a.w / 2, a.z, 0, a.d], [a.x + a.w / 2, a.z, 0, a.d]].map(([x, z, w, d], i) => (
+            <mesh key={i} position={[x, 0.25, z]}><boxGeometry args={[w || 0.04, 0.5, d || 0.04]} /><meshStandardMaterial color="#e3b63c" transparent opacity={0.85} /></mesh>
+          ))}
+          {/* tower crane */}
+          <group position={[a.x + a.w * 0.36, 0, a.z - a.d * 0.3]}>
+            <mesh position={[0, 2.4, 0]} castShadow><boxGeometry args={[0.25, 4.8, 0.25]} /><Mat c="#e3b63c" /></mesh>
+            <Anim position={[0, 4.8, 0]} fn={(g, t) => void (g.rotation.y = Math.sin(t * 0.25) * 0.8)}>
+              <mesh position={[-1.4, 0, 0]} castShadow><boxGeometry args={[4.2, 0.18, 0.18]} /><Mat c="#e3b63c" /></mesh>
+              <mesh position={[0.6, -0.2, 0]}><boxGeometry args={[0.5, 0.4, 0.4]} /><Mat c="#6b7283" /></mesh>
+              <mesh position={[-3, -0.8, 0]}><boxGeometry args={[0.02, 1.6, 0.02]} /><Mat c="#3a4a6b" /></mesh>
+            </Anim>
+          </group>
+          {piles.map(([tx, tz], i) => (
+            <group key={i} position={[a.x + a.w * tx, 0, a.z + a.d * tz]}>
+              {[0.1, 0.25, 0.4].map((y) => <mesh key={y} position={[0, y, 0]} castShadow><boxGeometry args={[1.1, 0.12, 0.5]} /><Mat c={i % 2 ? '#9aa3b5' : '#a37c55'} /></mesh>)}
+            </group>
+          ))}
+          {[[0.1, -0.38], [-0.1, -0.38]].map(([tx, tz], i) => (
+            <mesh key={i} position={[a.x + a.w * tx, 0.3, a.z + a.d * tz]} rotation={[0, 0, 0]} castShadow><coneGeometry args={[0.15, 0.4, 10]} /><Mat c="#f07b2c" /></mesh>
+          ))}
+        </group>
+      );
+    }
+    case 'building-frame':
+      return (
+        <group>
+          <Patch a={a} color="#c9b08a" />
+          {/* steel frame, three storeys */}
+          <group position={[a.x, 0, a.z - a.d * 0.18]}>
+            {[-1, 0, 1].map((ix) => [-1, 1].map((iz) => (
+              <mesh key={`${ix}${iz}`} position={[ix * a.w * 0.3, 1.5, iz * 1.1]} castShadow><boxGeometry args={[0.14, 3, 0.14]} /><Mat c="#8a93a6" rough={0.5} /></mesh>
+            )))}
+            {[1, 2, 3].map((y) => (
+              <group key={y}>
+                <mesh position={[0, y, 0]} castShadow><boxGeometry args={[a.w * 0.62, 0.1, 2.3]} /><Mat c={y === 3 ? '#8a93a6' : '#b7bfcc'} rough={0.6} /></mesh>
+              </group>
+            ))}
+            {/* scaffolding */}
+            <mesh position={[0, 1, 1.35]}><boxGeometry args={[a.w * 0.6, 2, 0.04]} /><meshStandardMaterial color="#e3b63c" wireframe /></mesh>
+          </group>
+        </group>
+      );
+    case 'print-site':
+      return (
+        <group>
+          <Patch a={a} color="#cdb894" />
+          {/* finished printed walls (curved) */}
+          {[-0.33, 0.33].map((t) => (
+            <group key={t} position={[a.x + a.w * t, 0, a.z - a.d * 0.2]}>
+              {[0.15, 0.4, 0.65, 0.9, 1.15].map((y) => (
+                <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+                  <torusGeometry args={[0.9, 0.12, 6, 28, Math.PI]} />
+                  <Mat c="#c9c3b6" />
+                </mesh>
+              ))}
+            </group>
+          ))}
+          <mesh position={[a.x - a.w * 0.12, 0.3, a.z + a.d * 0.3]} castShadow><cylinderGeometry args={[0.35, 0.4, 0.6, 14]} /><Mat c="#9aa3b5" /></mesh>
+        </group>
+      );
+    case 'utility':
+      return (
+        <group>
+          <Patch a={a} color="#bfc4cc" />
+          {/* pipes, a manhole and a water tank */}
+          {[-0.2, 0.05].map((z) => (
+            <mesh key={z} position={[a.x, 0.25, a.z + a.d * z]} rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[0.2, 0.2, a.w * 0.8, 14]} /><Mat c={z < 0 ? '#4a6fa5' : '#8a93a6'} rough={0.5} /></mesh>
+          ))}
+          <mesh position={[a.x - a.w * 0.3, 0.035, a.z + a.d * 0.32]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.4, 20]} /><Mat c="#3a4a6b" /></mesh>
+          <group position={[a.x + a.w * 0.36, 0, a.z - a.d * 0.32]}>
+            <mesh position={[0, 1.6, 0]} castShadow><cylinderGeometry args={[0.7, 0.7, 1, 18]} /><Mat c="#aab6cb" /></mesh>
+            {[-0.4, 0.4].map((x) => <mesh key={x} position={[x, 0.55, 0]}><boxGeometry args={[0.08, 1.1, 0.08]} /><Mat c="#6b7283" /></mesh>)}
           </group>
         </group>
       );

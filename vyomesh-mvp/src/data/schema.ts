@@ -30,7 +30,16 @@ export type ZoneSetting =
   | 'parking'
   | 'visitor-center'
   | 'suburb'
-  | 'downtown';
+  | 'downtown'
+  | 'highway'
+  | 'airport'
+  | 'transit-corridor'
+  | 'residential-street'
+  | 'office'
+  | 'construction-site'
+  | 'building-frame'
+  | 'print-site'
+  | 'utility';
 
 /** Which 3D model represents a type. Add new ones in `components/world/models.tsx`. */
 export type ModelKind =
@@ -55,7 +64,15 @@ export type ModelKind =
   | 'uv-robot'
   | 'companion'
   | 'exoskeleton'
-  | 'network-tower';
+  | 'network-tower'
+  | 'robotaxi'
+  | 'pod'
+  | 'truck'
+  | 'shuttle'
+  | 'control-desk'
+  | 'site-carrier'
+  | 'robot-arm'
+  | 'printer-gantry';
 
 /** Where a zone sits in a 'landscape' world (world units; x = left/right, z = back/front). */
 export interface ZoneArea {
@@ -92,11 +109,18 @@ export interface TypeItem {
   howItOperates: string;
   examples: string;
   whatHappened: string;
+  /** Optional: how this type may progress. */
+  outlook?: string;
 }
+
+export type Level = 'Very low' | 'Low' | 'Low to medium' | 'Medium' | 'Medium to high' | 'High' | 'Very high' | string;
 
 export interface Risk {
   id: string;
   name: string;
+  /** Optional ratings (likelihood over the next few years; severity = harm to people). */
+  likelihood?: Level;
+  severity?: Level;
   /** Who is impacted (general). */
   whoImpacted: string;
   /** Most vulnerable groups, shown highlighted. */
@@ -109,6 +133,10 @@ export interface BlackSwan {
   id: string;
   /** Short headline, e.g. "Hijacked delivery fleet". */
   name: string;
+  likelihood?: Level;
+  severity?: Level;
+  /** Optional real-world case (happened or nearly happened). */
+  realWorldCase?: string;
   /** How the future implementation could fail. */
   scenario: string;
   whoImpacted: string;
@@ -126,6 +154,7 @@ export interface Regulation {
   authority: string;
   levels: AuthorityLevel[];
   covers: string;
+  /** Leave empty if the research doesn't say yet. */
   fallsShort: string;
 }
 
@@ -146,9 +175,24 @@ export interface CaseStudyDetail {
   title: string;
   deployed: string;
   whatHappened: string;
-  impact: string;
-  response: string;
-  whatChanged: string;
+  impact?: string;
+  response?: string;
+  whatChanged?: string;
+}
+
+/** One row of the forward-looking scenarios table. */
+export interface Scenario {
+  /** e.g. "1 year (2027)" */
+  horizon: string;
+  best: string;
+  worst: string;
+  surprise: string;
+  whatToDo: string;
+}
+
+export interface Source {
+  title: string;
+  url: string;
 }
 
 export interface CaseStudy {
@@ -191,5 +235,7 @@ export interface Department {
   };
   risks: { intro: string; current: Risk[]; blackSwans: BlackSwan[] };
   regulation: { intro: string; laws: Regulation[]; gaps: Gap[] };
-  caseStudies: { intro: string; places: CaseStudy[] };
+  caseStudies: { intro: string; places: CaseStudy[]; scenarios?: Scenario[] };
+  /** Optional source list shown at the bottom of the department page. */
+  sources?: Source[];
 }

@@ -55,6 +55,9 @@ export default function CaseStudiesView({
       <p className="label"><span className="num">4</span>What is being done</p>
       <p className="view-intro">{dept.caseStudies.intro}</p>
 
+      {places.length === 0 ? (
+        <p className="empty-note">Case studies haven't been researched for this department yet.</p>
+      ) : (
       <div className="cs-frame">
         <div className="cs-head">
           <h3>Case studies: {dept.name.toLowerCase()}</h3>
@@ -125,7 +128,7 @@ export default function CaseStudiesView({
             <h4>{selected.detail?.title ?? selected.place}</h4>
             {selected.detail ? (
               <dl className="cs-sections">
-                {DETAIL_FIELDS.map(([key, label]) => (
+                {DETAIL_FIELDS.filter(([key]) => selected.detail![key]).map(([key, label]) => (
                   <div key={key}>
                     <dt>{label}</dt>
                     <dd>{selected.detail![key]}</dd>
@@ -148,6 +151,37 @@ export default function CaseStudiesView({
           </div>
         )}
       </div>
+      )}
+
+      {dept.caseStudies.scenarios && dept.caseStudies.scenarios.length > 0 && (
+        <div className="scenarios">
+          <h3>Forward-looking scenarios</h3>
+          <div className="table-wrap">
+            <table className="data">
+              <thead>
+                <tr>
+                  <th style={{ width: '11%' }}>Horizon</th>
+                  <th>Best case</th>
+                  <th>Worst case</th>
+                  <th>Surprise case</th>
+                  <th>What a city should do now</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dept.caseStudies.scenarios.map((sc) => (
+                  <tr key={sc.horizon} className="row">
+                    <td className="name">{sc.horizon}</td>
+                    <td>{sc.best}</td>
+                    <td>{sc.worst}</td>
+                    <td>{sc.surprise}</td>
+                    <td className="case">{sc.whatToDo}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -34,7 +34,7 @@ function Spin({ children, speed = 18 }: { children: ReactNode; speed?: number })
 }
 
 /** Runs `fn` on a group every frame: a tiny hook-based way to animate part of a model. */
-function Anim({ children, fn, position }: { children: ReactNode; fn: (g: Group, t: number) => void; position?: [number, number, number] }) {
+export function Anim({ children, fn, position }: { children: ReactNode; fn: (g: Group, t: number) => void; position?: [number, number, number] }) {
   const ref = useRef<Group>(null);
   useFrame(({ clock }) => {
     if (ref.current) fn(ref.current, clock.elapsedTime);
@@ -438,6 +438,151 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           ))}
         </group>
       );
+    case 'robotaxi':
+      return (
+        <group>
+          <RoundedBox args={[1.2, 0.38, 0.62]} radius={0.12} position={[0, 0.3, 0]} castShadow><M color={WHITE} /></RoundedBox>
+          <RoundedBox args={[0.7, 0.3, 0.56]} radius={0.1} position={[-0.05, 0.6, 0]} castShadow><M color={GLASS} rough={0.2} /></RoundedBox>
+          <mesh position={[0, 0.31, 0.315]}><boxGeometry args={[0.9, 0.06, 0.01]} /><M color={c} /></mesh>
+          <mesh position={[0, 0.31, -0.315]}><boxGeometry args={[0.9, 0.06, 0.01]} /><M color={c} /></mesh>
+          {/* spinning roof lidar */}
+          <mesh position={[-0.05, 0.79, 0]}><cylinderGeometry args={[0.09, 0.1, 0.08, 16]} /><M color={DARK} /></mesh>
+          <Anim position={[-0.05, 0.86, 0]} fn={(g, t) => void (g.rotation.y = t * 6)}>
+            <mesh><cylinderGeometry args={[0.07, 0.07, 0.07, 12]} /><M color={c} emissive={c} /></mesh>
+            <mesh position={[0.07, 0, 0]}><boxGeometry args={[0.03, 0.05, 0.02]} /><M color={WHITE} emissive={WHITE} /></mesh>
+          </Anim>
+          {[0.45, -0.45].map((x) => <mesh key={x} position={[x, 0.36, 0]}><sphereGeometry args={[0.035]} /><M color={DARK} /></mesh>)}
+          <Wheel position={[0.38, 0.13, 0.31]} r={0.13} /><Wheel position={[0.38, 0.13, -0.31]} r={0.13} />
+          <Wheel position={[-0.38, 0.13, 0.31]} r={0.13} /><Wheel position={[-0.38, 0.13, -0.31]} r={0.13} />
+        </group>
+      );
+    case 'pod':
+      return (
+        <group>
+          <RoundedBox args={[1.0, 0.75, 0.68]} radius={0.2} position={[0, 0.5, 0]} castShadow><M color={WHITE} /></RoundedBox>
+          <RoundedBox args={[1.02, 0.32, 0.6]} radius={0.12} position={[0, 0.62, 0]}><M color={GLASS} rough={0.2} /></RoundedBox>
+          <mesh position={[0, 0.9, 0]}><boxGeometry args={[0.5, 0.06, 0.4]} /><M color={c} /></mesh>
+          {[0.52, -0.52].map((x) => <mesh key={x} position={[x, 0.36, 0]}><boxGeometry args={[0.01, 0.06, 0.4]} /><M color={c} emissive={c} /></mesh>)}
+          <Wheel position={[0.34, 0.13, 0.33]} r={0.13} /><Wheel position={[0.34, 0.13, -0.33]} r={0.13} />
+          <Wheel position={[-0.34, 0.13, 0.33]} r={0.13} /><Wheel position={[-0.34, 0.13, -0.33]} r={0.13} />
+        </group>
+      );
+    case 'truck':
+      return (
+        <group>
+          {/* cab */}
+          <RoundedBox args={[0.6, 0.75, 0.62]} radius={0.08} position={[0.95, 0.55, 0]} castShadow><M color={c} /></RoundedBox>
+          <mesh position={[1.26, 0.7, 0]}><boxGeometry args={[0.01, 0.3, 0.5]} /><M color={GLASS} /></mesh>
+          <mesh position={[0.95, 0.96, 0]}><cylinderGeometry args={[0.06, 0.07, 0.06, 12]} /><M color={DARK} /></mesh>
+          {/* trailer */}
+          <mesh position={[-0.35, 0.7, 0]} castShadow><boxGeometry args={[1.9, 0.85, 0.64]} /><M color="#eef0f4" /></mesh>
+          <mesh position={[-0.35, 0.7, 0.325]}><boxGeometry args={[1.5, 0.12, 0.01]} /><M color={c} /></mesh>
+          {[1.05, 0.65, -0.7, -1.05].map((x) => (
+            <group key={x}><Wheel position={[x, 0.15, 0.3]} r={0.15} /><Wheel position={[x, 0.15, -0.3]} r={0.15} /></group>
+          ))}
+        </group>
+      );
+    case 'shuttle':
+      return (
+        <group>
+          <RoundedBox args={[1.5, 0.85, 0.7]} radius={0.16} position={[0, 0.58, 0]} castShadow><M color={WHITE} /></RoundedBox>
+          <RoundedBox args={[1.52, 0.36, 0.62]} radius={0.1} position={[0, 0.72, 0]}><M color={GLASS} rough={0.2} /></RoundedBox>
+          <mesh position={[0, 0.3, 0.355]}><boxGeometry args={[1.3, 0.08, 0.01]} /><M color={c} /></mesh>
+          <mesh position={[0, 0.3, -0.355]}><boxGeometry args={[1.3, 0.08, 0.01]} /><M color={c} /></mesh>
+          {/* accessible door + ramp */}
+          <mesh position={[0.1, 0.45, 0.356]}><boxGeometry args={[0.32, 0.6, 0.01]} /><M color={DARK} /></mesh>
+          <mesh position={[0, 1.04, 0]}><boxGeometry args={[0.6, 0.06, 0.4]} /><M color={c} /></mesh>
+          <Wheel position={[0.5, 0.14, 0.34]} r={0.14} /><Wheel position={[0.5, 0.14, -0.34]} r={0.14} />
+          <Wheel position={[-0.5, 0.14, 0.34]} r={0.14} /><Wheel position={[-0.5, 0.14, -0.34]} r={0.14} />
+        </group>
+      );
+    case 'control-desk':
+      return (
+        <group>
+          {/* desk with three monitors; screens flicker as alerts come in */}
+          <mesh position={[0, 0.42, 0]} castShadow><boxGeometry args={[1.3, 0.06, 0.55]} /><M color="#c69b6d" /></mesh>
+          {[-0.55, 0.55].map((x) => <mesh key={x} position={[x, 0.2, 0]}><boxGeometry args={[0.05, 0.4, 0.5]} /><M color={DARK} /></mesh>)}
+          {[-0.42, 0, 0.42].map((x, i) => (
+            <group key={x} position={[x, 0.68, -0.12]} rotation={[0, -x * 0.5, 0]}>
+              <mesh><boxGeometry args={[0.38, 0.26, 0.03]} /><M color={DARK} /></mesh>
+              <Anim fn={(g, t) => void (g.scale.y = 0.6 + 0.4 * Math.abs(Math.sin(t * 2 + i * 1.3)))}>
+                <mesh position={[0, 0, 0.017]}><planeGeometry args={[0.34, 0.22]} /><M color={c} emissive={c} /></mesh>
+              </Anim>
+            </group>
+          ))}
+          {/* operator */}
+          <group position={[0, 0, 0.45]} scale={0.75} rotation={[0, Math.PI, 0]}>
+            <mesh position={[0, 0.3, 0]}><boxGeometry args={[0.45, 0.05, 0.45]} /><M color={DARK} /></mesh>
+            <mesh position={[0, 0.65, 0]} castShadow><capsuleGeometry args={[0.15, 0.3, 6, 12]} /><M color="#3d5a8c" /></mesh>
+            <Anim position={[0, 1.02, 0]} fn={(g, t) => void (g.rotation.y = Math.sin(t * 0.9) * 0.5)}>
+              <mesh><sphereGeometry args={[0.13, 16, 16]} /><M color="#e7c2a6" /></mesh>
+            </Anim>
+          </group>
+          <PulseRing y={0.46} color={c} max={1.2} period={2.4} />
+        </group>
+      );
+    case 'site-carrier':
+      return (
+        <group>
+          {[-1, 1].map((sd) => (
+            <RoundedBox key={sd} args={[0.95, 0.24, 0.16]} radius={0.08} position={[0, 0.12, sd * 0.3]} castShadow><M color={DARK} rough={0.95} /></RoundedBox>
+          ))}
+          <mesh position={[0, 0.32, 0]} castShadow><boxGeometry args={[0.9, 0.16, 0.5]} /><M color={c} /></mesh>
+          {/* load of beams */}
+          {[0.48, 0.58].map((y, i) => (
+            <mesh key={y} position={[0, y, (i - 0.5) * 0.12]}><boxGeometry args={[0.85, 0.08, 0.1]} /><M color="#9aa3b5" metal={0.4} /></mesh>
+          ))}
+          <mesh position={[0.4, 0.55, 0]}><boxGeometry args={[0.08, 0.3, 0.3]} /><M color={DARK} /></mesh>
+          <Anim position={[0.42, 0.75, 0]} fn={(g, t) => void (g.rotation.y = t * 5)}>
+            <mesh><cylinderGeometry args={[0.05, 0.05, 0.06, 10]} /><M color={c} emissive={c} /></mesh>
+          </Anim>
+        </group>
+      );
+    case 'robot-arm':
+      return (
+        <group>
+          {/* arm lifting a panel, beside a worker in a powered exoskeleton */}
+          <mesh position={[0, 0.1, 0]} castShadow><cylinderGeometry args={[0.22, 0.26, 0.2, 18]} /><M color={DARK} /></mesh>
+          <Anim position={[0, 0.2, 0]} fn={(g, t) => void (g.rotation.y = Math.sin(t * 0.8) * 1.1)}>
+            <Anim fn={(g, t) => void (g.rotation.z = -0.35 + Math.sin(t * 1.6) * 0.25)}>
+              <mesh position={[0, 0.38, 0]} castShadow><capsuleGeometry args={[0.07, 0.6, 6, 10]} /><M color={c} /></mesh>
+              <group position={[0, 0.75, 0]}>
+                <mesh><sphereGeometry args={[0.09]} /><M color={DARK} /></mesh>
+                <mesh position={[0.3, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow><capsuleGeometry args={[0.06, 0.45, 6, 10]} /><M color={c} /></mesh>
+                <mesh position={[0.6, -0.12, 0]}><boxGeometry args={[0.04, 0.3, 0.5]} /><M color="#9fc3e6" /></mesh>
+              </group>
+            </Anim>
+          </Anim>
+          <group position={[-0.65, 0, 0.1]} scale={0.8}>
+            <Model kind="exoskeleton" color={color} />
+          </group>
+        </group>
+      );
+    case 'printer-gantry':
+      return (
+        <group>
+          {/* gantry frame */}
+          {[[-0.6, -0.35], [0.6, -0.35], [-0.6, 0.35], [0.6, 0.35]].map(([x, z], i) => (
+            <mesh key={i} position={[x, 0.55, z]} castShadow><boxGeometry args={[0.05, 1.1, 0.05]} /><M color="#e3b63c" /></mesh>
+          ))}
+          {[-0.35, 0.35].map((z) => <mesh key={z} position={[0, 1.1, z]}><boxGeometry args={[1.25, 0.05, 0.05]} /><M color="#e3b63c" /></mesh>)}
+          {/* print head sweeps back and forth along the beam */}
+          <Anim fn={(g, t) => void (g.position.x = Math.sin(t * 1.2) * 0.45)}>
+            <mesh position={[0, 1.1, 0]}><boxGeometry args={[0.08, 0.06, 0.75]} /><M color={DARK} /></mesh>
+            <mesh position={[0, 0.85, 0]}><cylinderGeometry args={[0.05, 0.02, 0.4, 10]} /><M color={c} /></mesh>
+          </Anim>
+          {/* printed wall growing layer by layer */}
+          <Anim fn={(g, t) => void (g.scale.y = 0.35 + ((t * 0.12) % 1) * 0.65)}>
+            <mesh position={[0, 0.3, 0]}>
+              <torusGeometry args={[0.3, 0.06, 6, 24, Math.PI * 1.4]} />
+              <M color="#b9b3a6" />
+            </mesh>
+          </Anim>
+          {[0.08, 0.2, 0.32].map((y) => (
+            <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.3, 0.06, 6, 24, Math.PI * 1.4]} /><M color="#c9c3b6" /></mesh>
+          ))}
+        </group>
+      );
     default:
       return (
         <mesh position={[0, 0.3, 0]}><boxGeometry args={[0.5, 0.5, 0.5]} /><M color={c} /></mesh>
@@ -449,13 +594,16 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
 export const MOVING: ModelKind[] = [
   'sidewalk-robot', 'hybrid-robot', 'delivery-van', 'mower', 'line-painter', 'cleaning-robot', 'sand-rover',
   'hospital-cart', 'quadruped', 'patrol-robot', 'warehouse-robot', 'humanoid', 'exoskeleton', 'telepresence', 'uv-robot',
+  'robotaxi', 'pod', 'truck', 'shuttle', 'site-carrier',
 ];
 /** Moving models that keep facing the viewer instead of turning around (e.g. a screen). */
 export const NO_TURN: ModelKind[] = ['telepresence', 'uv-robot', 'warehouse-robot'];
 /** Moving models whose front is +z (people-shaped), so they turn to face the direction they walk. */
 export const FACES_Z: ModelKind[] = ['humanoid', 'exoskeleton'];
 /** Slower walkers. */
-export const SLOW: ModelKind[] = ['exoskeleton', 'uv-robot', 'telepresence'];
+export const SLOW: ModelKind[] = ['exoskeleton', 'uv-robot', 'telepresence', 'shuttle', 'site-carrier'];
+/** Models that travel a longer stretch (vehicles on long roads). */
+export const LONG_RANGE: ModelKind[] = ['truck', 'robotaxi', 'shuttle', 'pod'];
 /** Models that float above the tile. */
 export const FLYING: ModelKind[] = ['drone'];
 /** Models that bob on water. */

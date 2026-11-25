@@ -28,6 +28,15 @@ const TILE_COLOR: Record<ZoneSetting, string> = {
   'visitor-center': '#e7dcc6',
   suburb: '#e8e1d6',
   downtown: '#c9ccd3',
+  highway: '#5d6475',
+  airport: '#d5d9e1',
+  'transit-corridor': '#cfd3da',
+  'residential-street': '#e8e1d6',
+  office: '#d5d9e1',
+  'construction-site': '#c9a97c',
+  'building-frame': '#c9b08a',
+  'print-site': '#cdb894',
+  utility: '#bfc4cc',
 };
 
 function Mat({ c }: { c: string }) {

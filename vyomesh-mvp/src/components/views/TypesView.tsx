@@ -50,6 +50,12 @@ export default function TypesView({ dept, focus, onFocus }: { dept: Department; 
                 <h4>What happened when adopted</h4>
                 <p>{item.whatHappened}</p>
               </div>
+              {item.outlook && (
+                <div>
+                  <h4>How it may progress</h4>
+                  <p>{item.outlook}</p>
+                </div>
+              )}
               <div className="nav">
                 <button className="btn" onClick={() => go(-1)}>← Previous</button>
                 <span style={{ alignSelf: 'center', fontSize: 13, color: 'var(--muted)' }}>
