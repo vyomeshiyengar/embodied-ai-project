@@ -25,7 +25,7 @@ URLs are shareable: `#/<department>/<tab>/<item>`, e.g. `#/healthcare/types/comp
 
 ## Adding a department (the only thing you should need to touch)
 
-All 10 sectors are listed in `src/data/departments/index.ts` (`SECTORS`). Five are live (01 Autonomous Mobility, 05 Urban Logistics & Delivery, 06 Construction & Public Works, 08 Parks & Public Space, 09 Healthcare & Social Services); the others show as "Coming soon" in the sector dropdown.
+All 10 sectors are listed in `src/data/departments/index.ts` (`SECTORS`). Five are live (01 Autonomous Mobility, 05 Urban Logistics & Delivery, 06 Construction & Public Works, 08 Parks & Public Space, 09 Healthcare & Social Services); the others show as greyed-out "Coming soon" buttons in the department row.
 
 1. Copy `src/data/departments/_template.ts` to `src/data/departments/<id>.ts`.
 2. Fill it in, following the four sections of your source doc (Types, Risks, Regulation, Case studies).

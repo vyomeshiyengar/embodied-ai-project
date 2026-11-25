@@ -1,5 +1,4 @@
-import { departments, getDepartment } from './data/departments';
-import SectorPicker from './components/SectorPicker';
+import { SECTORS, departments, getDepartment } from './data/departments';
 import { useRoute, type Tab } from './router';
 import TypesView from './components/views/TypesView';
 import RisksView from './components/views/RisksView';
@@ -45,8 +44,26 @@ export default function App() {
         </h1>
       </header>
 
-      <p className="label">Choose a sector</p>
-      <SectorPicker currentId={dept?.id} onPick={(id) => navigate({ deptId: id, tab: route.deptId === id ? route.tab : 'types' })} />
+      <p className="label">Choose a department</p>
+      <nav className="dept-row" aria-label="Departments">
+        {SECTORS.map((sec) => {
+          const d = sec.department;
+          return d ? (
+            <button
+              key={sec.number}
+              className={'dept-pill' + (d.id === dept?.id ? ' active' : '')}
+              onClick={() => navigate({ deptId: d.id, tab: route.deptId === d.id ? route.tab : 'types' })}
+            >
+              {sec.name}
+            </button>
+          ) : (
+            <button key={sec.number} className="dept-pill soon" disabled title="Coming soon">
+              {sec.name}
+              <span className="soon-sub">Coming soon</span>
+            </button>
+          );
+        })}
+      </nav>
 
       {!dept ? (
         <div className="landing">

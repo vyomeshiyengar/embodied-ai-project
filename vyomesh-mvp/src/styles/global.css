@@ -308,3 +308,7 @@ td .full { margin-left: 8px; margin-top: 0; vertical-align: 1px; }
 .sector-option.soon { cursor: default; color: #9aa1b2; }
 .sector-option .soon-tag { margin-left: auto; padding-left: 18px; font-size: 12px; font-weight: 600; color: #9aa1b2; }
 @media (max-width: 600px) { .sector-trigger { min-width: 0; width: 100%; } .sector-picker { display: block; } }
+
+.dept-pill.soon { cursor: default; color: #9aa1b2; background: #f6f7fa; border-style: dashed; display: inline-flex; flex-direction: column; align-items: center; line-height: 1.25; padding-top: 6px; padding-bottom: 6px; }
+.dept-pill.soon:hover { background: #f6f7fa; }
+.dept-pill .soon-sub { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
