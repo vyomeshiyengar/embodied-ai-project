@@ -220,10 +220,14 @@ function AreaScenery({ zone, setting }: { zone: Zone; setting?: ZoneSetting }) {
       const towers: { x: number; z: number; h: number }[] = [];
       for (let gx = a.x - a.w / 2 + 1.1; gx < a.x + a.w / 2 - 0.5; gx += 2.2)
         for (let gz = a.z - a.d / 2 + 1.1; gz < a.z + a.d / 2 - 0.5; gz += 2.2)
-          if (Math.hypot(gx - a.x, gz - a.z) > 2.2) towers.push({ x: gx, z: gz, h: 1.5 + rand() * 4 });
+          // keep a plaza around the zone's centre and an open corridor toward the camera (front),
+          // so the robot here is never hidden behind towers when selected
+          if (Math.hypot(gx - a.x, gz - a.z) > 3 && !(gz > a.z - 1 && Math.abs(gx - a.x) < 3.4))
+            towers.push({ x: gx, z: gz, h: 1.5 + rand() * 4 });
       return (
         <group>
           <Patch a={a} color="#c9ccd3" />
+          <mesh position={[a.x, 0.03, a.z]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[2.2, 40]} /><Mat c="#e2e5eb" /></mesh>
           {towers.map((t, i) => (
             <mesh key={i} position={[t.x, t.h / 2, t.z]} castShadow receiveShadow>
               <boxGeometry args={[1.5, t.h, 1.5]} />

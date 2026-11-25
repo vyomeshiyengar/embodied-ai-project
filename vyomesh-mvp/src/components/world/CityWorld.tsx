@@ -17,6 +17,8 @@ const GAP = 0.9;
 interface Placed {
   item: TypeItem;
   pos: [number, number, number];
+  /** Camera offset used when this item is selected. */
+  view?: [number, number, number];
 }
 
 export function useLayout(dept: Department) {
@@ -31,7 +33,12 @@ export function useLayout(dept: Department) {
         const items = dept.types.items.filter((it) => it.zoneId === z.id);
         const front = z.setting === 'air' || z.setting === 'water' ? 0 : a.d * 0.12;
         items.forEach((it, k) => {
-          placed.push({ item: it, pos: [a.x + (k - (items.length - 1) / 2) * 2.2, 0.04, a.z + front] });
+          placed.push({
+            item: it,
+            pos: [a.x + (k - (items.length - 1) / 2) * 2.2, 0.04, a.z + front],
+            // look down from higher up over airspace zones so towers/trees below don't block the view
+            view: z.setting === 'air' ? [1.5, 8, 6.5] : undefined,
+          });
         });
       }
       const plaza = zones.find((z) => z.setting === 'plaza' && z.area)?.area;
@@ -128,7 +135,7 @@ function Item({ placed, color, selected, onSelect, index, flyHeight = 1.6 }: { p
           <boxGeometry args={[1.6, 1.6, 1.3]} />
         </mesh>
         {(hover || selected) && (
-          <Html position={[0, FLYING.includes(kind) ? 0.7 : 1.95, 0]} center zIndexRange={[20, 0]}>
+          <Html position={[0, FLYING.includes(kind) ? 0.7 : kind === 'drone-hub' ? 2.9 : 1.95, 0]} center zIndexRange={[20, 0]}>
             <div className="item-tip">{placed.item.name}</div>
           </Html>
         )}
@@ -163,16 +170,25 @@ function SelectRing({ color }: { color: string }) {
 }
 
 /** Eases the orbit target / camera toward the selected item, then lets the user take over. */
-function CameraRig({ focus, home }: { focus: [number, number, number] | null; home: { pos: Vector3; target: Vector3 } }) {
+function CameraRig({
+  focus,
+  view = [2.2, 4.2, 6],
+  home,
+}: {
+  focus: [number, number, number] | null;
+  view?: [number, number, number];
+  home: { pos: Vector3; target: Vector3 };
+}) {
   const controls = useThree((s) => s.controls) as unknown as OrbitControlsImpl | null;
   const camera = useThree((s) => s.camera);
   const goal = useRef<{ pos: Vector3; target: Vector3 } | null>(null);
 
   useEffect(() => {
     goal.current = focus
-      ? { target: new Vector3(focus[0], 0.6, focus[2]), pos: new Vector3(focus[0] + 2.2, 4.2, focus[2] + 6) }
+      ? { target: new Vector3(focus[0], 0.6, focus[2]), pos: new Vector3(focus[0] + view[0], view[1], focus[2] + view[2]) }
       : { pos: home.pos.clone(), target: home.target.clone() };
-  }, [focus, home]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focus?.[0], focus?.[2], view[0], view[1], view[2], home]);
 
   useFrame(() => {
     if (!goal.current || !controls) return;
@@ -259,7 +275,7 @@ export default function CityWorld({
         maxPolarAngle={Math.PI / 2.25}
         target={home.target.toArray() as [number, number, number]}
       />
-      <CameraRig focus={sel ? sel.pos : null} home={home} />
+      <CameraRig focus={sel ? sel.pos : null} view={sel?.view} home={home} />
     </Canvas>
   );
 }
