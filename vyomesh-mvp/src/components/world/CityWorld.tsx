@@ -9,6 +9,7 @@ import { Vector3, type Group } from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { Department, TypeItem } from '../../data/schema';
 import ZoneTile, { TILE } from './ZoneTile';
+import Landscape, { AreaLabel } from './Landscape';
 import { Model, MOVING, FLYING, FLOATING } from './models';
 
 const GAP = 0.9;
@@ -21,6 +22,29 @@ interface Placed {
 export function useLayout(dept: Department) {
   return useMemo(() => {
     const zones = dept.types.zones;
+
+    if (dept.types.layout === 'landscape') {
+      const ground = dept.types.ground ?? [36, 28];
+      const placed: Placed[] = [];
+      for (const z of zones) {
+        const a = z.area ?? { x: 0, z: 0, w: 4, d: 4 };
+        const items = dept.types.items.filter((it) => it.zoneId === z.id);
+        const front = z.setting === 'air' || z.setting === 'water' ? 0 : a.d * 0.12;
+        items.forEach((it, k) => {
+          placed.push({ item: it, pos: [a.x + (k - (items.length - 1) / 2) * 2.2, 0.04, a.z + front] });
+        });
+      }
+      const plaza = zones.find((z) => z.setting === 'plaza' && z.area)?.area;
+      return {
+        kind: 'landscape' as const,
+        tiles: [],
+        placed,
+        extent: Math.max(...ground) * 0.88,
+        ground,
+        hub: (plaza ? [plaza.x, plaza.z] : [0, 0]) as [number, number],
+      };
+    }
+
     const cols = Math.ceil(Math.sqrt(zones.length));
     const rows = Math.ceil(zones.length / cols);
     const step = TILE + GAP;
@@ -47,11 +71,11 @@ export function useLayout(dept: Department) {
       });
     }
     const extent = Math.max(cols, rows) * step;
-    return { tiles, placed, extent };
+    return { kind: 'tiles' as const, tiles, placed, extent, ground: [0, 0] as [number, number], hub: [0, 0] as [number, number] };
   }, [dept]);
 }
 
-function Item({ placed, color, selected, onSelect, index }: { placed: Placed; color: string; selected: boolean; onSelect: () => void; index: number }) {
+function Item({ placed, color, selected, onSelect, index, flyHeight = 1.6 }: { placed: Placed; color: string; selected: boolean; onSelect: () => void; index: number; flyHeight?: number }) {
   const ref = useRef<Group>(null);
   const [hover, setHover] = useState(false);
   const kind = placed.item.model;
@@ -66,7 +90,7 @@ function Item({ placed, color, selected, onSelect, index }: { placed: Placed; co
       g.position.x = s * 0.5;
       g.rotation.y = Math.cos(t * 0.5) >= 0 ? 0 : Math.PI;
     } else if (FLYING.includes(kind)) {
-      g.position.y = 1.6 + Math.sin(t * 1.4) * 0.12;
+      g.position.y = flyHeight + Math.sin(t * 1.4) * 0.12;
       g.rotation.y = Math.sin(t * 0.3) * 0.4;
     } else if (FLOATING.includes(kind)) {
       g.position.y = Math.sin(t * 1.2) * 0.03;
@@ -171,11 +195,15 @@ export default function CityWorld({
   onSelect: (id: string | undefined) => void;
   resetKey: number;
 }) {
-  const { tiles, placed, extent } = useLayout(dept);
+  const { kind, tiles, placed, extent, ground, hub } = useLayout(dept);
+  const landscape = kind === 'landscape';
   const home = useMemo(
-    () => ({ pos: new Vector3(0, extent * 0.78, extent * 1.02), target: new Vector3(0, 0, extent * 0.1) }),
+    () =>
+      landscape
+        ? { pos: new Vector3(0, extent * 0.85, extent * 1.0), target: new Vector3(0, 0, 0.5) }
+        : { pos: new Vector3(0, extent * 0.78, extent * 1.02), target: new Vector3(0, 0, extent * 0.1) },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [extent, resetKey],
+    [extent, resetKey, landscape],
   );
   const sel = placed.find((p) => p.item.id === selectedId);
 
@@ -200,9 +228,16 @@ export default function CityWorld({
         shadow-camera-bottom={-extent}
       />
       <group>
-        {tiles.map((t, i) => (
-          <ZoneTile key={t.zone.id} name={t.zone.name} setting={t.zone.setting} position={t.pos} number={i + 1} />
-        ))}
+        {landscape ? (
+          <>
+            <Landscape zones={dept.types.zones} ground={ground} hub={hub} />
+            {dept.types.zones.map((z, i) => z.area && <AreaLabel key={z.id} zone={z} number={i + 1} />)}
+          </>
+        ) : (
+          tiles.map((t, i) => (
+            <ZoneTile key={t.zone.id} name={t.zone.name} setting={t.zone.setting} position={t.pos} number={i + 1} />
+          ))
+        )}
         {placed.map((p, i) => (
           <Item
             key={p.item.id}
@@ -211,6 +246,7 @@ export default function CityWorld({
             color={dept.accent}
             selected={p.item.id === selectedId}
             onSelect={() => onSelect(p.item.id)}
+            flyHeight={landscape ? 2.4 : 1.6}
           />
         ))}
       </group>

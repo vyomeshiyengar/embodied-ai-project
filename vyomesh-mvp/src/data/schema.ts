@@ -24,7 +24,11 @@ export type ZoneSetting =
   | 'beach'
   | 'water'
   | 'trail'
-  | 'network';
+  | 'network'
+  | 'forest'
+  | 'golf'
+  | 'parking'
+  | 'visitor-center';
 
 /** Which 3D model represents a type. Add new ones in `components/world/models.tsx`. */
 export type ModelKind =
@@ -51,10 +55,22 @@ export type ModelKind =
   | 'exoskeleton'
   | 'network-tower';
 
+/** Where a zone sits in a 'landscape' world (world units; x = left/right, z = back/front). */
+export interface ZoneArea {
+  x: number;
+  z: number;
+  /** width (x) and depth (z) */
+  w: number;
+  d: number;
+  shape?: 'rect' | 'ellipse';
+}
+
 export interface Zone {
   id: string;
   name: string;
   setting: ZoneSetting;
+  /** Only used when types.layout is 'landscape'. */
+  area?: ZoneArea;
 }
 
 export interface TypeItem {
@@ -146,7 +162,18 @@ export interface Department {
   intro: string;
   /** Accent color for this department (hex). */
   accent: string;
-  types: { intro: string; zones: Zone[]; items: TypeItem[] };
+  types: {
+    intro: string;
+    /**
+     * 'tiles' (default): each zone is its own square tile.
+     * 'landscape': one continuous environment; every zone needs an `area`.
+     */
+    layout?: 'tiles' | 'landscape';
+    /** Size of the landscape ground, [width, depth]. Defaults to [36, 28]. */
+    ground?: [number, number];
+    zones: Zone[];
+    items: TypeItem[];
+  };
   risks: { intro: string; current: Risk[]; blackSwans: BlackSwan[] };
   regulation: { intro: string; laws: Regulation[]; gaps: Gap[] };
   caseStudies: { intro: string; places: CaseStudy[] };

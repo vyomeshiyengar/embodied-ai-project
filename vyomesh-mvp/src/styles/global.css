@@ -106,6 +106,7 @@ a { color: var(--types); }
   padding: 3px 8px; border-radius: 6px; pointer-events: none; user-select: none;
 }
 .zone-tag.dark { color: #fff; background: rgba(23,40,90,0.9); border-color: transparent; }
+.zone-tag.air { background: rgba(219,232,245,0.95); border-style: dashed; border-color: #8fa7c9; }
 .item-tip {
   white-space: nowrap; font-size: 12px; font-weight: 600; color: #fff; background: var(--navy);
   padding: 5px 9px; border-radius: 7px; pointer-events: none; transform: translateY(-6px);

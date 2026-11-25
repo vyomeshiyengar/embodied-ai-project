@@ -63,7 +63,7 @@ export default function TypesView({ dept, focus, onFocus }: { dept: Department; 
               <span className="zone">{items.length} types · {dept.types.zones.length} zones</span>
               <h3>Explore the city</h3>
               <p>
-                Each tile is a part of the city where this technology operates. Click any robot, drone or vehicle to see how it
+                Each {dept.types.layout === 'landscape' ? 'area' : 'tile'} is a part of the city where this technology operates. Click any robot, drone or vehicle to see how it
                 works, where it's deployed and what happened when cities adopted it.
               </p>
               <div className="nav">

@@ -22,6 +22,10 @@ const TILE_COLOR: Record<ZoneSetting, string> = {
   water: '#8fbfe3',
   trail: '#9fc98a',
   network: '#24386f',
+  forest: '#8fbf74',
+  golf: '#9fd07f',
+  parking: '#6b7283',
+  'visitor-center': '#e7dcc6',
 };
 
 function Mat({ c }: { c: string }) {
@@ -212,6 +216,38 @@ function Scenery({ setting }: { setting: ZoneSetting }) {
         <group>
           <Stripe p={[0, top, 0.4]} size={[TILE, 0.9]} c="#c9a477" rot={0.25} />
           <Tree p={[-1.8, H / 2, back]} /><Tree p={[1.7, H / 2, 1.9]} s={0.8} /><Tree p={[1.6, H / 2, back]} s={0.9} />
+        </group>
+      );
+    case 'forest':
+      return (
+        <group>
+          <Tree p={[-1.8, H / 2, back]} s={1.1} /><Tree p={[1.8, H / 2, back]} s={1.2} /><Tree p={[0, H / 2, back - 0.2]} s={1.3} />
+          <Tree p={[-1.9, H / 2, 1.6]} /><Tree p={[1.9, H / 2, 1.7]} s={0.9} />
+        </group>
+      );
+    case 'golf':
+      return (
+        <group>
+          <mesh position={[0.8, top, -1.2]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.9, 24]} /><meshStandardMaterial color="#b9e39a" /></mesh>
+          <mesh position={[0.8, H / 2 + 0.45, -1.2]}><cylinderGeometry args={[0.02, 0.02, 0.9]} /><Mat c="#ffffff" /></mesh>
+          <mesh position={[0.95, H / 2 + 0.8, -1.2]}><boxGeometry args={[0.3, 0.18, 0.01]} /><Mat c="#e04848" /></mesh>
+          <mesh position={[-1.4, top, -1.4]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.6, 20]} /><meshStandardMaterial color="#eed9a8" /></mesh>
+        </group>
+      );
+    case 'parking':
+      return (
+        <group>
+          {[-1.8, -1.2, -0.6, 0, 0.6, 1.2, 1.8].map((x) => <Stripe key={x} p={[x, top, -1.8]} size={[0.05, 1.0]} />)}
+          <mesh position={[-1.5, H / 2 + 0.2, -1.8]} castShadow><boxGeometry args={[0.45, 0.35, 0.8]} /><Mat c="#c75b4a" /></mesh>
+          <mesh position={[0.9, H / 2 + 0.2, -1.8]} castShadow><boxGeometry args={[0.45, 0.35, 0.8]} /><Mat c="#4a6fa5" /></mesh>
+        </group>
+      );
+    case 'visitor-center':
+      return (
+        <group position={[0, H / 2, back - 0.1]}>
+          <mesh position={[0, 0.45, 0]} castShadow receiveShadow><boxGeometry args={[2.6, 0.9, 0.9]} /><Mat c="#f4efe6" /></mesh>
+          <mesh position={[0, 1.0, 0]} castShadow><boxGeometry args={[2.9, 0.15, 1.1]} /><Mat c="#4f8a3c" /></mesh>
+          <mesh position={[0, 0.35, 0.451]}><planeGeometry args={[0.5, 0.6]} /><meshStandardMaterial color="#9fc3e6" /></mesh>
         </group>
       );
     case 'network':
