@@ -2,7 +2,7 @@
  * The Types world: zones become diorama tiles; each type becomes a clickable model on its zone.
  * Layout is computed from data, so any department renders without changes here.
  */
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Html, OrbitControls } from '@react-three/drei';
 import { Vector3, type Group } from 'three';
@@ -82,9 +82,9 @@ export function useLayout(dept: Department) {
   }, [dept]);
 }
 
-function Item({ placed, color, selected, onSelect, index, flyHeight = 1.6 }: { placed: Placed; color: string; selected: boolean; onSelect: () => void; index: number; flyHeight?: number }) {
+function Item({ placed, color, selected, index, flyHeight = 1.6 }: { placed: Placed; color: string; selected: boolean; index: number; flyHeight?: number }) {
   const ref = useRef<Group>(null);
-  const [hover, setHover] = useState(false);
+  const hover = false;
   const kind = placed.item.model;
   const phase = index * 1.7;
 
@@ -113,33 +113,12 @@ function Item({ placed, color, selected, onSelect, index, flyHeight = 1.6 }: { p
     g.scale.lerp(new Vector3(target, target, target), 0.15);
   });
 
-  useEffect(() => () => void (document.body.style.cursor = 'auto'), []);
-
   return (
     <group position={placed.pos}>
-      <group
-        ref={ref}
-        onClick={(e) => {
-          e.stopPropagation();
-          onSelect();
-        }}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          setHover(true);
-          document.body.style.cursor = 'pointer';
-        }}
-        onPointerOut={() => {
-          setHover(false);
-          document.body.style.cursor = 'auto';
-        }}
-      >
+      <group ref={ref}>
         <group scale={1.3}>
           <Model kind={kind} color={color} highlight={hover || selected} />
         </group>
-        {/* invisible hit box so small models are easy to click */}
-        <mesh position={[0, FLYING.includes(kind) ? 0 : 0.5, 0]} visible={false}>
-          <boxGeometry args={[1.6, 1.6, 1.3]} />
-        </mesh>
         {(hover || selected) && (
           <Html position={[0, FLYING.includes(kind) ? 0.7 : kind === 'drone-hub' ? 2.9 : 1.95, 0]} center zIndexRange={[20, 0]}>
             <div className="item-tip">{placed.item.name}</div>
@@ -228,6 +207,14 @@ export default function CityWorld({
     [extent, resetKey, landscape],
   );
   const sel = placed.find((p) => p.item.id === selectedId);
+  // Clicking a zone label opens that zone's item; for zones with several items, repeat clicks cycle through them.
+  const selectZone = (zoneId: string) => {
+    const inZone = dept.types.items.filter((it) => it.zoneId === zoneId);
+    if (!inZone.length) return;
+    const cur = inZone.findIndex((it) => it.id === selectedId);
+    onSelect(inZone[(cur + 1) % inZone.length].id);
+  };
+  const activeZone = dept.types.items.find((it) => it.id === selectedId)?.zoneId;
 
   return (
     <Canvas
@@ -253,11 +240,22 @@ export default function CityWorld({
         {landscape ? (
           <>
             <Landscape zones={dept.types.zones} ground={ground} hub={hub} theme={dept.types.theme} roads={dept.types.roads} />
-            {dept.types.zones.map((z, i) => z.area && <AreaLabel key={z.id} zone={z} number={i + 1} />)}
+            {dept.types.zones.map(
+              (z, i) =>
+                z.area && <AreaLabel key={z.id} zone={z} number={i + 1} active={z.id === activeZone} onClick={() => selectZone(z.id)} />,
+            )}
           </>
         ) : (
           tiles.map((t, i) => (
-            <ZoneTile key={t.zone.id} name={t.zone.name} setting={t.zone.setting} position={t.pos} number={i + 1} />
+            <ZoneTile
+              key={t.zone.id}
+              name={t.zone.name}
+              setting={t.zone.setting}
+              position={t.pos}
+              number={i + 1}
+              active={t.zone.id === activeZone}
+              onClick={() => selectZone(t.zone.id)}
+            />
           ))
         )}
         {placed.map((p, i) => (
@@ -267,7 +265,6 @@ export default function CityWorld({
             placed={p}
             color={dept.accent}
             selected={p.item.id === selectedId}
-            onSelect={() => onSelect(p.item.id)}
             flyHeight={landscape ? 2.4 : 1.6}
           />
         ))}

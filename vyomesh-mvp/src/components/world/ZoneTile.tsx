@@ -276,7 +276,21 @@ function Scenery({ setting }: { setting: ZoneSetting }) {
   }
 }
 
-export default function ZoneTile({ name, setting, position, number }: { name: string; setting: ZoneSetting; position: [number, number, number]; number: number }) {
+export default function ZoneTile({
+  name,
+  setting,
+  position,
+  number,
+  active,
+  onClick,
+}: {
+  name: string;
+  setting: ZoneSetting;
+  position: [number, number, number];
+  number: number;
+  active?: boolean;
+  onClick?: () => void;
+}) {
   return (
     <group position={position}>
       <RoundedBox args={[TILE, H, TILE]} radius={0.08} position={[0, 0, 0]} receiveShadow>
@@ -284,9 +298,16 @@ export default function ZoneTile({ name, setting, position, number }: { name: st
       </RoundedBox>
       <Scenery setting={setting} />
       <Html position={[0, H / 2, TILE / 2 + 0.05]} center zIndexRange={[10, 0]}>
-        <div className={'zone-tag' + (setting === 'network' ? ' dark' : '')}>
+        <button
+          type="button"
+          className={'zone-tag' + (setting === 'network' ? ' dark' : '') + (active ? ' active' : '')}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick?.();
+          }}
+        >
           {number}. {name}
-        </div>
+        </button>
       </Html>
     </group>
   );

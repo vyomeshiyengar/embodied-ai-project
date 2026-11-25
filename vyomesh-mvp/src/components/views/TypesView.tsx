@@ -30,7 +30,7 @@ export default function TypesView({ dept, focus, onFocus }: { dept: Department; 
           >
             Reset view
           </button>
-          <div className="world-hint">Click a robot to learn about it · drag to orbit · scroll to zoom</div>
+          <div className="world-hint">Click a label to learn about it · drag to orbit · scroll to zoom</div>
         </div>
 
         <aside className="panel detail" aria-live="polite">
@@ -63,7 +63,7 @@ export default function TypesView({ dept, focus, onFocus }: { dept: Department; 
               <span className="zone">{items.length} types · {dept.types.zones.length} zones</span>
               <h3>Explore the city</h3>
               <p>
-                Each {dept.types.layout === 'landscape' ? 'area' : 'tile'} is a part of the city where this technology operates. Click any robot, drone or vehicle to see how it
+                Each {dept.types.layout === 'landscape' ? 'area' : 'tile'} is a part of the city where this technology operates. Click any label to see how the robot, drone or vehicle there
                 works, where it's deployed and what happened when cities adopted it.
               </p>
               <div className="nav">

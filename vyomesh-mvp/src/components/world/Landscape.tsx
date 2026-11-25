@@ -463,7 +463,7 @@ export default function Landscape({
   );
 }
 
-export function AreaLabel({ zone, number }: { zone: Zone; number: number }) {
+export function AreaLabel({ zone, number, active, onClick }: { zone: Zone; number: number; active?: boolean; onClick?: () => void }) {
   const a = zone.area!;
   const air = zone.setting === 'air';
   return (
@@ -480,9 +480,16 @@ export function AreaLabel({ zone, number }: { zone: Zone; number: number }) {
       center
       zIndexRange={[10, 0]}
     >
-      <div className={'zone-tag' + (air ? ' air' : '')}>
+        <button
+        type="button"
+        className={'zone-tag' + (air ? ' air' : '') + (active ? ' active' : '')}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick?.();
+        }}
+      >
         {number}. {zone.name}
-      </div>
+      </button>
     </Html>
   );
 }
