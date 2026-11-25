@@ -402,7 +402,7 @@ function AreaScenery({ zone, setting }: { zone: Zone; setting?: ZoneSetting }) {
   }
 }
 
-/** Ground, roads or footpaths, a city skyline behind, and each zone's area. */
+/** Ground, roads or footpaths, and each zone's area. */
 export default function Landscape({
   zones,
   ground,
@@ -419,16 +419,6 @@ export default function Landscape({
   const [W, D] = ground;
   const city = theme === 'city';
   const groundZones = zones.filter((z) => z.setting !== 'air' && z.area);
-  const skyline = useMemo(() => {
-    const r = rng(7);
-    const out: { x: number; h: number; w: number; c: string }[] = [];
-    for (let x = -W / 2 - 2; x < W / 2 + 2; ) {
-      const w = 1.4 + r() * 2.2;
-      out.push({ x: x + w / 2, h: 2 + r() * 6, w, c: ['#c9d1df', '#b8c3d6', '#d5dbe6', '#aab6cb'][Math.floor(r() * 4)] });
-      x += w + 0.3;
-    }
-    return out;
-  }, [W]);
 
   return (
     <group>
@@ -437,9 +427,6 @@ export default function Landscape({
         <boxGeometry args={[W, 0.5, D]} />
         <Mat c={city ? '#d3d8d0' : GROUND} />
       </mesh>
-      {/* sidewalk + street on the near edge */}
-      <mesh position={[0, 0.005, D / 2 + 0.8]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[W, 1.6]} /><Mat c="#d5d9e1" /></mesh>
-      <mesh position={[0, -0.01, D / 2 + 3]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[W + 10, 2.8]} /><Mat c="#5d6475" /></mesh>
       {city ? (
         roads.map((r, i) => {
           const w = r.width ?? 2.6;
@@ -465,13 +452,6 @@ export default function Landscape({
       {/* border trees */}
       {Array.from({ length: Math.floor(W / 3) }, (_, i) => (
         <Tree key={i} p={[-W / 2 + 1.5 + i * 3, 0, D / 2 - 0.5]} s={0.7} />
-      ))}
-      {/* city skyline beyond the back edge */}
-      {skyline.map((b, i) => (
-        <mesh key={i} position={[b.x, b.h / 2 - 0.5, -D / 2 - 3 - (i % 3) * 1.2]} castShadow>
-          <boxGeometry args={[b.w, b.h, 1.8]} />
-          <Mat c={b.c} />
-        </mesh>
       ))}
       {zones.map((z) => z.area && <AreaScenery key={z.id} zone={z} />)}
     </group>
