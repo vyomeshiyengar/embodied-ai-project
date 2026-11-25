@@ -3,7 +3,6 @@
  * Each zone is drawn as an area on a shared ground, joined by footpaths, with scenery
  * sized to the area. Used when a department sets `types.layout: 'landscape'`.
  */
-import { useMemo } from 'react';
 import { Html } from '@react-three/drei';
 import type { Road, Zone, ZoneArea as Area, ZoneSetting } from '../../data/schema';
 
@@ -80,7 +79,9 @@ function Line({ from, to, width, color, y = 0.012 }: { from: [number, number]; t
 
 function AreaScenery({ zone, setting }: { zone: Zone; setting?: ZoneSetting }) {
   const a = zone.area!;
-  const rand = useMemo(() => rng(hash(zone.id)), [zone.id]);
+  // Fresh generator from the same seed on every render, so random scenery (tree spots, tower
+  // heights) comes out identical each time instead of shifting when the scene re-renders.
+  const rand = rng(hash(zone.id));
   const back = a.z - a.d / 2 + 0.9;
   const ROOFS = ['#b9584a', '#5d7fb0', '#7aa06a', '#c98b4a'];
 
