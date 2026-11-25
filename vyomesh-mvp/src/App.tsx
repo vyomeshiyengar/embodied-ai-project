@@ -58,12 +58,6 @@ export default function App() {
             <button key={d.id} className="landing-card" onClick={() => navigate({ deptId: d.id, tab: 'types' })}>
               <h3>{d.name}</h3>
               <p>{d.intro}</p>
-              <div className="stats">
-                <span><b>{d.types.items.length}</b> types</span>
-                <span><b>{d.risks.current.length + d.risks.blackSwans.length}</b> risks</span>
-                <span><b>{d.regulation.laws.length}</b> laws</span>
-                <span><b>{d.caseStudies.places.length}</b> places</span>
-              </div>
             </button>
           ))}
         </div>
