@@ -56,7 +56,6 @@ export default function App() {
         <div className="landing">
           {departments.map((d) => (
             <button key={d.id} className="landing-card" onClick={() => navigate({ deptId: d.id, tab: 'types' })}>
-              <span className="n">SECTOR {d.number}</span>
               <h3>{d.name}</h3>
               <p>{d.intro}</p>
               <div className="stats">
