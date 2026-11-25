@@ -11,13 +11,20 @@ const healthcare: Department = {
   types: {
     intro:
       'Ten types are in real use today, across five city zones. The most mature are hospital logistics robots and medical delivery drones. Home companion robots are the fastest-growing type bought with public money.',
+    layout: 'landscape',
+    theme: 'city',
+    ground: [36, 28],
+    roads: [
+      { from: [-18, 1.2], to: [18, 1.2], width: 2.4 },
+      { from: [1.5, -14], to: [1.5, 14], width: 2.6 },
+    ],
     zones: [
-      { id: 'hospitals', name: 'Hospitals & clinics', setting: 'hospital' },
-      { id: 'homes', name: 'Homes (aging in place)', setting: 'home' },
-      { id: 'homes-clinics', name: 'Homes & clinics', setting: 'home' },
-      { id: 'ltc', name: 'Long-term care facilities', setting: 'care-home' },
-      { id: 'airspace', name: 'Airspace', setting: 'air' },
-      { id: 'sidewalks', name: 'Sidewalks & streets', setting: 'sidewalk' },
+      { id: 'hospitals', name: 'Hospitals & clinics', setting: 'hospital', area: { x: -9, z: -6, w: 14, d: 10 } },
+      { id: 'homes', name: 'Homes (aging in place)', setting: 'home', area: { x: -11, z: 8.5, w: 9, d: 7 } },
+      { id: 'homes-clinics', name: 'Homes & clinics', setting: 'home', area: { x: -3, z: 8.5, w: 5.5, d: 7 } },
+      { id: 'ltc', name: 'Long-term care facilities', setting: 'care-home', area: { x: 8, z: 8.5, w: 9, d: 6 } },
+      { id: 'airspace', name: 'Airspace', setting: 'air', below: 'suburb', area: { x: 9.5, z: -7, w: 13, d: 9 } },
+      { id: 'sidewalks', name: 'Sidewalks & streets', setting: 'sidewalk', area: { x: 10, z: 3.3, w: 12, d: 1.8 } },
     ],
     items: [
       {

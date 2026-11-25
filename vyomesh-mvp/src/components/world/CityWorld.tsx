@@ -39,7 +39,7 @@ export function useLayout(dept: Department) {
         kind: 'landscape' as const,
         tiles: [],
         placed,
-        extent: Math.max(...ground) * 0.88,
+        extent: Math.max(...ground) * 0.95,
         ground,
         hub: (plaza ? [plaza.x, plaza.z] : [0, 0]) as [number, number],
       };
@@ -230,7 +230,7 @@ export default function CityWorld({
       <group>
         {landscape ? (
           <>
-            <Landscape zones={dept.types.zones} ground={ground} hub={hub} />
+            <Landscape zones={dept.types.zones} ground={ground} hub={hub} theme={dept.types.theme} roads={dept.types.roads} />
             {dept.types.zones.map((z, i) => z.area && <AreaLabel key={z.id} zone={z} number={i + 1} />)}
           </>
         ) : (

@@ -5,7 +5,7 @@ Pick a department, then move through four tabs:
 
 | Tab | What it shows |
 | --- | --- |
-| **Types** | A 3D city diorama. Each zone is a tile; each type is a clickable model. Side panel walks through every type (Previous / Next). |
+| **Types** | A 3D world: one continuous environment per department (a park, a city district, a hospital campus and neighborhood), or optionally separate zone tiles. Each type is a clickable model; the side panel walks through every type (Previous / Next). |
 | **Risks** | Table of current risks, and a toggle to black-swan scenarios. |
 | **Regulations** | Laws filtered by **Federal / State / City** (plus Outside US), and the "gaps nothing covers" list. |
 | **Case studies** | World map with numbered pins, region filters, Map/List toggle, and links back into Types/Regulations. |
@@ -37,7 +37,9 @@ The 3D world, tables, filters, map and tab counts are all generated from the dat
 
 ### Field notes
 
-- **`types.zones[].setting`** — picks the tile's look: `street`, `sidewalk`, `bikelane`, `air`, `hospital`, `home`, `care-home`, `warehouse`, `industrial`, `park`, `field`, `plaza`, `beach`, `water`, `trail`, `network`.
+- **`types.layout`** — `'landscape'` (one continuous environment, used by all three departments) or `'tiles'` (one square per zone; the default, and the easiest for a first draft of a new department). For a landscape, give every zone an `area: { x, z, w, d }` on a 36 × 28 ground (x = left/right, z = back/front), set `theme` to `'park'` (grass and footpaths) or `'city'` (pavement plus `roads`), and give airspace zones a `below` setting (e.g. `'suburb'`, `'downtown'`) for what to draw underneath.
+
+- **`types.zones[].setting`** — picks the zone's look: `street`, `sidewalk`, `bikelane`, `air`, `hospital`, `home`, `care-home`, `warehouse`, `industrial`, `park`, `field`, `plaza`, `beach`, `water`, `trail`, `network`, `forest`, `golf`, `parking`, `visitor-center`, `suburb`, `downtown`.
 - **`types.items[].model`** — picks the 3D model: `sidewalk-robot`, `hybrid-robot`, `delivery-van`, `drone`, `drone-hub`, `warehouse-robot`, `humanoid`, `quadruped`, `mower`, `line-painter`, `patrol-robot`, `boat`, `sand-rover`, `sensor-pole`, `cleaning-robot`, `hospital-cart`, `surgical-robot`, `telepresence`, `uv-robot`, `companion`, `exoskeleton`, `network-tower`. Reuse one if nothing fits; to add one, extend `ModelKind` in `src/data/schema.ts` and add a `case` in `src/components/world/models.tsx`.
 - **`regulation.laws[].levels`** — `['Federal' | 'State' | 'City' | 'International']`; a law can sit in several. `authority` keeps the original wording.
 - **`caseStudies.places[].locations`** — one or more `{ label, lat, lng }` pins. Optional `relatedTypeIds` / `relatedRegulationIds` add jump-links in the detail card. Optional `detail` adds a full write-up (deployed / where, what happened, impact on the community, response, what changed), written in full sentences, and a "Full case study" marker.

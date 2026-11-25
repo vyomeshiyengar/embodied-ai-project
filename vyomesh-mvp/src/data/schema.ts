@@ -28,7 +28,9 @@ export type ZoneSetting =
   | 'forest'
   | 'golf'
   | 'parking'
-  | 'visitor-center';
+  | 'visitor-center'
+  | 'suburb'
+  | 'downtown';
 
 /** Which 3D model represents a type. Add new ones in `components/world/models.tsx`. */
 export type ModelKind =
@@ -71,6 +73,15 @@ export interface Zone {
   setting: ZoneSetting;
   /** Only used when types.layout is 'landscape'. */
   area?: ZoneArea;
+  /** For 'air' zones in a landscape: what to draw on the ground underneath (e.g. 'suburb', 'downtown'). */
+  below?: ZoneSetting;
+}
+
+/** A road drawn across a landscape, from one [x, z] point to another. */
+export interface Road {
+  from: [number, number];
+  to: [number, number];
+  width?: number;
 }
 
 export interface TypeItem {
@@ -171,6 +182,10 @@ export interface Department {
     layout?: 'tiles' | 'landscape';
     /** Size of the landscape ground, [width, depth]. Defaults to [36, 28]. */
     ground?: [number, number];
+    /** Landscape look: 'park' (grass, footpaths from the plaza) or 'city' (pavement and roads). Defaults to 'park'. */
+    theme?: 'park' | 'city';
+    /** Roads for a 'city' landscape. */
+    roads?: Road[];
     zones: Zone[];
     items: TypeItem[];
   };

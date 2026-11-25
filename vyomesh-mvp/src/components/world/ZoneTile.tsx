@@ -26,6 +26,8 @@ const TILE_COLOR: Record<ZoneSetting, string> = {
   golf: '#9fd07f',
   parking: '#6b7283',
   'visitor-center': '#e7dcc6',
+  suburb: '#e8e1d6',
+  downtown: '#c9ccd3',
 };
 
 function Mat({ c }: { c: string }) {
@@ -232,6 +234,21 @@ function Scenery({ setting }: { setting: ZoneSetting }) {
           <mesh position={[0.8, H / 2 + 0.45, -1.2]}><cylinderGeometry args={[0.02, 0.02, 0.9]} /><Mat c="#ffffff" /></mesh>
           <mesh position={[0.95, H / 2 + 0.8, -1.2]}><boxGeometry args={[0.3, 0.18, 0.01]} /><Mat c="#e04848" /></mesh>
           <mesh position={[-1.4, top, -1.4]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[0.6, 20]} /><meshStandardMaterial color="#eed9a8" /></mesh>
+        </group>
+      );
+    case 'suburb':
+      return (
+        <group>
+          <House p={[-1.6, H / 2, back]} s={0.7} /><House p={[1.6, H / 2, back]} s={0.7} roof="#5d7fb0" />
+          <Tree p={[0, H / 2, back]} s={0.7} />
+        </group>
+      );
+    case 'downtown':
+      return (
+        <group>
+          {[[-1.7, 1.6], [1.7, 2.2], [-1.7, 1.1]].map(([x, h], i) => (
+            <mesh key={i} position={[x, H / 2 + h / 2, i === 2 ? 1.6 : back]} castShadow><boxGeometry args={[1, h, 1]} /><Mat c="#b8c3d6" /></mesh>
+          ))}
         </group>
       );
     case 'parking':

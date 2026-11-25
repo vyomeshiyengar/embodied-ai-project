@@ -11,16 +11,23 @@ const urbanLogistics: Department = {
   types: {
     intro:
       'Nine types are in use, from sidewalks to low airspace to the warehouse floor. The most visible are sidewalk delivery robots: Serve Robotics alone ended Q1 2026 with ~2,050 robots across 44 cities in 14 states. Drone delivery networks are scaling fastest in China.',
+    layout: 'landscape',
+    theme: 'city',
+    ground: [36, 28],
+    roads: [
+      { from: [-18, 1], to: [18, 1], width: 3 },
+      { from: [-5.5, -14], to: [-5.5, 14], width: 2.6 },
+    ],
     zones: [
-      { id: 'sidewalks', name: 'Sidewalks & crosswalks', setting: 'sidewalk' },
-      { id: 'bike-lanes', name: 'Bike lanes & road shoulders', setting: 'bikelane' },
-      { id: 'streets', name: 'Streets', setting: 'street' },
-      { id: 'air-suburbs', name: 'Low airspace (suburbs)', setting: 'air' },
-      { id: 'air-dense', name: 'Low airspace (dense cities)', setting: 'air' },
-      { id: 'warehouses', name: 'Warehouses & distribution centers', setting: 'warehouse' },
-      { id: 'dc-night', name: 'Distribution centers (night shift)', setting: 'warehouse' },
-      { id: 'industrial', name: 'Industrial sites, cold storage, receiving docks', setting: 'industrial' },
-      { id: 'network', name: 'Network layer', setting: 'network' },
+      { id: 'sidewalks', name: 'Sidewalks & crosswalks', setting: 'sidewalk', area: { x: 2, z: 3.5, w: 10, d: 1.8 } },
+      { id: 'bike-lanes', name: 'Bike lanes & road shoulders', setting: 'bikelane', area: { x: 9, z: -1.5, w: 14, d: 1.4 } },
+      { id: 'streets', name: 'Streets', setting: 'street', area: { x: -12, z: 1, w: 11, d: 3 } },
+      { id: 'air-suburbs', name: 'Low airspace (suburbs)', setting: 'air', below: 'suburb', area: { x: -11.5, z: -8, w: 11, d: 9 } },
+      { id: 'air-dense', name: 'Low airspace (dense cities)', setting: 'air', below: 'downtown', area: { x: 9, z: -8, w: 14, d: 9 } },
+      { id: 'warehouses', name: 'Warehouses & distribution centers', setting: 'warehouse', area: { x: -12, z: 9, w: 10, d: 6 } },
+      { id: 'dc-night', name: 'Distribution centers (night shift)', setting: 'warehouse', area: { x: 0, z: 9, w: 7, d: 6 } },
+      { id: 'industrial', name: 'Industrial sites, cold storage, receiving docks', setting: 'industrial', area: { x: 8, z: 9, w: 6, d: 6 } },
+      { id: 'network', name: 'Network layer', setting: 'network', area: { x: 14.5, z: 9, w: 5, d: 6 } },
     ],
     items: [
       {
