@@ -5,7 +5,7 @@
 import { useRef, type ReactNode } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
-import type { Group } from 'three';
+import type { Group, Mesh, MeshBasicMaterial } from 'three';
 import type { ModelKind } from '../../data/schema';
 
 const WHITE = '#f7f8fb';
@@ -33,6 +33,47 @@ function Spin({ children, speed = 18 }: { children: ReactNode; speed?: number })
   return <group ref={ref}>{children}</group>;
 }
 
+/** Runs `fn` on a group every frame: a tiny hook-based way to animate part of a model. */
+function Anim({ children, fn, position }: { children: ReactNode; fn: (g: Group, t: number) => void; position?: [number, number, number] }) {
+  const ref = useRef<Group>(null);
+  useFrame(({ clock }) => {
+    if (ref.current) fn(ref.current, clock.elapsedTime);
+  });
+  return (
+    <group ref={ref} position={position}>
+      {children}
+    </group>
+  );
+}
+
+/** A flat ring that grows and fades on a loop: reads as a signal / ping from far away. */
+function PulseRing({ y = 0.05, color, max = 1.2, period = 2, delay = 0 }: { y?: number; color: string; max?: number; period?: number; delay?: number }) {
+  const ref = useRef<Mesh>(null);
+  useFrame(({ clock }) => {
+    const m = ref.current;
+    if (!m) return;
+    const p = ((clock.elapsedTime + delay) % period) / period;
+    const sc = 0.15 + p * max;
+    m.scale.set(sc, sc, sc);
+    (m.material as MeshBasicMaterial).opacity = 0.75 * (1 - p);
+  });
+  return (
+    <mesh ref={ref} position={[0, y, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <ringGeometry args={[0.9, 1, 48]} />
+      <meshBasicMaterial color={color} transparent opacity={0.6} depthWrite={false} />
+    </mesh>
+  );
+}
+
+/** Limb that swings from a pivot (hip / shoulder), for walking. */
+function Swing({ pivot, phase = 0, amp = 0.5, speed = 6, children }: { pivot: [number, number, number]; phase?: number; amp?: number; speed?: number; children: ReactNode }) {
+  return (
+    <Anim position={pivot} fn={(g, t) => void (g.rotation.x = Math.sin(t * speed + phase) * amp)}>
+      {children}
+    </Anim>
+  );
+}
+
 function Rotor({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
@@ -53,15 +94,23 @@ function Rotor({ position }: { position: [number, number, number] }) {
 function Humanoid({ color, scale = 1 }: { color: string; scale?: number }) {
   return (
     <group scale={scale}>
-      {/* legs */}
-      <mesh position={[-0.1, 0.25, 0]} castShadow><capsuleGeometry args={[0.065, 0.32, 4, 8]} /><M color={DARK} /></mesh>
-      <mesh position={[0.1, 0.25, 0]} castShadow><capsuleGeometry args={[0.065, 0.32, 4, 8]} /><M color={DARK} /></mesh>
+      {/* legs swing from the hips */}
+      <Swing pivot={[-0.1, 0.45, 0]}>
+        <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.065, 0.32, 4, 8]} /><M color={DARK} /></mesh>
+      </Swing>
+      <Swing pivot={[0.1, 0.45, 0]} phase={Math.PI}>
+        <mesh position={[0, -0.2, 0]} castShadow><capsuleGeometry args={[0.065, 0.32, 4, 8]} /><M color={DARK} /></mesh>
+      </Swing>
       {/* torso */}
       <RoundedBox args={[0.42, 0.45, 0.24]} radius={0.07} position={[0, 0.7, 0]} castShadow><M color={WHITE} /></RoundedBox>
       <mesh position={[0, 0.72, 0.125]}><boxGeometry args={[0.2, 0.12, 0.01]} /><M color={color} /></mesh>
-      {/* arms */}
-      <mesh position={[-0.28, 0.66, 0]} rotation={[0, 0, 0.12]} castShadow><capsuleGeometry args={[0.05, 0.34, 4, 8]} /><M color={WHITE} /></mesh>
-      <mesh position={[0.28, 0.66, 0.05]} rotation={[-0.4, 0, -0.12]} castShadow><capsuleGeometry args={[0.05, 0.34, 4, 8]} /><M color={WHITE} /></mesh>
+      {/* arms swing opposite to legs */}
+      <Swing pivot={[-0.28, 0.85, 0]} phase={Math.PI} amp={0.4}>
+        <mesh position={[0, -0.19, 0]} rotation={[0, 0, 0.12]} castShadow><capsuleGeometry args={[0.05, 0.34, 4, 8]} /><M color={WHITE} /></mesh>
+      </Swing>
+      <Swing pivot={[0.28, 0.85, 0]} amp={0.4}>
+        <mesh position={[0, -0.19, 0]} rotation={[0, 0, -0.12]} castShadow><capsuleGeometry args={[0.05, 0.34, 4, 8]} /><M color={WHITE} /></mesh>
+      </Swing>
       {/* head */}
       <RoundedBox args={[0.26, 0.24, 0.24]} radius={0.08} position={[0, 1.08, 0]} castShadow><M color={WHITE} /></RoundedBox>
       <mesh position={[0, 1.09, 0.121]}><boxGeometry args={[0.2, 0.08, 0.01]} /><M color={DARK} /></mesh>
@@ -71,7 +120,9 @@ function Humanoid({ color, scale = 1 }: { color: string; scale?: number }) {
 
 function Quadruped({ color }: { color: string }) {
   const leg = (x: number, z: number) => (
-    <mesh position={[x, 0.18, z]} castShadow><capsuleGeometry args={[0.04, 0.28, 4, 8]} /><M color={DARK} /></mesh>
+    <Swing pivot={[x, 0.34, z]} phase={(x > 0) === (z > 0) ? 0 : Math.PI} amp={0.45} speed={8}>
+      <mesh position={[0, -0.16, 0]} castShadow><capsuleGeometry args={[0.04, 0.28, 4, 8]} /><M color={DARK} /></mesh>
+    </Swing>
   );
   return (
     <group>
@@ -142,9 +193,12 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           {[-0.18, 0, 0.18].map((y) => (
             <mesh key={y} position={[0.355, 0.45 + y, 0]}><boxGeometry args={[0.01, 0.12, 0.5]} /><M color={DARK} /></mesh>
           ))}
-          <group position={[0, 1.4, 0]} scale={0.8}>
-            <Model kind="drone" color={color} />
-          </group>
+          {/* drone lifts off the pad, hovers, and lands again */}
+          <Anim fn={(g, t) => void (g.position.y = 1.1 + Math.max(0, Math.sin(t * 0.9)) * 1.6)}>
+            <group scale={0.8}>
+              <Model kind="drone" color={color} />
+            </group>
+          </Anim>
         </group>
       );
     case 'warehouse-robot':
@@ -159,12 +213,12 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           <mesh position={[-0.15, 0.68, 0]}><boxGeometry args={[0.22, 0.22, 0.2]} /><M color="#d9a55b" /></mesh>
           <mesh position={[0.15, 0.38, 0]}><boxGeometry args={[0.2, 0.2, 0.2]} /><M color="#d9a55b" /></mesh>
           <RoundedBox args={[0.6, 0.12, 0.6]} radius={0.04} position={[0, 0.06, 0]} castShadow><M color={c} /></RoundedBox>
-          {/* arm next to the shelf */}
-          <group position={[0.7, 0, 0]}>
+          {/* arm next to the shelf, swinging to pick */}
+          <Anim position={[0.7, 0, 0]} fn={(g, t) => void (g.rotation.y = Math.sin(t * 1.6) * 1.2)}>
             <mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.14, 0.16, 0.16, 16]} /><M color={DARK} /></mesh>
             <mesh position={[0, 0.4, 0]} rotation={[0, 0, 0.3]}><capsuleGeometry args={[0.045, 0.5, 4, 8]} /><M color={c} /></mesh>
             <mesh position={[-0.2, 0.72, 0]} rotation={[0, 0, 1.2]}><capsuleGeometry args={[0.04, 0.3, 4, 8]} /><M color={c} /></mesh>
-          </group>
+          </Anim>
         </group>
       );
     case 'humanoid':
@@ -244,6 +298,12 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           ))}
           {/* ground soil sensor */}
           <mesh position={[0.4, 0.08, 0.2]}><cylinderGeometry args={[0.05, 0.05, 0.16, 10]} /><M color={c} /></mesh>
+          {/* readings pulsing out across the ground */}
+          <PulseRing color={c} max={1.3} period={2.2} />
+          <PulseRing color={c} max={1.3} period={2.2} delay={1.1} />
+          <Anim position={[0, 1.3, 0]} fn={(g, t) => void (g.rotation.y = t * 1.5)}>
+            <mesh rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.32, 0.012, 6, 32, Math.PI]} /><M color={c} /></mesh>
+          </Anim>
         </group>
       );
     case 'cleaning-robot':
@@ -280,12 +340,14 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           <mesh position={[0, 0.22, 0]}><cylinderGeometry args={[0.06, 0.1, 0.44, 12]} /><M color="#8b93a6" /></mesh>
           {/* tower with arms */}
           <mesh position={[0, 0.55, -0.55]} castShadow><boxGeometry args={[0.3, 1.1, 0.25]} /><M color={WHITE} /></mesh>
+          {/* arms dip and rise in turn, like they're operating */}
           {[-0.22, 0, 0.22].map((x, i) => (
-            <group key={x}>
+            <Anim key={x} fn={(g, t) => void (g.position.y = Math.sin(t * 2.2 + i * 2.1) * 0.12)}>
               <mesh position={[x, 1.05, -0.3]} rotation={[1.0, 0, 0]}><capsuleGeometry args={[0.035, 0.45, 4, 8]} /><M color={i === 1 ? c : WHITE} /></mesh>
               <mesh position={[x, 0.7, -0.05]}><capsuleGeometry args={[0.02, 0.35, 4, 8]} /><M color={DARK} /></mesh>
-            </group>
+            </Anim>
           ))}
+          <PulseRing y={0.5} color={c} max={0.7} period={1.8} />
         </group>
       );
     case 'telepresence':
@@ -309,6 +371,8 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
             </mesh>
           ))}
           <mesh position={[0, 1.28, 0]}><cylinderGeometry args={[0.2, 0.2, 0.06, 20]} /><M color={c} /></mesh>
+          {/* UV light washing the floor */}
+          <PulseRing color="#8f74ff" max={1.1} period={1.6} />
         </group>
       );
     case 'companion':
@@ -317,13 +381,20 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           {/* side table */}
           <mesh position={[0, 0.25, 0]} castShadow><boxGeometry args={[0.6, 0.5, 0.45]} /><M color="#c69b6d" /></mesh>
           <mesh position={[-0.05, 0.6, 0]}><cylinderGeometry args={[0.12, 0.14, 0.2, 20]} /><M color={WHITE} /></mesh>
-          <mesh position={[-0.05, 0.78, 0]} castShadow><sphereGeometry args={[0.11, 20, 20]} /><M color={WHITE} /></mesh>
-          <mesh position={[-0.05, 0.79, 0.09]}><boxGeometry args={[0.1, 0.03, 0.02]} /><M color={c} emissive={c} /></mesh>
+          {/* head nods as it talks */}
+          <Anim fn={(g, t) => { g.rotation.x = Math.sin(t * 3) * 0.25; g.rotation.y = Math.sin(t * 0.8) * 0.5; }} position={[-0.05, 0.7, 0]}>
+            <mesh position={[0, 0.08, 0]} castShadow><sphereGeometry args={[0.11, 20, 20]} /><M color={WHITE} /></mesh>
+            <mesh position={[0, 0.09, 0.09]}><boxGeometry args={[0.1, 0.03, 0.02]} /><M color={c} emissive={c} /></mesh>
+          </Anim>
+          {/* conversation pulses */}
+          <PulseRing y={0.52} color={c} max={0.9} period={1.6} />
           {/* small screen */}
           <mesh position={[0.18, 0.62, 0]} rotation={[0, -0.4, 0]}><boxGeometry args={[0.14, 0.2, 0.02]} /><M color={DARK} /></mesh>
           {/* care doll */}
-          <mesh position={[0.2, 0.58, 0.12]}><sphereGeometry args={[0.07, 12, 12]} /><M color="#f3c1c6" /></mesh>
-          <mesh position={[0.2, 0.68, 0.12]}><sphereGeometry args={[0.05, 12, 12]} /><M color="#f7dccc" /></mesh>
+          <Anim position={[0.2, 0.52, 0.12]} fn={(g, t) => void (g.rotation.z = Math.sin(t * 2) * 0.3)}>
+            <mesh position={[0, 0.06, 0]}><sphereGeometry args={[0.07, 12, 12]} /><M color="#f3c1c6" /></mesh>
+            <mesh position={[0, 0.16, 0]}><sphereGeometry args={[0.05, 12, 12]} /><M color="#f7dccc" /></mesh>
+          </Anim>
         </group>
       );
     case 'exoskeleton':
@@ -332,12 +403,12 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
           <group position={[0, 0, 0]}>
             <mesh position={[0, 0.82, 0]} castShadow><capsuleGeometry args={[0.15, 0.35, 6, 12]} /><M color="#e7c2a6" /></mesh>
             <mesh position={[0, 1.22, 0]}><sphereGeometry args={[0.12, 16, 16]} /><M color="#e7c2a6" /></mesh>
-            {[-0.09, 0.09].map((x) => (
-              <group key={x}>
-                <mesh position={[x, 0.3, 0]}><capsuleGeometry args={[0.06, 0.45, 4, 8]} /><M color="#3d5a8c" /></mesh>
-                <mesh position={[x * 1.5, 0.3, 0]}><boxGeometry args={[0.04, 0.5, 0.1]} /><M color={c} /></mesh>
-                <mesh position={[x * 1.5, 0.55, 0]}><sphereGeometry args={[0.05]} /><M color={DARK} /></mesh>
-              </group>
+            {[-0.09, 0.09].map((x, i) => (
+              <Swing key={x} pivot={[x, 0.6, 0]} phase={i * Math.PI} amp={0.35} speed={3}>
+                <mesh position={[0, -0.3, 0]}><capsuleGeometry args={[0.06, 0.45, 4, 8]} /><M color="#3d5a8c" /></mesh>
+                <mesh position={[x * 0.5, -0.3, 0]}><boxGeometry args={[0.04, 0.5, 0.1]} /><M color={c} /></mesh>
+                <mesh position={[x * 0.5, -0.05, 0]}><sphereGeometry args={[0.05]} /><M color={DARK} /></mesh>
+              </Swing>
             ))}
             <mesh position={[0, 0.6, 0]}><torusGeometry args={[0.17, 0.03, 8, 24]} /><M color={c} /></mesh>
           </group>
@@ -358,6 +429,9 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
               <meshStandardMaterial color={c} transparent opacity={0.6 - r * 0.4} />
             </mesh>
           ))}
+          {/* signal broadcasting out from the mast */}
+          <PulseRing y={1.65} color={c} max={1.6} period={2.4} />
+          <PulseRing y={1.65} color={c} max={1.6} period={2.4} delay={1.2} />
           {/* landing pads */}
           {[-0.6, 0.6].map((x) => (
             <mesh key={x} position={[x, 0.03, 0.3]}><cylinderGeometry args={[0.22, 0.22, 0.04, 20]} /><M color={DARK} /></mesh>
@@ -372,7 +446,16 @@ export function Model({ kind, color, highlight }: { kind: ModelKind; color: stri
 }
 
 /** Models that roll back and forth across their tile. */
-export const MOVING: ModelKind[] = ['sidewalk-robot', 'hybrid-robot', 'delivery-van', 'mower', 'line-painter', 'cleaning-robot', 'sand-rover', 'hospital-cart', 'quadruped', 'patrol-robot'];
+export const MOVING: ModelKind[] = [
+  'sidewalk-robot', 'hybrid-robot', 'delivery-van', 'mower', 'line-painter', 'cleaning-robot', 'sand-rover',
+  'hospital-cart', 'quadruped', 'patrol-robot', 'warehouse-robot', 'humanoid', 'exoskeleton', 'telepresence', 'uv-robot',
+];
+/** Moving models that keep facing the viewer instead of turning around (e.g. a screen). */
+export const NO_TURN: ModelKind[] = ['telepresence', 'uv-robot', 'warehouse-robot'];
+/** Moving models whose front is +z (people-shaped), so they turn to face the direction they walk. */
+export const FACES_Z: ModelKind[] = ['humanoid', 'exoskeleton'];
+/** Slower walkers. */
+export const SLOW: ModelKind[] = ['exoskeleton', 'uv-robot', 'telepresence'];
 /** Models that float above the tile. */
 export const FLYING: ModelKind[] = ['drone'];
 /** Models that bob on water. */

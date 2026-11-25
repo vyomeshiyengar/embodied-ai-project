@@ -10,7 +10,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { Department, TypeItem } from '../../data/schema';
 import ZoneTile, { TILE } from './ZoneTile';
 import Landscape, { AreaLabel } from './Landscape';
-import { Model, MOVING, FLYING, FLOATING } from './models';
+import { Model, MOVING, FLYING, FLOATING, NO_TURN, FACES_Z, SLOW } from './models';
 
 const GAP = 0.9;
 
@@ -93,13 +93,19 @@ function Item({ placed, color, selected, onSelect, index, flyHeight = 1.6 }: { p
     if (!g) return;
     const t = clock.elapsedTime + phase;
     if (MOVING.includes(kind)) {
-      const s = Math.sin(t * 0.5);
-      g.position.x = s * 0.5;
-      g.rotation.y = Math.cos(t * 0.5) >= 0 ? 0 : Math.PI;
+      const speed = SLOW.includes(kind) ? 0.3 : 0.5;
+      g.position.x = Math.sin(t * speed) * 0.6;
+      const forward = Math.cos(t * speed) >= 0;
+      if (FACES_Z.includes(kind)) g.rotation.y = forward ? Math.PI / 2 : -Math.PI / 2;
+      else if (!NO_TURN.includes(kind)) g.rotation.y = forward ? 0 : Math.PI;
     } else if (FLYING.includes(kind)) {
-      g.position.y = flyHeight + Math.sin(t * 1.4) * 0.12;
-      g.rotation.y = Math.sin(t * 0.3) * 0.4;
+      // fly a small loop so drones read as moving even from the overview
+      g.position.x = Math.cos(t * 0.7) * 0.8;
+      g.position.z = Math.sin(t * 0.7) * 0.8;
+      g.position.y = flyHeight + Math.sin(t * 1.4) * 0.15;
+      g.rotation.y = -t * 0.7;
     } else if (FLOATING.includes(kind)) {
+      g.position.x = Math.sin(t * 0.3) * 0.9;
       g.position.y = Math.sin(t * 1.2) * 0.03;
       g.rotation.z = Math.sin(t * 0.9) * 0.04;
     }
