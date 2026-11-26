@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/url';
+---
+<Base title="Page not found">
+  <div class="container section prose">
+    <h1>Page not found</h1>
+    <p class="lede">This page doesn't exist, or it moved while the prototype was being built.</p>
+    <p><a class="btn" href={href('/')}>Go to the start</a> <a class="btn secondary" href={href('/map/')}>Open the map</a></p>
+  </div>
+</Base>

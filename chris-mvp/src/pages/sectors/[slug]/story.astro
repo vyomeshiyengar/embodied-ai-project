@@ -1,0 +1,23 @@
+---
+/** Moved: "See it in action" and "Types" are now "In the city" (the 3D twin). Keeps #<type id> links working. */
+import { sectors, type Sector } from '../../../lib/content';
+import { sectorHref } from '../../../lib/url';
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+const to = sectorHref(s.slug, 'city');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>Moved to In the city</title>
+    <script is:inline define:vars={{ to }}>location.replace(to + location.hash);</script>
+  </head>
+  <body>
+    <main><h1>This page moved</h1><p><a href={to}>Open {s.name} in the city</a>.</p></main>
+  </body>
+</html>

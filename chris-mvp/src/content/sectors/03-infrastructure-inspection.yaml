@@ -1,0 +1,895 @@
+# Generated from docs/research/sectors/03-infrastructure-inspection-maintenance.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/03.mjs, then re-run. Do not invent facts.
+id: "03"
+slug: infrastructure-inspection
+name: Infrastructure Inspection & Maintenance
+short_name: Infrastructure
+owner: Maryam
+status: partial
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/03-infrastructure-inspection-maintenance.md
+  drive_url: https://docs.google.com/document/d/1LDzrI8kjftJjE9ogg_0V1k0KpJOcIrSUVBtI0ZHpIMI/edit
+liable_to_change: FAA Part 108 status, EU AI Act high-risk dates, EU Machinery Regulation start date, and each city's current program.
+one_liner: null
+overview:
+  summary: Inspection is one of the most developed use of embodied AI in city infrastructure.
+  points:
+    - Drones are widely used and often routine for bridges, façades, towers and power lines.
+    - Pipe and sewer crawlers have been commercial for decades--AI is now used to read footage.
+    - Legged robots, climbing robots and underwater vehicles are in pilots and early deployment.
+    - Robots that repair things (pothole filling, crack sealing, façade cleaning, live-gas-main repair) are earlier stage, mostly pilots and niche commercial products.
+    - Fully autonomous, citywide inspection fleets do not yet exist--most systems still have a human pilot or reviewer.
+  why_it_matters: Many cities have ageing infrastructure, tight budgets and a shortage of inspectors. Robots replace dangerous work (confined spaces, heights, live roads), make inspections cheaper and more frequent, and produce data that supports predictive maintenance. They also bring new things onto streets and into the air, create large data sets (images of private property), and make the city dependent on software, vendors and networks.
+  core_shift: null
+players: []
+terms:
+  - term: UAS / UAV / RPAS
+    definition: unmanned aircraft system, unmanned aerial vehicle, remotely piloted aircraft system. Three names for drones, used by different regulators.
+    sources: []
+  - term: ROV
+    definition: "remotely operated vehicle (underwater, tethered, human-driven). AUV: autonomous underwater vehicle (untethered, runs a mission by itself)."
+    sources: []
+  - term: Crawler
+    definition: a wheeled or tracked robot that travels inside a pipe or along a surface.
+    sources: []
+  - term: Tethered drone
+    definition: a drone attached by cable for power or safety.
+    sources: []
+  - term: Drone-in-a-box
+    definition: a drone that lives in a weatherproof station, launches and recharges without a person on site.
+    sources: []
+  - term: Legged robot
+    definition: a walking robot (for example Spot) able to handle stairs and rough ground.
+    sources: []
+  - term: VLOS
+    definition: "visual line of sight; the pilot can see the drone. BVLOS: beyond visual line of sight; the key legal step for routine autonomous inspection."
+    sources: []
+  - term: Remote ID
+    definition: a broadcast 'digital licence plate' for drones.
+    sources: []
+  - term: Geofence
+    definition: a software boundary that stops a robot entering an area.
+    sources: []
+  - term: UTM
+    definition: unmanned traffic management; software to coordinate many drones.
+    sources: []
+  - term: Teleoperation
+    definition: "a human controls the robot remotely. Human-in-the-loop: a person approves key decisions. Human-on-the-loop: a person monitors and can intervene."
+    sources: []
+  - term: Autonomy level
+    definition: a scale from fully manual to fully automatic mission execution.
+    sources: []
+  - term: LiDAR
+    definition: laser scanning that builds a 3D point cloud.
+    sources: []
+  - term: SLAM
+    definition: simultaneous localisation and mapping; how a robot builds a map and finds itself where GPS does not work.
+    sources: []
+  - term: Photogrammetry
+    definition: building 3D models from overlapping photos.
+    sources: []
+  - term: Thermography / infrared
+    definition: heat imaging used to find leaks, delamination and electrical faults.
+    sources: []
+  - term: GPR
+    definition: ground-penetrating radar for what is under a surface.
+    sources: []
+  - term: NDT / NDE
+    definition: non-destructive testing or evaluation (ultrasonic, magnetic, eddy-current methods) that checks condition without damaging the asset.
+    sources: []
+  - term: Computer vision / defect detection
+    definition: AI that classifies cracks, corrosion, spalling, root intrusion and so on.
+    sources: []
+  - term: Edge AI
+    definition: processing on the robot itself rather than in the cloud.
+    sources: []
+  - term: Anomaly detection
+    definition: finding patterns that differ from normal without being told exactly what to look for.
+    sources: []
+  - term: Digital twin
+    definition: a live digital copy of an asset updated by robot data.
+    sources: []
+  - term: SHM
+    definition: structural health monitoring, combining permanent sensors and robot scans.
+    sources: []
+  - term: Predictive / condition-based maintenance
+    definition: repairing when data says a failure is coming, rather than on a fixed schedule.
+    sources: []
+  - term: ILI
+    definition: in-line inspection; tools that travel inside a pipeline.
+    sources: []
+  - term: BIM
+    definition: building information modelling; the digital model of a building or structure.
+    sources: []
+  - term: CCTV / NASSCO coding
+    definition: standard way to label sewer defects, which AI is being trained to apply.
+    sources: []
+  - term: Part 107 / specific category / certified category
+    definition: US and EU drone regulatory classes.
+    sources: []
+  - term: Waiver / exemption
+    definition: permission to go beyond standard rules.
+    sources: []
+  - term: Critical infrastructure
+    definition: assets whose failure would badly hurt society (energy, water, transport); a trigger for tighter security.
+    sources: []
+  - term: Incidental data
+    definition: information captured by accident, such as people in an inspection photo.
+    sources: []
+  - term: Dual use
+    definition: technology that can serve both civilian and hostile purposes.
+    sources: []
+  - term: Black swan
+    definition: a rare, severe event that is hard to predict.
+    sources: []
+types:
+  - id: t-inspection-drones-uas
+    name: Inspection drones (UAS)
+    zone: air
+    where: "Air: bridges, façades, towers, dams, roofs, power lines"
+    how: null
+    uses: Visual and thermal imaging, LiDAR and photogrammetry, 3D models, crack and corrosion detection with AI
+    running_in: Minnesota DOT and other US state DOTs (bridges); Singapore (HDB façade checks); NYC (façades, under restrictions); Dubai; Shenzhen
+    city_response: null
+    progression: Drone-in-a-box stations launching without a pilot on site, BVLOS routes, automatic comparison with last year's scan, contact-based sensors (ultrasonic thickness) on drone arms
+    sources: []
+  - id: t-confined-space-and-tethered-drones
+    name: Confined-space and tethered drones
+    zone: air
+    where: Inside tunnels, sewers, culverts, tanks, boilers
+    how: null
+    uses: Inspection of places that are dark, GPS-denied and dangerous to enter
+    running_in: Used by utilities and tunnel operators in many countries
+    city_response: null
+    progression: Better SLAM, longer endurance, swarm mapping of whole tunnel networks
+    sources: []
+  - id: t-pipe-and-sewer-crawlers
+    name: Pipe and sewer crawlers
+    zone: water
+    where: "Underground: sewers, storm drains, water mains"
+    how: null
+    uses: CCTV and sonar inspection, AI defect coding, flow and sediment mapping
+    running_in: Pittsburgh and Louisville (utilities have used RedZone-type crawlers); many large sewer authorities
+    city_response: null
+    progression: Autonomous, fast, repeated surveys; real-time defect scoring; cleaning and light repair from the same robot
+    sources: []
+  - id: t-in-pipe-live-gas-robots
+    name: In-pipe live-gas robots
+    zone: building
+    where: Underground gas mains under streets
+    how: null
+    uses: Joint sealing and inspection while gas is flowing, without digging up the road
+    running_in: New York (Con Edison/National Grid have worked with ULC's CISBOT), other US gas utilities
+    city_response: null
+    progression: Wider use to replace dig-and-replace programs, more repair functions, smaller pipe sizes
+    sources: []
+  - id: t-free-swimming-and-inline-inspection
+    name: Free-swimming and inline inspection tools
+    zone: water
+    where: Inside pressurized water and gas pipelines
+    how: null
+    uses: Leak detection, wall condition
+    running_in: North American and European water utilities
+    city_response: null
+    progression: Cheaper tools for smaller mains; AI leak prediction
+    sources: []
+  - id: t-legged-and-wheeled-ground-robots-e-g
+    name: Legged and wheeled ground robots (e.g., Spot)
+    zone: building
+    where: Substations, tunnels, plants, construction sites, nuclear sites
+    how: null
+    uses: Routine patrols, gauge reading, thermal checks, gas-leak sensing
+    running_in: Utilities, transit and nuclear sites (e.g., Sellafield, UK)
+    city_response: null
+    progression: Autonomous missions on schedule, door and stair handling, tool use (turning valves)
+    sources: []
+  - id: t-climbing-and-crawling-robots
+    name: Climbing and crawling robots
+    zone: street
+    where: Steel bridges, stay cables, towers, wind turbines, tanks
+    how: null
+    uses: Contact inspection, ultrasonic thickness, blade and cable checks, coating work
+    running_in: Offshore and onshore wind sites; bridge owners in Asia and Europe
+    city_response: null
+    progression: Combined inspect-and-repair units; magnetic and cable climbers working in teams
+    sources: []
+  - id: t-underwater-vehicles-rov-auv
+    name: Underwater vehicles (ROV/AUV)
+    zone: water
+    where: Piers, dams, harbours, water tunnels, intakes
+    how: null
+    uses: Scour, concrete and steel condition, debris and blockage checks
+    running_in: Port authorities, dam owners, water utilities
+    city_response: null
+    progression: Autonomous inspection loops, sonar plus AI mapping, hull-and-pier digital twins
+    sources: []
+  - id: t-sensor-equipped-municipal-vehicles
+    name: Sensor-equipped municipal vehicles
+    zone: street
+    where: Streets
+    how: null
+    uses: Road-surface condition scoring using cameras (RoadBotics, Vialytics) mounted on city vehicles or phones
+    running_in: Pittsburgh (RoadBotics origin) and many US and European cities
+    city_response: null
+    progression: Continuous scanning by refuse trucks and buses; automatic work orders
+    sources: []
+  - id: t-autonomous-road-maintenance-equipmen
+    name: Autonomous road-maintenance equipment
+    zone: street
+    where: Roads and work zones
+    how: null
+    uses: Cone placement, crash-attenuator trucks, crack sealing, line painting, pothole repair
+    running_in: Colorado DOT (autonomous attenuator truck); Leeds, UK (Self-Repairing Cities research)
+    city_response: null
+    progression: Fully driverless work-zone convoys; drones that spot and repair potholes; repair triggered by the inspection data
+    sources: []
+  - id: t-fa-ade-and-high-rise-maintenance-rob
+    name: Façade and high-rise maintenance robots
+    zone: building
+    where: Building exteriors
+    how: null
+    uses: Window cleaning, façade inspection, repainting
+    running_in: New York City (Skyline Robotics' Ozmo), Asian high-rise cities
+    city_response: null
+    progression: Wider adoption as swing-stage work is replaced, façade-law inspection by robot
+    sources: []
+  - id: t-power-line-robots-and-drones
+    name: Power-line robots and drones
+    zone: air
+    where: Overhead lines, poles, substations
+    how: null
+    uses: Line inspection, vegetation clearance, insulator checks, line crawling
+    running_in: Montréal/Québec (Hydro-Québec), wildfire-prone utilities in California
+    city_response: null
+    progression: Autonomous patrols after storms, live-line repair robots
+    sources: []
+  - id: t-rail-inspection-robots-and-drones
+    name: Rail inspection robots and drones
+    zone: air
+    where: Track, tunnels, overhead wires, stations
+    how: null
+    uses: Track geometry, tunnel lining, overhead-line checks
+    running_in: London (Network Rail drones and inspection trains), Japan and China rail operators
+    city_response: null
+    progression: Overnight autonomous inspection trains, predictive maintenance
+    sources: []
+risks:
+  - id: r03-l-crash-or-fly-away-over-people-or-tra
+    category: likely
+    title: Crash or fly-away over people or traffic
+    applies_to: Drones
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Pedestrians, drivers, bridge crews (children, people with limited mobility in crowded areas)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A drone loses GPS under a bridge deck and falls onto a road. Response: no-fly corridors over live traffic, drone parachutes, closing lanes for flights, battery and link checks"
+    sources: []
+    type_ids:
+      - t-inspection-drones-uas
+      - t-confined-space-and-tethered-drones
+      - t-power-line-robots-and-drones
+      - t-rail-inspection-robots-and-drones
+    all_types: false
+  - id: r03-l-privacy-intrusion-cameras-capture-ho
+    category: likely
+    title: "Privacy intrusion: cameras capture homes, backyards, people"
+    applies_to: Drones
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Residents near the asset (low-income and renter communities with less ability to object)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Façade or power-line flights record into windows; footage is kept indefinitely. Response: data minimisation, blur rules, short retention, public flight notices"
+    sources: []
+    type_ids:
+      - t-inspection-drones-uas
+      - t-power-line-robots-and-drones
+      - t-rail-inspection-robots-and-drones
+    all_types: false
+  - id: r03-b-cyber-attack-hijack-of-a-vehicle-or
+    category: black_swan
+    title: "Cyber-attack: hijack of a vehicle, or theft of inspection data that maps weak points of critical infrastructure"
+    applies_to: Drones and ground robots
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Whole city, utility customers, first responders
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Attacker spoofs GPS or takes over a drone near a substation; stolen reports show where a bridge is weakest. Response: encrypted links, vendor security audits, GPS-spoof detection, manual fallback inspection"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-l-false-negatives-ai-misses-a-crack-or
+    category: likely
+    title: "False negatives: AI misses a crack or leak, inspectors over-trust the model"
+    applies_to: All AI-driven inspection
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Anyone using the asset (bridge users, people near gas mains)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "An automated scan reports 'no defect' on a corroded gusset plate. Response: human sign-off on safety-critical findings, audit samples, publish accuracy rates"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-l-bias-and-gaps-robots-focus-on-easy-h
+    category: likely
+    title: "Bias and gaps: robots focus on easy, high-traffic or wealthier areas"
+    applies_to: All AI-driven inspection
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Poorer and peripheral neighbourhoods
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Road scoring covers main roads often and side streets rarely, so repair money follows the data. Response: equity audits of coverage and repair spending"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-l-robot-stuck-or-lost-in-a-pipe-toxic
+    category: likely
+    title: Robot stuck or lost in a pipe; toxic gas or ignition in confined spaces
+    applies_to: Sewer and pipe crawlers
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Utility crews sent to recover it; residents if a collapse follows
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A crawler jams in a main; crew entry is needed. Response: retrieval tethers, intrinsically safe equipment, no-entry rules"
+    sources: []
+    type_ids:
+      - t-pipe-and-sewer-crawlers
+      - t-in-pipe-live-gas-robots
+      - t-free-swimming-and-inline-inspection
+      - t-confined-space-and-tethered-drones
+    all_types: false
+  - id: r03-b-repair-failure-or-sensor-error-cause
+    category: black_swan
+    title: Repair failure or sensor error causes a leak, fire or explosion
+    applies_to: In-pipe live-gas robots
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Residents, first responders, nearby buildings
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A sealing robot misjudges a joint and gas builds up under a street. Response: redundant leak sensing, shutdown valves, hot-work style permits, fire department briefings"
+    sources: []
+    type_ids:
+      - t-in-pipe-live-gas-robots
+    all_types: false
+  - id: r03-l-collisions-with-workers-tripping-haz
+    category: likely
+    title: Collisions with workers, tripping hazards, robot falling on equipment
+    applies_to: Legged and wheeled robots
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Utility and transit workers, passers-by
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A patrol robot blocks a station walkway during rush hour. Response: speed limits, safety-rated stops, signage, schedules outside peak hours"
+    sources: []
+    type_ids:
+      - t-legged-and-wheeled-ground-robots-e-g
+    all_types: false
+  - id: r03-l-fall-of-robot-or-tool-from-height
+    category: likely
+    title: Fall of robot or tool from height
+    applies_to: Climbing and façade robots
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: People below, building occupants
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A cleaning rig malfunctions on a tower. Response: exclusion zones below, redundant anchoring, wind limits"
+    sources: []
+    type_ids:
+      - t-climbing-and-crawling-robots
+      - t-fa-ade-and-high-rise-maintenance-rob
+      - t-power-line-robots-and-drones
+    all_types: false
+  - id: r03-l-collision-with-workers-or-drivers-in
+    category: likely
+    title: Collision with workers or drivers in a work zone; misreading cones in poor weather
+    applies_to: Autonomous road equipment
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Road workers, motorists
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A driverless attenuator truck fails to slow in fog. Response: geofenced pilots, human supervisor in a chase vehicle, weather cut-offs"
+    sources: []
+    type_ids:
+      - t-autonomous-road-maintenance-equipmen
+    all_types: false
+  - id: r03-l-loss-of-vehicle-entanglement-in-dam
+    category: likely
+    title: Loss of vehicle; entanglement in dam or intake structures
+    applies_to: Underwater vehicles
+    likelihood: low
+    likelihood_label: Low
+    severity: medium
+    severity_label: Medium
+    who_affected: Dive teams, operators
+    most_vulnerable: []
+    worse_over_time: null
+    case: "An ROV snags in an intake and blocks flow. Response: tethers, recovery plans, coordination with operators"
+    sources: []
+    type_ids:
+      - t-underwater-vehicles-rov-auv
+    all_types: false
+  - id: r03-b-a-software-update-or-vendor-failure
+    category: black_swan
+    title: A software update or vendor failure disables every robot at once, or corrupts inspection records
+    applies_to: Whole fleet or vendor software
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: City inspection programme, safety regulators
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A bad update grounds the whole drone fleet on the day of a statutory inspection deadline. Response: staged roll-outs, rollback, manual backup crews, contract rights to code escrow"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-l-job-displacement-and-loss-of-inspect
+    category: likely
+    title: Job displacement and loss of inspector skills; deskilling
+    applies_to: Autonomy and workforce
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Inspectors, linemen, sewer crews (frontline and older workers)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Crews are cut as robots take over; later no one can judge a robot's findings. Response: retraining, human-in-the-loop standards, union consultation"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-b-cascading-failure-robots-feed-an-aut
+    category: black_swan
+    title: "Cascading failure: robots feed an automated maintenance system that makes wrong decisions across many assets"
+    applies_to: Connected infrastructure
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Utility customers, whole city
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A faulty model orders valve shutdowns across a water network. Response: human approval for physical actions, circuit breakers, simulation testing"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-b-robots-block-emergency-routes-or-com
+    category: black_swan
+    title: Robots block emergency routes or compete for airspace with first-responder drones
+    applies_to: Disasters
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: First responders, people being rescued
+    most_vulnerable: []
+    worse_over_time: null
+    case: "During a flood, inspection drones crowd the sky above the response area. Response: automatic grounding on emergency alert, shared airspace management"
+    sources: []
+    type_ids:
+      - t-inspection-drones-uas
+      - t-sensor-equipped-municipal-vehicles
+      - t-autonomous-road-maintenance-equipmen
+      - t-power-line-robots-and-drones
+    all_types: false
+  - id: r03-l-wind-heat-and-storms-cause-failures
+    category: likely
+    title: Wind, heat and storms cause failures; extreme weather increases both demand and error
+    applies_to: Weather and climate
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Operators, public near assets
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Heatwave drains batteries and sensors drift. Response: weather thresholds, heat-hardened designs"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r03-b-dual-use-inspection-drones-used-for
+    category: black_swan
+    title: "Dual use: inspection drones used for hostile reconnaissance or to carry payloads over critical sites"
+    applies_to: Misuse
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Critical-infrastructure sites, public
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A drone sold for inspection is modified. Response: geofencing, Remote ID enforcement, counter-drone planning"
+    sources: []
+    type_ids:
+      - t-inspection-drones-uas
+      - t-confined-space-and-tethered-drones
+      - t-power-line-robots-and-drones
+    all_types: false
+  - id: r03-l-system-wide-shut-down
+    category: likely
+    title: System-wide shut down
+    applies_to: All interconnected systems
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: City services, city infrastructure, anyone who benefits for the system
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Software/company issues lead to a blackout or shutdown, affecting the whole system. Response:"
+    sources: []
+    type_ids: []
+    all_types: true
+regulations:
+  rules:
+    - id: g-drone-aviation-us-faa-part-107-small-uas
+      name: FAA Part 107 (small UAS rules); waivers for night and beyond-visual-line-of-sight flights; proposed BVLOS rule (Part 108)
+      area: Drone aviation (US)
+      level: federal
+      level_label: Federal (FAA); cities cannot generally regulate airspace but can control city-owned launch and landing sites
+      status: proposed
+      covers: Pilot certification, altitude, flying over people, airspace permissions
+      falls_short: BVLOS and flights over people still need waivers; not designed for repeated autonomous fleets; pending rule status should be checked
+      sources: []
+    - id: g-drone-aviation-eu-uk-eu-regulation-2019
+      name: EU Regulation 2019/947 and 2019/945 (open, specific, certified categories); UK CAA UAS rules
+      area: Drone aviation (EU/UK)
+      level: international
+      level_label: EU and national aviation authorities
+      status: in_force
+      covers: Operator registration, risk assessment, Remote ID class markings
+      falls_short: Heavy paperwork for routine inspection; national differences
+      sources: []
+    - id: g-drones-in-other-regions-transport-canada
+      name: Transport Canada CARs Part IX; Japan's Civil Aeronautics Act (Level 4 flights from 2022); China's UAV flight management rules (2024); Singapore Air Navigation Act
+      area: Drones in other regions
+      level: international
+      level_label: National
+      status: in_force
+      covers: Registration, flight zones, operator rules
+      falls_short: Rules differ and change quickly
+      sources: []
+    - id: g-bridge-and-asset-inspection-us-national
+      name: US National Bridge Inspection Standards (23 CFR 650 subpart C) and FHWA guidance; Japan's five-year close-inspection rule
+      area: Bridge and asset inspection
+      level: federal
+      level_label: Federal/national with state or local owners
+      status: in_force
+      covers: Who must inspect, how often, qualifications
+      falls_short: Allow tools in principle but do not set robot data-quality or AI validation standards
+      sources: []
+    - id: g-pipeline-and-gas-safety-phmsa-49-cfr-par
+      name: PHMSA 49 CFR Parts 192 and 195; EU ATEX rules for explosive atmospheres
+      area: Pipeline and gas safety
+      level: federal
+      level_label: Federal (PHMSA) with state regulators
+      status: in_force
+      covers: Operation and testing of pipelines, equipment in hazardous areas
+      falls_short: Not written for in-pipe robots doing repairs
+      sources: []
+    - id: g-workplace-safety-osha-confined-space-rul
+      name: OSHA confined-space rule (29 CFR 1910.146) and general duty clause; UK Confined Spaces Regulations 1997 and Health and Safety at Work Act; EU Machinery Regulation (EU) 2023/1230 (applies from 2027)
+      area: Workplace safety
+      level: federal
+      level_label: Federal (OSHA) and state plans; EU and national
+      status: in_force
+      covers: Worker entry, equipment safety, machine design
+      falls_short: Do not cover human-robot teamwork or algorithm-driven work pace in detail
+      sources: []
+    - id: g-product-liability-and-insurance-state-pr
+      name: State product-liability law; EU Product Liability Directive (revised); insurance requirements for drone operators
+      area: Product liability and insurance
+      level: state
+      level_label: State / national
+      status: in_force
+      covers: Who pays when a robot causes harm
+      falls_short: Unclear split between manufacturer, software provider, city and contractor
+      sources: []
+    - id: g-privacy-and-surveillance-state-drone-pri
+      name: State drone-privacy laws (e.g., Texas Government Code ch. 423, Florida's Freedom from Unwarranted Surveillance Act); state privacy statutes (CCPA); GDPR; UK data protection law
+      area: Privacy and surveillance
+      level: state
+      level_label: State/national
+      status: in_force
+      covers: Images of people and private property, retention and sharing
+      falls_short: Inspection images of buildings are often 'incidental data'; weak rules on retention and secondary police use
+      sources: []
+    - id: g-local-rules-nyc-admin-code-restrictions
+      name: NYC Admin Code restrictions on aircraft take-off and landing; permits for sidewalk and street work; zoning
+      area: Local rules
+      level: city
+      level_label: City
+      status: in_force
+      covers: Where robots can launch, land or work
+      falls_short: Patchwork; cities lack authority over airspace
+      sources: []
+    - id: g-critical-infrastructure-and-cyber-nis2-e
+      name: NIS2 (EU), CISA guidance and TSA pipeline security directives (US), national drone-bans near critical sites
+      area: Critical-infrastructure and cyber
+      level: federal
+      level_label: Federal/national
+      status: in_force
+      covers: Security duties for operators, protection of sensitive sites
+      falls_short: Seldom mention inspection robots or robot supply chains
+      sources: []
+    - id: g-ai-law-eu-ai-act-high-risk-status-if-rob
+      name: EU AI Act (high-risk status if robot is a safety component of regulated machinery); US sector-regulator and state-law approach; China's layered rules
+      area: AI law
+      level: federal
+      level_label: EU/national; federal and state in the US
+      status: in_force
+      covers: Risk management, transparency, human oversight
+      falls_short: Most inspection robots are not clearly classed; timelines for high-risk rules have been shifting
+      sources: []
+    - id: g-accessibility-ada-and-equivalent-laws
+      name: ADA and equivalent laws
+      area: Accessibility
+      level: federal
+      level_label: Federal, state, city
+      status: in_force
+      covers: Sidewalk and facility access
+      falls_short: No guidance on robots obstructing accessible routes
+      sources: []
+  gaps:
+    - Validation standards for AI defect detection, and who is responsible for a missed defect.
+    - Rules for autonomous repair robots operating on live utilities or in public streets.
+    - Privacy limits and retention rules for incidental images of people and homes.
+    - Coordination of many robots and drones in the same area, including disaster situations.
+    - Cyber-security requirements for robot fleets and vendor update processes.
+    - Worker protections when robots change jobs, and liability for human-robot teams.
+case_studies:
+  - id: c-g03-singapore-pub-drain-drones
+    title: Drones inspect closed drains so workers don't go in
+    place: Singapore
+    kind: international
+    pittsburgh: false
+    pin_id: p-g03-singapore-pub-drain-drones
+    fields:
+      - label: What happened
+        text: Singapore's water agency PUB flies autonomous drones through dark, GPS-denied closed drains to take images without sending people in, and is seeking robots to inspect the Deep Tunnel Sewerage System.
+      - label: Response
+        text: PUB runs open innovation challenges for drain and tunnel inspection and says it will use a mix of robot types.
+      - label: When
+        text: "2024"
+    sources: &a1
+      - s-g03-singapore-pub-drain-drones-1
+      - s-g03-singapore-pub-drain-drones-2
+pins:
+  - id: p-new-york-city-ny
+    place: New York City, NY
+    lat: 40.71
+    lng: -74.01
+    what: Skyline Robotics' Ozmo in façade work; ULC Robotics and utilities working on live-gas-main robots; drones for façade and bridge work
+    response_type: Local Law 11 façade inspections create demand; city restricts drone take-off and landing; utilities use permits and pilots
+    tags: []
+    approx: true
+    sources: []
+  - id: p-pittsburgh-pa
+    place: Pittsburgh, PA
+    lat: 40.44
+    lng: -80
+    what: RoadBotics (AI road-condition scoring) began here; sewer authority has used crawler robots
+    response_type: Use of data in capital planning; procurement-led adoption without bespoke robot law
+    tags: []
+    approx: true
+    sources: []
+  - id: p-minnesota-dot
+    place: Minnesota DOT
+    lat: 44.95
+    lng: -93.09
+    what: Drone bridge inspection (Minnesota); driverless attenuator trucks (Colorado)
+    response_type: DOT programmes and FHWA guidance; small pilots before scaling
+    tags: []
+    approx: true
+    sources: []
+  - id: p-colorado-dot
+    place: Colorado DOT
+    lat: 39.74
+    lng: -104.99
+    what: Drone bridge inspection (Minnesota); driverless attenuator trucks (Colorado)
+    response_type: DOT programmes and FHWA guidance; small pilots before scaling
+    tags: []
+    approx: true
+    sources: []
+  - id: p-leeds-uk
+    place: Leeds, UK
+    lat: 53.8
+    lng: -1.55
+    what: University of Leeds Self-Repairing Cities research on drones that find and repair potholes and utility faults
+    response_type: Research funding and trials; relies on existing CAA and highway rules
+    tags: []
+    approx: true
+    sources: []
+  - id: p-london-uk
+    place: London, UK
+    lat: 51.51
+    lng: -0.13
+    what: Network Rail uses drones and inspection systems on tracks and structures
+    response_type: CAA operational authorisations plus health and safety law
+    tags: []
+    approx: true
+    sources: []
+  - id: p-singapore
+    place: Singapore
+    lat: 1.35
+    lng: 103.82
+    what: HDB drone façade checks; PUB and LTA robots for drains and viaducts; research via NUS and NTU
+    response_type: Government-led regulated sandbox, strict drone licensing, PDPA data rules
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tokyo-japan
+    place: Tokyo, Japan
+    lat: 35.68
+    lng: 139.69
+    what: Bridge and tunnel inspection robots supported by the transport ministry's robot catalogue; Level 4 drone flights allowed from 2022
+    response_type: National five-year close-inspection law, government guidance that lets robots substitute for human close visual checks
+    tags: []
+    approx: true
+    sources: []
+  - id: p-shenzhen-china
+    place: Shenzhen, China
+    lat: 22.54
+    lng: 114.06
+    what: Large drone ecosystem used for infrastructure and city management
+    response_type: Shenzhen low-altitude economy regulations (2023) and national UAV rules; city actively promoting use
+    tags: []
+    approx: true
+    sources: []
+  - id: p-montr-al-qc
+    place: Montréal, QC
+    lat: 45.5
+    lng: -73.57
+    what: Hydro-Québec's LineScout and LineRanger line robots
+    response_type: Utility-led R&D under Transport Canada and provincial rules
+    tags: []
+    approx: true
+    sources: []
+  - id: p-dubai-uae
+    place: Dubai, UAE
+    lat: 25.2
+    lng: 55.27
+    what: Municipality and utilities use drones for inspection and building checks
+    response_type: Government-led authorisations and drone zones
+    tags: []
+    approx: true
+    sources: []
+  - id: p-g03-singapore-pub-drain-drones
+    place: Singapore
+    lat: 1.3521
+    lng: 103.8198
+    what: Singapore's water agency PUB flies autonomous drones through dark, GPS-denied closed drains to take images without sending people in, and is seeking robots to inspect the Deep Tunnel Sewerage System.
+    response_type: PUB runs open innovation challenges for drain and tunnel inspection and says it will use a mix of robot types.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a1
+places:
+  - place: New York City, USA
+    note: Skyline Robotics' Ozmo in façade work; ULC Robotics and utilities working on live-gas-main robots; drones for façade and bridge work — Local Law 11 façade inspections create demand; city restricts drone take-off and landing; utilities use permits and pilots
+    sources: []
+  - place: Pittsburgh, USA
+    note: RoadBotics (AI road-condition scoring) began here; sewer authority has used crawler robots — Use of data in capital planning; procurement-led adoption without bespoke robot law
+    sources: []
+  - place: Minnesota and Colorado, USA (state DOTs)
+    note: Drone bridge inspection (Minnesota); driverless attenuator trucks (Colorado) — DOT programmes and FHWA guidance; small pilots before scaling
+    sources: []
+  - place: Leeds, UK
+    note: University of Leeds Self-Repairing Cities research on drones that find and repair potholes and utility faults — Research funding and trials; relies on existing CAA and highway rules
+    sources: []
+  - place: London, UK
+    note: Network Rail uses drones and inspection systems on tracks and structures — CAA operational authorisations plus health and safety law
+    sources: []
+  - place: Singapore
+    note: HDB drone façade checks; PUB and LTA robots for drains and viaducts; research via NUS and NTU — Government-led regulated sandbox, strict drone licensing, PDPA data rules
+    sources: []
+  - place: Tokyo and Japan
+    note: Bridge and tunnel inspection robots supported by the transport ministry's robot catalogue; Level 4 drone flights allowed from 2022 — National five-year close-inspection law, government guidance that lets robots substitute for human close visual checks
+    sources: []
+  - place: Shenzhen, China
+    note: Large drone ecosystem used for infrastructure and city management — Shenzhen low-altitude economy regulations (2023) and national UAV rules; city actively promoting use
+    sources: []
+  - place: Montréal / Québec, Canada
+    note: Hydro-Québec's LineScout and LineRanger line robots — Utility-led R&D under Transport Canada and provincial rules
+    sources: []
+  - place: Dubai, UAE
+    note: Municipality and utilities use drones for inspection and building checks — Government-led authorisations and drone zones
+    sources: []
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-g03-singapore-pub-drain-drones-1
+    publisher: PUB
+    title: Smart Drain Inspector (Global Innovation Challenge 2023)
+    url: https://pub.gov.sg/Industry/Events%20and%20Programmes/Global%20Innovation%20Challenge/Challenges/2023/Smart%20Drain%20Inspector
+  - id: s-g03-singapore-pub-drain-drones-2
+    publisher: PUB
+    title: Condition Assessment of Deep Tunnel Sewerage System Tunnel (Global Innovation Challenge 2024)
+    url: https://pub.gov.sg/Industry/Events%20and%20Programmes/Global%20Innovation%20Challenge/Challenges/2024/Condition%20Assessment%20of%20Deep%20Tunnel%20Sewerage%20System%20Tunnel
+todos:
+  - Risk "System-wide shut down" has category "in between"; treated as likely. Owner to confirm.
+  - 'Needs source: type "Inspection drones (UAS)"'
+  - 'Needs source: type "Confined-space and tethered drones"'
+  - 'Needs source: type "Pipe and sewer crawlers"'
+  - 'Needs source: type "In-pipe live-gas robots"'
+  - 'Needs source: type "Free-swimming and inline inspection tools"'
+  - 'Needs source: type "Legged and wheeled ground robots (e.g., Spot)"'
+  - 'Needs source: type "Climbing and crawling robots"'
+  - 'Needs source: type "Underwater vehicles (ROV/AUV)"'
+  - 'Needs source: type "Sensor-equipped municipal vehicles"'
+  - 'Needs source: type "Autonomous road-maintenance equipment"'
+  - 'Needs source: type "Façade and high-rise maintenance robots"'
+  - 'Needs source: type "Power-line robots and drones"'
+  - 'Needs source: type "Rail inspection robots and drones"'
+  - 'Needs source: risk "Crash or fly-away over people or traffic"'
+  - 'Needs source: risk "Privacy intrusion: cameras capture homes, backyards, people"'
+  - 'Needs source: risk "Cyber-attack: hijack of a vehicle, or theft of inspection da"'
+  - 'Needs source: risk "False negatives: AI misses a crack or leak, inspectors over-"'
+  - 'Needs source: risk "Bias and gaps: robots focus on easy, high-traffic or wealthi"'
+  - 'Needs source: risk "Robot stuck or lost in a pipe; toxic gas or ignition in conf"'
+  - 'Needs source: risk "Repair failure or sensor error causes a leak, fire or explos"'
+  - 'Needs source: risk "Collisions with workers, tripping hazards, robot falling on "'
+  - 'Needs source: risk "Fall of robot or tool from height"'
+  - 'Needs source: risk "Collision with workers or drivers in a work zone; misreading"'
+  - 'Needs source: risk "Loss of vehicle; entanglement in dam or intake structures"'
+  - 'Needs source: risk "A software update or vendor failure disables every robot at "'
+  - 'Needs source: risk "Job displacement and loss of inspector skills; deskilling"'
+  - 'Needs source: risk "Cascading failure: robots feed an automated maintenance syst"'
+  - 'Needs source: risk "Robots block emergency routes or compete for airspace with f"'
+  - 'Needs source: risk "Wind, heat and storms cause failures; extreme weather increa"'
+  - 'Needs source: risk "Dual use: inspection drones used for hostile reconnaissance "'
+  - 'Needs source: risk "System-wide shut down"'
+  - 'Needs source: rule "FAA Part 107 (small UAS rules); waivers for night and beyond"'
+  - 'Needs source: rule "EU Regulation 2019/947 and 2019/945 (open, specific, certifi"'
+  - "Needs source: rule \"Transport Canada CARs Part IX; Japan's Civil Aeronautics Act\""
+  - 'Needs source: rule "US National Bridge Inspection Standards (23 CFR 650 subpart "'
+  - 'Needs source: rule "PHMSA 49 CFR Parts 192 and 195; EU ATEX rules for explosive "'
+  - 'Needs source: rule "OSHA confined-space rule (29 CFR 1910.146) and general duty "'
+  - 'Needs source: rule "State product-liability law; EU Product Liability Directive "'
+  - 'Needs source: rule "State drone-privacy laws (e.g., Texas Government Code ch. 42"'
+  - 'Needs source: rule "NYC Admin Code restrictions on aircraft take-off and landing"'
+  - 'Needs source: rule "NIS2 (EU), CISA guidance and TSA pipeline security directive"'
+  - 'Needs source: rule "EU AI Act (high-risk status if robot is a safety component o"'
+  - 'Needs source: rule "ADA and equivalent laws"'
+  - 'Needs source: pin "New York City, NY"'
+  - 'Needs source: pin "Pittsburgh, PA"'
+  - 'Needs source: pin "Minnesota DOT"'
+  - 'Needs source: pin "Colorado DOT"'
+  - 'Needs source: pin "Leeds, UK"'
+  - 'Needs source: pin "London, UK"'
+  - 'Needs source: pin "Singapore"'
+  - 'Needs source: pin "Tokyo, Japan"'
+  - 'Needs source: pin "Shenzhen, China"'
+  - 'Needs source: pin "Montréal, QC"'
+  - 'Needs source: pin "Dubai, UAE"'

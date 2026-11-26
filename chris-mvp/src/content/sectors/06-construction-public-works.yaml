@@ -1,0 +1,245 @@
+# Generated from docs/research/sectors/06-construction-public-works.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/06.mjs, then re-run. Do not invent facts.
+id: "06"
+slug: construction-public-works
+name: Construction & Public Works
+short_name: Construction
+owner: Ruth
+status: partial
+as_of: 2026-11-24
+source_doc:
+  path: docs/research/sectors/06-construction-public-works.md
+  drive_url: https://docs.google.com/document/d/1NKyV2OJuDvTyK0FunOeqRFLA1-JvJIUdUeAizbs6Uys/edit
+liable_to_change: null
+one_liner: null
+overview:
+  summary: null
+  points: []
+  why_it_matters: null
+  core_shift: null
+players: []
+terms: []
+types:
+  - id: t-autonomous-mobile-robots
+    name: Autonomous mobile robots
+    zone: street
+    where: On construction sites
+    how: They have the ability to navigate complex environments. They create a digital map of the work space with a process called Simultaneous Localization and mapping. It uses its sensors to determine process location within the map. The algorithm will figure out the best path to take and this ability is powered by advanced sensors, AI and real time data. It is able to pick things up and surrey and load. Manually moving items, loading them could be dangerous so this saves time for the construction workers. Project could be done at a much faster pace
+    uses: They are used to carry, load, survey materials throughout the construction site. Manually this is usually dangerous and time-consuming surveying.
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+  - id: t-robotic-arms-and-exoskeletons
+    name: Robotic Arms and Exoskeletons
+    zone: street
+    where: Construction sites
+    how: A robotic exoskeleton, controlled by a trained human operator, can move heavy rubble. It can deliver the ability to do repetitive operations over long periods of time without tiring. Operating heavy portable tools or equipment, for example, can be done for much longer periods, It can also support back for carrying and sustained forward flexion; shoulder and arm support for overhead drilling, fastening and panel installation; and lower and limb support for prolonged stopping or sit-stand assistance.
+    uses: Robotic arms are used to help workers lift and balance heavy tools needed and exoskeletons help prevent workers from injuries and fatigue from repetitive strain or overexertion.
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+  - id: t-drones-and-uavs
+    name: Drones and UAVs
+    zone: air
+    where: Construction sites
+    how: They use Cameras, plus LIDARs.. The data gets processed into stitched aerial maps, 3D models, terrain maps and cut-and-fill volume calculations. parsons Software compares what the drone captured against plans or earlier flights. The drone flies the site and captures images, usually along set routes. It doesn't build or repair anything.It reaches places that are risky or costly for people. Cities use drones for surveying, bridge inspections, water main repairs and roadway construction, mainly because they save time, money and manpower.
+    uses: They are used to fulfill monitoring and inspection tasks and have a capability to operate at different heights. They also are able to navigate challenging terrains and access remote locations. With the use of Drones and UAV’s workers are able to minimize reliance on heavy machinery, such as cranes.
+    running_in: null
+    city_response: null
+    progression: null
+    sources:
+      - s-parsons-com-drones
+  - id: t-3d-printing-robots
+    name: 3D Printing Robots
+    zone: street
+    where: Public works, construction
+    how: The robots track their position against a digital plan. In multi-robot printing, a computer-designed map assigns printing sections to each robot, and precise location positioning makes sure the joints between parts overlap. The machine follows the digital model of the structure, working out where each layer goes. It's more like following a plan than reacting to surprises.The machine sits on a real site, and it needs specially designed concrete because traditional concrete mixes jam and damage the printer. Cities have started using it.
+    uses: It can be used for printing concrete, attaching welders or stack bricks and rebar. It makes many tedious tasks more automated.
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+  - id: t-ai-powered-inspection-robots
+    name: AI-Powered Inspection Robots
+    zone: street
+    where: roofing, construction, public works
+    how: null
+    uses: To collect visual, thermal, acoustic, or 3D data to spot defects and track progress. Also built to evaluate structures, utilities, and job sites.
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+risks: []
+regulations:
+  rules:
+    - id: g-building-codes-and-permits-3d-printing-b
+      name: Building codes and permits (3D printing)
+      area: Building codes and permits (3D printing)
+      level: city
+      level_label: Local building officials
+      status: in_force
+      covers: A new standard, ICC 1150, was approved in July 2026. It sets rules for the materials, inspection and design of 3D printed walls. Before that, builders had to use a special approval route because 3D printing was not in the building code.
+      falls_short: It covers the wall, not worker safety around the printer. Cities also have to adopt it, because local governments adopt and enforce building codes.
+      sources: []
+    - id: g-workplace-safety-assembly-demolition-hea
+      name: Workplace safety (assembly, demolition, heavy equipment)
+      area: Workplace safety (assembly, demolition, heavy equipment)
+      level: federal
+      level_label: Federal (OSHA)
+      status: in_force
+      covers: OSHA has no specific standards for robotics. It uses general rules like machine safeguarding and lockout/tagout. ANSI and ISO standards act as guidance and are voluntary unless OSHA adopts them.
+      falls_short: ISO 10218 does not apply to non-industrial robots, including remote-controlled ones, so demolition robots may be left out. Most standards were written for factories, not open job sites.
+      sources: []
+    - id: g-drones-drones
+      name: Drones
+      area: Drones
+      level: federal
+      level_label: Federal (FAA)
+      status: in_force
+      covers: Under Part 107, you need a remote pilot certificate or be supervised by someone who has one. Flights beyond the pilot's sight generally need case-by-case waivers.
+      falls_short: The rule meant to replace waivers (Part 108) was under White House review, with no publication date announced as of September 2026. The FAA rules cover airspace, not a drone distracting a worker on a site.
+      sources: []
+    - id: g-eu-machinery-regulation-2023-1230-eu-mac
+      name: EU Machinery Regulation 2023/1230
+      area: EU Machinery Regulation 2023/1230
+      level: international
+      level_label: null
+      status: in_force
+      covers: It sets health and safety requirements for designing and building machinery sold in the EU. It replaces the older Machinery Directive. It also aims to cover new technologies such as autonomous mobile machinery (robots) and AI.
+      falls_short: null
+      sources: []
+    - id: g-building-codes-and-permits-3d-printing-r
+      name: Rule
+      area: Building codes and permits (3D printing)
+      level: state
+      level_label: null
+      status: in_force
+      covers: A new standard, ICC 1150, was approved in July 2026. It sets rules for the materials, inspection and design of 3D printed walls. Before that, builders had to use a special approval route because 3D printing was not in the building code.
+      falls_short: It covers the wall, not worker safety around the printer. Cities also have to adopt it, because local governments adopt and enforce building codes.
+      sources:
+        - s-iccsafe-org-building-safety-journal-bsj
+    - id: g-workplace-safety-assembly-demolition-hea
+      name: Rule
+      area: Workplace safety (assembly, demolition, heavy equipment)
+      level: state
+      level_label: null
+      status: in_force
+      covers: OSHA has no specific standards for robotics. It uses general rules like machine safeguarding and lockout/tagout. ANSI and ISO standards act as guidance and are voluntary unless OSHA adopts them.
+      falls_short: ISO 10218 does not apply to non-industrial robots, including remote-controlled ones, so demolition robots may be left out. Most standards were written for factories, not open job sites.
+      sources:
+        - s-osha-gov-robotics-standards
+        - s-osha-gov-laws-regs-standardinterpretatio
+        - s-automate-org-editorials-are-you-at-risk
+    - id: g-sidewalk-and-traffic-rules-rule
+      name: Rule
+      area: Sidewalk and traffic rules
+      level: state
+      level_label: null
+      status: in_force
+      covers: State laws for delivery robots say they must act like pedestrians and not unreasonably interfere with others. Texas limits speed to 10 mph in pedestrian areas.
+      falls_short: They are written for delivery robots. I found none for construction or public works robots.
+      sources:
+        - s-flsenate-gov-laws-statutes-2024-316-2071
+        - s-statutes-capitol-texas-gov-docs-tn-htm-t
+    - id: g-rule-eu
+      name: Rule (EU)
+      area: ""
+      level: international
+      level_label: null
+      status: in_force
+      covers: null
+      falls_short: null
+      sources:
+        - s-osha-europa-eu-en-legislation-directive
+        - s-single-market-economy-ec-europa-eu-secto
+  gaps: []
+case_studies:
+  - id: c-g06-dubai-office-of-the-future
+    title: A 3D printed office building
+    place: Emirates Towers, Dubai, United Arab Emirates
+    kind: international
+    pittsburgh: false
+    pin_id: p-g06-dubai-office-of-the-future
+    fields:
+      - label: What happened
+        text: The Office of the Future, about 250 square metres, was printed in 17 days with a large printer and robotic arm and opened in May 2016 as the Dubai Future Foundation's office.
+      - label: Response
+        text: Part of Dubai's 3D Printing Strategy to make the emirate a centre of 3D printing by 2030.
+      - label: When
+        text: 2016-05
+    sources: &a1
+      - s-g06-dubai-office-of-the-future-1
+      - s-g06-dubai-office-of-the-future-2
+pins:
+  - id: p-g06-dubai-office-of-the-future
+    place: Emirates Towers, Dubai, United Arab Emirates
+    lat: 25.2172
+    lng: 55.283
+    what: The Office of the Future, about 250 square metres, was printed in 17 days with a large printer and robotic arm and opened in May 2016 as the Dubai Future Foundation's office.
+    response_type: Part of Dubai's 3D Printing Strategy to make the emirate a centre of 3D printing by 2030.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a1
+places: []
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-parsons-com-drones
+    publisher: parsons.com
+    title: parsons.com
+    url: https://www.parsons.com/drones/
+  - id: s-iccsafe-org-building-safety-journal-bsj
+    publisher: iccsafe.org
+    title: iccsafe.org
+    url: https://www.iccsafe.org/building-safety-journal/bsj-technical/advancing-the-future-of-construction-a-new-standard-for-3d-printed-wall-systems
+  - id: s-osha-gov-robotics-standards
+    publisher: osha.gov
+    title: osha.gov
+    url: https://www.osha.gov/robotics/standards
+  - id: s-osha-gov-laws-regs-standardinterpretatio
+    publisher: osha.gov
+    title: osha.gov
+    url: https://www.osha.gov/laws-regs/standardinterpretations/2002-08-14
+  - id: s-automate-org-editorials-are-you-at-risk
+    publisher: automate.org
+    title: automate.org
+    url: https://www.automate.org/editorials/are-you-at-risk-of-osha-citations-for-robot-safety
+  - id: s-flsenate-gov-laws-statutes-2024-316-2071
+    publisher: flsenate.gov
+    title: flsenate.gov
+    url: https://www.flsenate.gov/Laws/Statutes/2024/316.2071
+  - id: s-statutes-capitol-texas-gov-docs-tn-htm-t
+    publisher: statutes.capitol.texas.gov
+    title: statutes.capitol.texas.gov
+    url: https://statutes.capitol.texas.gov/Docs/TN/htm/TN.552A.htm
+  - id: s-osha-europa-eu-en-legislation-directive
+    publisher: osha.europa.eu
+    title: osha.europa.eu
+    url: https://osha.europa.eu/en/legislation/directive/regulation-20231230eu-machinery
+  - id: s-single-market-economy-ec-europa-eu-secto
+    publisher: single-market-economy.ec.europa.eu
+    title: single-market-economy.ec.europa.eu
+    url: https://single-market-economy.ec.europa.eu/sectors/mechanical-engineering/machinery_da
+  - id: s-g06-dubai-office-of-the-future-1
+    publisher: Dubai Media Office
+    title: World's first 3D printed office building inaugurated
+    url: https://www.mediaoffice.ae/en/news/2016/5/mohammed-inaugurates-world-s-first-3d-printed-office-building
+    published: 2016-05-23
+  - id: s-g06-dubai-office-of-the-future-2
+    publisher: Thornton Tomasetti
+    title: Office of the Future
+    url: https://www.thorntontomasetti.com/project/office-future
+todos:
+  - Overview summary missing.
+  - 'Needs source: type "Autonomous mobile robots"'
+  - 'Needs source: type "Robotic Arms and Exoskeletons"'
+  - 'Needs source: type "3D Printing Robots"'
+  - 'Needs source: type "AI-Powered Inspection Robots"'
+  - 'Needs source: rule "Building codes and permits (3D printing)"'
+  - 'Needs source: rule "Workplace safety (assembly, demolition, heavy equipment)"'
+  - 'Needs source: rule "Drones"'
+  - 'Needs source: rule "EU Machinery Regulation 2023/1230"'

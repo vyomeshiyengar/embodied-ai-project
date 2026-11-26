@@ -1,0 +1,1511 @@
+# Generated from docs/research/sectors/01-autonomous-mobility.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/01.mjs, then re-run. Do not invent facts.
+id: "01"
+slug: autonomous-mobility
+name: Autonomous Mobility
+short_name: Mobility
+owner: Chris
+status: full
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/01-autonomous-mobility.md
+  drive_url: https://docs.google.com/document/d/1qlsIg6iLCNoZAEUD3EuarJwJqB6IGOHL8tFLf3nj6eM/edit
+liable_to_change: Waymo's city list, the status of the SELF DRIVE Act and BUILD America 250 Act in Congress, NHTSA's planned ADS performance standards, the DC Council bill, and China's pause on new robotaxi licenses.
+one_liner: one software system drives the whole fleet, so it fails together.
+overview:
+  summary: early commercial deployment, scaling fast in a handful of metros.
+  points:
+    - Robotaxis are a real commercial service, not a pilot. Waymo opened public rides in Dallas, Houston, San Antonio and Orlando in February 2026, bringing it to 10 US metros, and added Tampa, San Diego and Denver in September 2026 for 14 cities with public riders. It says it will pass 1 million paid trips a week by the end of 2026.
+    - Competitors are behind but moving. Tesla has run a robotaxi service in Austin since June 2025. Zoox (Amazon) runs paid rides in Las Vegas in a purpose-built vehicle with no steering wheel, including an airport route.
+    - Driverless freight is live on Texas highways. Pittsburgh-based Aurora runs driverless trucks between Dallas and Houston and Fort Worth and El Paso, and expects more than 200 driverless trucks by the end of 2026.
+    - Public transit is starting. Jacksonville's NAVI shuttle is the first autonomous service running inside a US public transit system.
+    - Outside the US, China (Baidu Apollo Go, Pony.ai, WeRide) and the Gulf (Dubai, Abu Dhabi) are the other scale markets. Tokyo and London are in supervised testing.
+  why_it_matters: "robotaxis change who is responsible on the street. There is no driver to ticket, question or direct. Cities feel this first through police and fire interactions, curb space, school zones, special events, labor fights and incident data they do not control. Most states have already taken authority away from cities (Texas, Pennsylvania, California), so a city's main levers are operational: maps, training, working groups, curb rules, data asks and public pressure."
+  core_shift: "a human driver is one person making one mistake. A robotaxi fleet is one software system driving thousands of cars. That makes the average trip safer (the evidence so far points that way for Waymo) but creates a new failure type: the whole fleet can fail at once, in the same way, at the same time."
+players:
+  - type: Robotaxi operators (US)
+    who: Waymo (Alphabet), Tesla, Zoox (Amazon), May Mobility, Avride, Nuro (tech supplier), Uber and Lyft as booking platforms
+  - type: Robotaxi operators (China, Gulf, Europe)
+    who: Baidu Apollo Go, Pony.ai, WeRide, Wayve (UK), Mobileye, Volkswagen MOIA
+  - type: Driverless trucks
+    who: Aurora (Pittsburgh HQ), Kodiak, Waabi, Plus, Bot Auto
+  - type: Transit shuttles and buses
+    who: Beep, Holon (building a plant in Jacksonville), May Mobility, Karsan, Volvo, Hyundai
+  - type: Fleet operations partners
+    who: Moove (runs Waymo fleets in Phoenix, Miami, London), Avomo, Transdev
+  - type: Research
+    who: CMU Robotics Institute (Pittsburgh), Michigan Mcity, Texas A&M, Stanford, MIT
+  - type: Federal (US)
+    who: NHTSA (vehicle safety, crash reporting, exemptions), FMCSA (trucks), USDOT, NTSB (investigates crashes), Congress
+  - type: State (US)
+    who: DMVs (CA DMV, TxDMV), PennDOT, state DPS and highway patrol, public utilities commissions (CPUC licenses robotaxi fares in CA)
+  - type: City and regional
+    who: DOTs and mobility offices (Austin Smart Mobility Office), police and fire, airports, school districts, transit agencies (JTA)
+  - type: Civil society
+    who: Teamsters and rideshare driver unions, disability advocates, NACTO, Advocates for Highway and Auto Safety, AVIA (industry)
+terms:
+  - term: Sensors
+    definition: cameras, LiDAR (laser 3D scanning), radar and microphones. Waymo uses all of them. Tesla uses cameras only.
+    sources: []
+  - term: Perception
+    definition: AI that turns sensor data into "that is a child, that is a school bus with its stop arm out."
+    sources: []
+  - term: Prediction and planning
+    definition: the "driver" software that guesses what others will do and picks a path.
+    sources: []
+  - term: End-to-end driving models
+    definition: newer systems that learn driving from huge amounts of video in one large neural network instead of hand-written rules. Easier to scale, harder to explain after a crash.
+    sources: []
+  - term: World models
+    definition: AI that learns how the physical world behaves and can simulate it. Used to generate rare scenarios (a kid running out from behind a van) for training and testing.
+    sources: []
+  - term: Vision-language(-action) models
+    definition: models that connect what a camera sees to language and actions, so a car can "read" a hand-written detour sign or a police officer's gestures.
+    sources: []
+  - term: HD maps
+    definition: detailed maps of each lane, curb and signal that most robotaxis depend on. This is why services launch city by city.
+    sources: []
+  - term: Remote assistance
+    definition: humans in a control center who answer the car's questions when it is stuck ("can I go around this?"). They do not usually steer. Waymo has about 70 agents on duty for about 3,000 robotaxis, some based in the Philippines.
+    sources: []
+  - term: Remote driving / teleoperation
+    definition: a human actually drives the car from far away. Tesla has disclosed crashes while teleoperators were driving.
+    sources: []
+  - term: SAE Levels 0 to 5
+    definition: the industry scale for automation. Level 2 = driver assistance, the human is still driving (Tesla FSD for consumers). Level 4 = no driver needed inside a defined area and conditions (Waymo). Level 5 = anywhere, any conditions (does not exist).
+    sources: []
+  - term: ADS
+    definition: automated driving system, the regulatory term for the Level 3 to 5 "driver" software.
+    sources: []
+  - term: ODD (operational design domain)
+    definition: "where and when the system is allowed to drive: which streets, speeds, weather, times. Most local rules work by shrinking or expanding the ODD."
+    sources: []
+  - term: Geofence
+    definition: a digital boundary the vehicle will not cross. Austin expects operators to keep cars 1,000 ft from emergencies.
+    sources: []
+  - term: Minimal risk condition / fallback
+    definition: what the car does when it cannot continue, usually stopping. The trouble is that "stop" in the wrong place blocks fire trucks.
+    sources: []
+  - term: Safety driver / safety monitor
+    definition: a human inside the vehicle who can take over.
+    sources: []
+  - term: Disengagement
+    definition: when the system hands control back to a human.
+    sources: []
+  - term: FMVSS
+    definition: federal vehicle safety standards, written assuming a steering wheel and pedals. Vehicles without them need an exemption (Part 555).
+    sources: []
+  - term: SGO (Standing General Order)
+    definition: NHTSA's rule that operators report crashes. The main public crash data source.
+    sources: []
+  - term: Recall (software)
+    definition: a fix pushed over the air to the whole fleet. Waymo's school bus recall covered 3,067 vehicles.
+    sources: []
+  - term: First Responder Interaction Plan (FRIP)
+    definition: a document explaining how police and fire can stop, move and access a vehicle. Required in Texas.
+    sources: []
+  - term: Notice of AV noncompliance
+    definition: California's version of a traffic ticket for a car with no driver, sent to the company.
+    sources: []
+  - term: Preemption
+    definition: a higher level of government blocking a lower one from making its own rules.
+    sources: []
+types:
+  - id: t-robotaxis-level-4-retrofitted-cars
+    name: Robotaxis (Level 4, retrofitted cars)
+    zone: street
+    where: City streets, mostly under 45 mph; some freeways; airports
+    how: null
+    uses: On-demand rides, booked through own apps or Uber
+    running_in: "Waymo: Phoenix, SF, LA, Austin, Atlanta, Miami, Dallas, Houston, San Antonio, Orlando, Tampa, San Diego, Denver and more. Tesla: Austin. Apollo Go: Wuhan and other Chinese cities, Dubai"
+    city_response: Stalls blocking traffic and fire scenes; school bus violations; curb crowding at bars and airports; labor protests; Austin built a working group and incident dashboard
+    progression: More cities a year, freeway and airport access, cheaper vehicles (Zeekr, Hyundai), cars that understand hand signals and detours
+    sources:
+      - s-techcrunch-waymo-now-in-10-us-cities-feb
+      - s-cleantechnica-waymo-invites-riders-in-3
+      - s-city-of-austin-av-dashboard
+  - id: t-purpose-built-robotaxis-no-wheel-or
+    name: Purpose-built robotaxis (no wheel or pedals)
+    zone: street
+    where: Defined urban zones
+    how: null
+    uses: Shared rides, 4 passengers facing each other
+    running_in: Zoox in Las Vegas (paid since Aug 2026, incl. airport) and SF testing; Tesla Cybercab planned
+    city_response: Needed a federal exemption to carry paying riders (first one granted July 2026)
+    progression: Federal exemption caps loosened; more designs built for fleets, not owners
+    sources:
+      - s-baker-donelson-zoox-first-part-555-exemp
+      - s-fox-zoox-airport-service
+      - s-holland-and-knight-nhtsa-july-2026-av-pa
+  - id: t-driverless-trucks-class-8
+    name: Driverless trucks (Class 8)
+    zone: street
+    where: Interstates between logistics hubs; transfer yards at city edges
+    how: null
+    uses: Long-haul freight
+    running_in: "Aurora: Dallas to Houston, Fort Worth to El Paso, expanding across Sun Belt"
+    city_response: Cities mostly see hub traffic; unions push human operator bills; California opened a heavy-duty permit path in 2026
+    progression: Hundreds of trucks by end of 2026; hub-to-hub networks; possible federal rulebook via BUILD America 250
+    sources:
+      - s-arizona-tech-council-aurora-200-trucks
+      - s-dallas-innovates-aurora-el-paso-lane
+      - s-holland-and-knight-house-passes-build-am
+      - s-covington-on-ca-rules
+  - id: t-autonomous-transit-shuttles-and-buse
+    name: Autonomous transit shuttles and buses
+    zone: street
+    where: Fixed downtown routes, campuses, rural towns
+    how: null
+    uses: First/last mile, circulators, filling driver shortages
+    running_in: Jacksonville NAVI (3.5-mile Bay Street corridor); Malung-Sälen, Sweden (SIKTA, safety driver); Oslo, Hamburg, Stockholm trials
+    city_response: "Jacksonville: ADA-accessible, part of transit system, exploring Beaches expansion. Rural Sweden: regulation and business model are the blockers"
+    progression: Full-size autonomous buses; retrofitting existing transit fleets (JTA RFP 2026)
+    sources:
+      - s-sustainable-bus-navi-first-year
+  - id: t-low-speed-driverless-delivery-vehicl
+    name: Low-speed driverless delivery vehicles
+    zone: street
+    where: Residential and commercial streets, low speed
+    how: null
+    uses: Groceries, food, parcels
+    running_in: Nuro (now licensing tech), Robomart (under NHTSA exemption review 2026)
+    city_response: Vehicle law, not sidewalk law, applies; parking and curb conflicts
+    progression: Grows with exemptions; overlaps with sidewalk robots in Urban Logistics doc
+    sources: []
+  - id: t-remote-operations-centers
+    name: Remote operations centers
+    zone: building
+    where: Offices, sometimes overseas
+    how: null
+    uses: Answer car questions, call 911, guide stuck vehicles, sometimes drive
+    running_in: "Waymo: Arizona, Michigan, two in the Philippines. Tesla: teleoperators in Texas"
+    city_response: Senate hearing Feb 2026; Sen. Markey asked NHTSA to investigate; no rules on location, staffing ratios or qualifications
+    progression: Likely first target of federal or state rules (ratios, onshore requirements, licensing)
+    sources:
+      - s-axios-markey-on-remote-assistance-70-age
+      - s-automotive-world-waymo-s-four-remote-cen
+      - s-techcrunch-tesla-teleoperator-crashes
+  - id: t-consumer-self-driving-cars-level-2-3
+    name: Consumer "self-driving" cars (Level 2/3)
+    zone: street
+    where: Everywhere
+    how: null
+    uses: Driver assistance; Mercedes Drive Pilot Level 3 on some highways
+    running_in: Nationwide
+    city_response: Not robotaxis but drive public confusion and crashes
+    progression: Out of scope except as context
+    sources: []
+risks:
+  - id: r01-l-blocking-emergency-vehicles-and-scen
+    category: likely
+    title: Blocking emergency vehicles and scenes
+    detail: stalling, entering fire scenes, ignoring police directions
+    likelihood: high
+    likelihood_label: High
+    severity: high
+    severity_label: High
+    who_affected: Firefighters, EMS, police
+    most_vulnerable:
+      - people waiting for emergency care
+    worse_over_time: More cars per city; each new city has untrained crews; heavy events
+    case: "SF fire department logged dozens of interferences in 2023. Austin's dashboard shows 7 cases of ignoring police direction in 2026. Response: Austin's 1,000 ft geofence expectation, Texas FRIPs, California emergency hotline and \"do not enter\" zones (July 2026)"
+    sources:
+      - s-city-of-austin-av-dashboard
+      - s-cbs-austin-sb-2807-and-austin-dashboard
+      - s-ca-dmv-new-av-regulations-apr-28-2026
+      - s-covington-on-ca-rules
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+    all_types: false
+  - id: r01-l-school-zone-and-school-bus-failures
+    category: likely
+    title: School zone and school bus failures
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: crossing guards, bus drivers
+    most_vulnerable:
+      - Children
+    worse_over_time: Expansion into suburbs with more bus routes; software updates that regress
+    case: Austin ISD documented 19 to 20 illegal passes of stopped buses in fall 2025, some after Waymo said it was fixed. Waymo recalled 3,067 vehicles in Dec 2025; violations continued; NHTSA and NTSB investigating. A Waymo hit a 9-year-old near a Santa Monica school in Jan 2026 (minor injuries)
+    sources:
+      - s-kxan-nhtsa-probing-waymo-recall
+      - s-cbs-waymo-recalls-3-000-vehicles
+      - s-ntsb-santa-monica-child-pedestrian-hwy26
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-low-speed-driverless-delivery-vehicl
+      - t-consumer-self-driving-cars-level-2-3
+    all_types: false
+  - id: r01-l-pedestrian-and-cyclist-collisions
+    category: likely
+    title: Pedestrian and cyclist collisions
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: cyclists
+    most_vulnerable:
+      - Pedestrians, people with disabilities, older adults
+    worse_over_time: Faster speeds and freeways; denser downtowns; night operations
+    case: "Cruise dragged a pedestrian about 20 ft in SF (Oct 2023) after a human driver hit her; CA suspended Cruise and GM later shut it down. Dallas Aug 2026: fatal crash where police said Waymo was not at fault"
+    sources:
+      - s-evwire-dallas-fatal-crash
+      - s-fc-axios-cruise-permit-suspended
+      - s-fc-cnbc-cruise-pauses-operations
+      - s-fc-nbc-gm-cruise-ends
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-consumer-self-driving-cars-level-2-3
+    all_types: false
+  - id: r01-l-accountability-gap-no-one-to-ticket
+    category: likely
+    title: Accountability gap (no one to ticket)
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Police, courts
+    most_vulnerable:
+      - crash victims seeking compensation
+    worse_over_time: More operators with different procedures
+    case: California created "notices of noncompliance" from July 2026; repeated notices can cost a permit
+    sources:
+      - s-ca-dmv-notice-of-av-noncompliance-memo
+      - s-ca-dmv-new-av-regulations-apr-28-2026
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-low-speed-driverless-delivery-vehicl
+    all_types: false
+  - id: r01-l-curb-and-congestion-effects-empty-mi
+    category: likely
+    title: Curb and congestion effects (empty miles, pickup crowding)
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Low to Medium
+    who_affected: Transit riders, delivery drivers
+    most_vulnerable:
+      - wheelchair users needing curb access
+    worse_over_time: Fleet growth; airport and event demand
+    case: DC's bill adds a 15 cents per mile fee to discourage empty driving. Austin asks for event pickup zones
+    sources:
+      - s-wtop-dc-bill-and-vmt-fee
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-low-speed-driverless-delivery-vehicl
+    all_types: false
+  - id: r01-l-job-loss-for-drivers
+    category: likely
+    title: Job loss for drivers
+    likelihood: high
+    likelihood_label: Medium now, High later
+    severity: medium
+    severity_label: Medium
+    who_affected: often immigrants
+    most_vulnerable:
+      - Taxi, rideshare and truck drivers
+    worse_over_time: Cheaper vehicles; trucking scale-up
+    case: Boston ordinance push (human safety operator + labor board); Minneapolis council bill vetoed by the mayor; Teamsters and unions slowed DC bill
+    sources:
+      - s-boston-com-boston-ordinance-debate
+      - s-bloomberg-government-unions-and-dc-bill
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+    all_types: false
+  - id: r01-l-privacy-and-surveillance-cars-as-roa
+    category: likely
+    title: Privacy and surveillance (cars as roaming cameras)
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Everyone on the street
+    most_vulnerable:
+      - protesters, immigrants
+    worse_over_time: Police requests for footage; more cars
+    case: Police have requested robotaxi footage as evidence. Waymo shares data with police case by case
+    sources: []
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-remote-operations-centers
+    all_types: false
+  - id: r01-l-weather-and-unusual-conditions
+    category: likely
+    title: Weather and unusual conditions
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Riders stranded, other drivers
+    most_vulnerable: []
+    worse_over_time: Expansion into snow cities (Denver, Pittsburgh, Boston, Detroit)
+    case: Tesla paused Austin service for days in a Jan 2026 ice storm.
+    sources: []
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-consumer-self-driving-cars-level-2-3
+    all_types: false
+  - id: r01-l-hidden-or-redacted-safety-data
+    category: likely
+    title: Hidden or redacted safety data
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Regulators, researchers, the public
+    most_vulnerable: []
+    worse_over_time: More operators; weak reporting rules
+    case: Tesla redacted every crash narrative in NHTSA's database until May 2026, when it revealed two crashes during remote driving
+    sources:
+      - s-cbs-tesla-14-crashes-in-austin
+      - s-techcrunch-tesla-teleoperator-crashes
+    type_ids: []
+    all_types: true
+  - id: r01-l-accessibility-gaps-riders-who-can-t
+    category: likely
+    title: Accessibility gaps
+    detail: riders who can't use the app or vehicle
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: null
+    most_vulnerable:
+      - Blind, Deaf, wheelchair users
+    worse_over_time: Purpose-built vehicles not designed for wheelchairs
+    case: Most robotaxis are not wheelchair accessible. Jacksonville NAVI is ADA accessible.
+    sources:
+      - s-sustainable-bus-navi-first-year
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-autonomous-transit-shuttles-and-buse
+    all_types: false
+  - id: r01-b-fleet-wide-freeze-software-bug-or-lo
+    category: black_swan
+    title: Fleet-wide freeze
+    detail: software bug or lost connection stops hundreds of cars mid-traffic
+    likelihood: medium
+    likelihood_label: Low to Medium
+    severity: high
+    severity_label: High
+    who_affected: Riders stranded on highways, all road users
+    most_vulnerable:
+      - people needing ambulances
+    worse_over_time: Bigger fleets per city; reliance on cloud and cell networks
+    case: "Wuhan, Mar 31, 2026: 100+ Apollo Go robotaxis froze, some on elevated roads, riders could not reach customer service. Police blamed a system failure. China then paused new robotaxi licenses"
+    sources:
+      - s-the-next-web-wuhan-fleet-freeze
+      - s-semafor-china-slows-robotaxi-rollout
+      - s-carnewschina-wuhan-stranding
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-remote-operations-centers
+    all_types: false
+  - id: r01-b-city-wide-outage-cascade-power-or-ce
+    category: black_swan
+    title: City-wide outage cascade
+    detail: power or cell network down, cars can't read signals or reach remote help
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Whole city, first responders during a disaster
+    most_vulnerable: []
+    worse_over_time: Climate disasters, grid stress, events
+    case: "San Francisco, Dec 20, 2025: a substation fire cut power to about 130,000 customers. Waymos stalled at dark intersections and cell networks were overloaded, so cars couldn't get remote confirmation. Waymo suspended service and pushed a fleet-wide update in January"
+    sources:
+      - s-axios-sf-power-outage
+      - s-fast-company-why-waymo-went-down
+      - s-wardsauto-waymo-fleet-wide-update-after
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-remote-operations-centers
+    all_types: false
+  - id: r01-b-bad-update-across-the-fleet-a-recall
+    category: black_swan
+    title: Bad update across the fleet
+    detail: a recall fix creates new failures everywhere at once
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Everyone in every city the fleet serves
+    most_vulnerable: []
+    worse_over_time: Fast release cycles; end-to-end models that are harder to test
+    case: "Waymo's school bus fix: Austin ISD reported violations continuing after the fix; NHTSA opened an inquiry into whether the recall worked"
+    sources:
+      - s-kxan-nhtsa-probing-waymo-recall
+    type_ids: []
+    all_types: true
+  - id: r01-b-hijacked-fleet-or-remote-ops-center
+    category: black_swan
+    title: Hijacked fleet or remote ops center
+    detail: cyberattack or insider takes control
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: Very high
+    who_affected: Riders, pedestrians, critical sites
+    most_vulnerable: []
+    worse_over_time: Overseas remote centers; foreign-made vehicles; more remote driving
+    case: No public case yet. Senators raised the risk at the Feb 2026 hearing and asked about Waymo's Philippines centers and China-built vehicles. Markey asked NHTSA to investigate
+    sources:
+      - s-axios-markey-on-remote-assistance-70-age
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+      - t-remote-operations-centers
+    all_types: false
+  - id: r01-b-evacuation-failure-fleet-blocks-road
+    category: black_swan
+    title: Evacuation failure
+    detail: fleet blocks roads during wildfire, flood or hurricane, or refuses to enter risk zones
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: Very high
+    who_affected: who rely on rides
+    most_vulnerable:
+      - People without cars, older adults, disabled residents
+    worse_over_time: Cities becoming dependent on robotaxis for car-free residents
+    case: "Not yet. The Palisades fire (2025) and SF blackout show the ingredients: dead signals, crowded roads, overloaded networks"
+    sources:
+      - s-axios-sf-power-outage
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-autonomous-transit-shuttles-and-buse
+      - t-low-speed-driverless-delivery-vehicl
+    all_types: false
+  - id: r01-b-mass-casualty-misuse-vehicle-used-to
+    category: black_swan
+    title: Mass-casualty misuse
+    detail: vehicle used to carry explosives or rammed into crowds
+    likelihood: low
+    likelihood_label: Very low
+    severity: high
+    severity_label: Very high
+    who_affected: Crowds, events
+    most_vulnerable: []
+    worse_over_time: Cars that take any passenger and package
+    case: A Waymo drove a passenger into an apparent police standoff (Dec 2025), showing cars can't read danger the way people do
+    sources: []
+    type_ids:
+      - t-robotaxis-level-4-retrofitted-cars
+      - t-purpose-built-robotaxis-no-wheel-or
+      - t-driverless-trucks-class-8
+      - t-low-speed-driverless-delivery-vehicl
+      - t-consumer-self-driving-cars-level-2-3
+    all_types: false
+  - id: r01-b-legal-whiplash-federal-preemption-wi
+    category: black_swan
+    title: Legal whiplash
+    detail: federal preemption wipes out city and state safeguards overnight
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: Medium to High
+    who_affected: Cities, first responders, crash victims
+    most_vulnerable: []
+    worse_over_time: Congress folding AV rules into must-pass bills
+    case: SELF DRIVE Act passed committee 12-11 in Feb 2026 with broad preemption; counties (NACo) and insurers oppose
+    sources:
+      - s-smart-cities-dive-self-drive-act-committ
+      - s-naco-on-federal-preemption
+    type_ids: []
+    all_types: true
+regulations:
+  rules:
+    - id: g-nhtsa-av-framework-apr-2025-and-july-202
+      name: NHTSA AV Framework (Apr 2025) and July 2026 package
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Faster exemptions for vehicles without manual controls (Zoox got the first, July 30, 2026); interim rule letting already-built vehicles qualify; streamlined crash reporting; planned ADS performance standards
+      falls_short: No minimum "driving test" for the software yet; exemptions rely on company data; AV STEP oversight program was withdrawn
+      sources:
+        - s-holland-and-knight-nhtsa-july-2026-av-pa
+        - s-baker-donelson-zoox-first-part-555-exemp
+        - s-federal-register-av-step-withdrawal
+    - id: g-nhtsa-standing-general-order-crash-repor
+      name: NHTSA Standing General Order (crash reporting)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Operators must report crashes
+      falls_short: Companies can redact narratives; no mileage data, so rates are hard to compare; streamlined in 2025
+      sources:
+        - s-techcrunch-tesla-teleoperator-crashes
+        - s-cbs-tesla-14-crashes-in-austin
+    - id: g-vehicle-safety-recalls
+      name: Vehicle safety recalls
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Defects, including software
+      falls_short: Recall is self-reported; Waymo's school bus recall did not end violations
+      sources:
+        - s-cbs-waymo-recalls-3-000-vehicles
+        - s-kxan-nhtsa-probing-waymo-recall
+    - id: g-self-drive-act-h-r-2026
+      name: SELF DRIVE Act (H.R., 2026)
+      level: federal
+      level_label: Federal, pending
+      status: pending
+      covers: Would create AV safety standards by Sept 2027 and preempt state and local rules
+      falls_short: Cities and counties oppose the preemption; insurers oppose; weak data reporting critics say
+      sources:
+        - s-smart-cities-dive-self-drive-act-committ
+        - s-naco-on-federal-preemption
+    - id: g-build-america-250-act-av-subtitle-house
+      name: BUILD America 250 Act, AV subtitle (House passed June 2026)
+      level: federal
+      level_label: Federal, pending
+      status: pending
+      covers: First federal framework for driverless trucks; safety case requirement; review-based preemption
+      falls_short: Trucks only; Senate not done
+      sources:
+        - s-holland-and-knight-house-passes-build-am
+    - id: g-california-ab-1777-dmv-regs-apr-28-2026
+      name: California AB 1777 + DMV regs (Apr 28, 2026; in force July 1, 2026)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Police can issue "notices of AV noncompliance" to the company; company must report within 72 hours (24 for serious); dedicated emergency phone line; local emergency officials can order temporary "do not enter" zones; repeat notices can lead to permit suspension; new heavy-duty truck permits
+      falls_short: No fines attached to notices; cities still can't license robotaxis themselves (CPUC and DMV do)
+      sources:
+        - s-ca-dmv-new-av-regulations-apr-28-2026
+        - s-ca-dmv-notice-of-av-noncompliance-memo
+        - s-covington-on-ca-rules
+    - id: g-texas-sb-2807-effective-sept-2025-enforc
+      name: Texas SB 2807 (effective Sept 2025; enforced May 28, 2026)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Commercial AVs need TxDMV authorization, insurance and a First Responder Interaction Plan filed with DPS; public complaint portal (42 complaints in about 3 months); advisory committee with 2 Austin seats
+      falls_short: Bars "discriminatory" local rules and fees; DMV can't immediately suspend after a fatality (Austin wants that); ticketing still awkward
+      sources:
+        - s-txdmv-av-program-sb-2807
+        - s-cbs-austin-sb-2807-and-austin-dashboard
+        - s-community-impact-texas-senate-hearing-42
+    - id: g-pennsylvania-act-130-of-2022-title-75-ch
+      name: Pennsylvania Act 130 of 2022 (Title 75, Ch. 85) + PennDOT Pub. 950
+      level: state
+      level_label: State
+      status: in_force
+      covers: PennDOT certifies testers and deployers, with or without a safety driver; HAV Advisory Committee
+      falls_short: Moved authority away from cities like Pittsburgh; no fully driverless operation on PA roads as of March 2026
+      sources:
+        - s-axios-pittsburgh-waymo-expands-push
+        - s-city-of-pittsburgh-autonomous-technology
+    - id: g-nyc-testing-permit
+      name: NYC testing permit
+      level: city
+      level_label: City
+      status: in_force
+      covers: Safety driver required at all times; only experienced companies
+      falls_short: Commercial driverless service needs state law change
+      sources:
+        - s-popsci-nyc-testing-permit
+    - id: g-dc-av-deployment-authorization-amendment
+      name: DC AV Deployment Authorization Amendment Act of 2026 (pending)
+      level: city
+      level_label: City (DC acts as a state)
+      status: pending
+      covers: Permit program, data reporting to DDOT, 15 cents per mile fee split between Metro and driver workforce support, earliest passengers about Jan 2028
+      falls_short: Delayed; mayor-elect and council members want more worker protections
+      sources:
+        - s-wtop-dc-bill-and-vmt-fee
+        - s-wjla-dc-timeline-and-delay
+        - s-bloomberg-government-unions-and-dc-bill
+    - id: g-boston-proposed-ordinance
+      name: Boston proposed ordinance
+      level: city
+      level_label: City
+      status: proposed
+      covers: Would require a human safety operator and a labor and small business advisory board
+      falls_short: Waymo calls it a ban; state law may override
+      sources:
+        - s-boston-com-boston-ordinance-debate
+    - id: g-traffic-law-school-bus-yielding-police-d
+      name: Traffic law (school bus, yielding, police directions)
+      level: city
+      level_label: State and local
+      status: in_force
+      covers: All 50 states require stopping for school buses
+      falls_short: Written for human drivers; ticket requires a person
+      sources: []
+    - id: g-product-liability-and-insurance
+      name: Product liability and insurance
+      level: state
+      level_label: State
+      status: in_force
+      covers: Who pays after a crash
+      falls_short: Unclear split between operator, maker, software supplier and remote assistant; insurers want state authority kept
+      sources: []
+    - id: g-airports
+      name: Airports
+      level: federal
+      level_label: Airport authority (city/county) + FAA
+      status: in_force
+      covers: Curb access and permits
+      falls_short: Each airport negotiates separately (Zoox at Harry Reid, Waymo at Phoenix Sky Harbor)
+      sources:
+        - s-fox-zoox-airport-service
+    - id: g-international-uk-automated-vehicles-act
+      name: "International: UK Automated Vehicles Act 2024; Japan Level 4 law (2023); Germany Level 4 law (2021); EU rules expected around 2028; Dubai Self-Driving Transport Strategy; Chinese city permits"
+      level: city
+      level_label: National / city
+      status: in_force
+      covers: Clear authorization paths; UK names the company legally responsible when self-driving
+      falls_short: Pace varies; China paused new licenses after Wuhan
+      sources: []
+  gaps:
+    - A minimum performance "driving test" for the software before it gets public streets (NHTSA says it's coming).
+    - "Rules on remote assistance: where operators sit, how many cars each one watches, training, and response times."
+    - "Fleet-level emergency rules: what happens when the whole fleet must stop or clear roads, and who can order it."
+    - City access to incident data and video in a standard format.
+    - Penalties that mean something to a company (a $200 ticket doesn't).
+    - Notice to cities before fleet-wide software updates.
+    - Evacuation and disaster duties for fleets.
+    - Labor transition support for drivers.
+case_studies:
+  - id: c-austin-texas-the-working-group-model
+    title: The working group model
+    place: Austin, TX
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: Waymo (fully driverless, via Uber) and Tesla robotaxis across central Austin.
+      - label: What happened (good)
+        text: the city's Citywide AV Working Group runs repeated trainings for police and fire, documents incidents, and gives operators maps of fire stations, school zones and valet zones. It's treated as a national best practice. The city publishes an incident dashboard (75 incidents logged in 2026 by mid-year, including one collision, eight near misses and seven cases of ignoring police direction).
+      - label: What happened (bad)
+        text: Austin ISD logged about 20 illegal school bus passes in fall 2025, some after Waymo said it had fixed the problem. Tesla's fleet reported 14 crashes in its first 8 months with all details redacted.
+      - label: How the city responded
+        text: working group and dashboard (soft power), school district letters and stop-arm camera evidence to NHTSA, two seats on the state's AV advisory committee. It cannot license or ban operators because Texas preempts it.
+      - label: What changed
+        text: a federal investigation, a software recall of 3,067 vehicles, and Texas's first real authorization system (May 2026).
+      - label: Lessons
+        text: put middle managers and first-responder trainers in the room, not executives. Collect your own data, because operators won't share video. School districts are key partners. A preempted city can still shape outcomes through evidence.
+    sources:
+      - s-city-of-austin-av-dashboard
+      - s-cbs-austin-sb-2807-and-austin-dashboard
+      - s-kxan-nhtsa-probing-waymo-recall
+      - s-cbs-waymo-recalls-3-000-vehicles
+      - s-cbs-tesla-14-crashes-in-austin
+      - s-txdmv-av-program-sb-2807
+    pin_id: p-austin-tx
+  - id: c-san-francisco-the-blackout-stall
+    title: the blackout stall
+    place: San Francisco
+    kind: black_swan
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: about 1,000 Waymo robotaxis citywide.
+      - label: What happened
+        text: on Dec 20, 2025 a substation fire knocked out power to about 130,000 PG&E customers. Traffic signals went dark. Waymos treated dark signals cautiously and waited for remote confirmation, but cell networks were overloaded, so many sat in intersections. Waymo suspended service until the next day. No injuries reported.
+      - label: How the city responded
+        text: city officials coordinated with Waymo during the outage; the state DMV met with the city afterward. Waymo pushed fleet-wide updates in January 2026 to handle region-wide outages.
+      - label: Lessons
+        text: fleets depend on the same grid and cell networks that fail in disasters. Cities should ask operators for a written "region-wide outage" plan and test it in drills. This is the clearest US example of a correlated failure.
+    sources:
+      - s-axios-sf-power-outage
+      - s-fast-company-why-waymo-went-down
+      - s-wardsauto-waymo-fleet-wide-update-after
+    pin_id: p-san-francisco-ca
+  - id: c-wuhan-china-fleet-freeze-at-scale
+    title: fleet freeze at scale
+    place: Wuhan, China
+    kind: black_swan
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: more than 1,000 Baidu Apollo Go driverless cars, China's largest single-city robotaxi fleet.
+      - label: What happened
+        text: on the evening of Mar 31, 2026, more than 100 cars stopped mid-traffic at the same time, some on elevated ring roads. Riders couldn't reach customer service, which said it could only look into individual car numbers. Police attributed it to a system failure.
+      - label: How the government responded
+        text: investigation, and a national pause on new robotaxi licenses (reported late April 2026). This followed a car falling into a construction pit in Chongqing (2025) and a crash that led Zhuzhou to suspend operations.
+      - label: Lessons
+        text: the risk to plan for is not one bad car, it's hundreds failing together. Cities need a fleet-level emergency contact (not a customer service line) and a right to order a fleet-wide stand-down or recovery.
+    sources:
+      - s-the-next-web-wuhan-fleet-freeze
+      - s-semafor-china-slows-robotaxi-rollout
+      - s-carnewschina-wuhan-stranding
+    pin_id: p-wuhan-china
+  - id: c-jacksonville-florida-robotaxi-tech-insid
+    title: robotaxi tech inside public transit
+    place: Jacksonville, Florida
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: NAVI autonomous shuttles (9 seats, ADA accessible) on a 3.5-mile downtown corridor, run by the Jacksonville Transportation Authority, launched June 30, 2025.
+      - label: What happened
+        text: more than 15,200 riders and 61,000 autonomous miles in year one. Holon is building a shuttle factory in the city.
+      - label: How the city responded
+        text: it owns the service. JTA is now exploring expansion to the Beaches and retrofitting regular buses.
+      - label: Lessons
+        text: when the public agency is the operator, it controls data, accessibility and routes. Ridership is modest, so the case for scaling still has to be made. Good contrast to private robotaxis.
+    sources:
+      - s-sustainable-bus-navi-first-year
+    pin_id: p-jacksonville-fl
+  - id: c-from-testing-capital-to-a-city-with-no-v
+    title: "Pittsburgh: from testing capital to a city with no veto"
+    place: Pittsburgh, PA
+    kind: case
+    pittsburgh: true
+    fields:
+      - label: What
+        text: Pittsburgh hosted Uber, Argo AI, Aurora and Motional testing in the late 2010s. Waymo began testing in Dec 2025 and got PennDOT certification to test autonomously with a specialist behind the wheel in early 2026.
+      - label: How the city responded
+        text: Pittsburgh's Shared + Autonomous Mobility Principles and DOMI's Emerging Tech Roundtable with other cities. But Act 130 (2022) moved authority to PennDOT. PennDOT is building PennSTART, a $20 million test track that will also train first responders.
+      - label: Lessons
+        text: "what Pittsburgh does that others don't: a university-industry base and a state test track for first responders. What it lacks: city authority. Its tools are principles, roundtables and data asks."
+    sources:
+      - s-axios-pittsburgh-waymo-expands-push
+      - s-city-of-pittsburgh-autonomous-technology
+      - s-axios-pittsburgh-pennstart
+    pin_id: p-pittsburgh-pa
+  - id: c-g01-wuhan-apollo-go
+    title: Fully driverless robotaxis at city scale
+    place: Wuhan, China
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-wuhan-apollo-go
+    fields:
+      - label: What happened
+        text: Baidu's Apollo Go ran about 300 fully driverless robotaxis in Wuhan in 2024, with some reports giving close to 500, covering a large share of the city's road network.
+      - label: Response
+        text: Wuhan allowed fully driverless commercial rides in designated areas. Human taxi drivers complained about lost income as the service grew.
+      - label: When
+        text: 2024-07
+    sources: &a1
+      - s-g01-wuhan-apollo-go-1
+      - s-g01-wuhan-apollo-go-2
+  - id: c-g01-tokyo-waymo
+    title: First robotaxi tests outside the US, with a local taxi fleet
+    place: Central Tokyo, Japan
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-tokyo-waymo
+    fields:
+      - label: What happened
+        text: Waymo began driving on Tokyo's public roads in April 2025, at first driven manually by trained Nihon Kotsu drivers across seven central wards to map the city, working with Tokyo's largest taxi company and the GO app.
+      - label: Response
+        text: Nihon Kotsu manages and services the vehicles. Waymo set up first-responder training with its partners. No commercial launch date was announced.
+      - label: When
+        text: 2025-04
+    sources: &a2
+      - s-g01-tokyo-waymo-1
+      - s-g01-tokyo-waymo-2
+  - id: c-g01-london-wayve-uber
+    title: Supervised robotaxi rides under a fast-tracked national pilot
+    place: London, United Kingdom
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-london-wayve-uber
+    fields:
+      - label: What happened
+        text: Uber launched rides in London using Wayve's driving software on Sept 3, 2026, with licensed safety drivers on board at first.
+      - label: Response
+        text: Transport for London granted private hire licences in August 2026. The UK government brought pilots forward to spring 2026; full deployment under the Automated Vehicles Act 2024 is expected around 2027.
+      - label: When
+        text: 2026-09
+    sources: &a3
+      - s-g01-london-wayve-uber-1
+      - s-g01-london-wayve-uber-2
+  - id: c-g01-madrid-casa-de-campo-bus
+    title: A free driverless minibus pilot in a city park
+    place: Casa de Campo, Madrid, Spain
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-madrid-casa-de-campo-bus
+    fields:
+      - label: What happened
+        text: Madrid's city bus company EMT ran an electric driverless minibus on a 1.8 km loop with six stops in Casa de Campo from Sept 15 to Oct 24, 2025, carrying up to 12 passengers. More than 2,600 people rode it.
+      - label: Response
+        text: The next step EMT described is buses that can drive themselves to the depot.
+      - label: When
+        text: 2025-09
+    sources: &a4
+      - s-g01-madrid-casa-de-campo-bus-1
+      - s-g01-madrid-casa-de-campo-bus-2
+  - id: c-g01-madrid-mercamadrid-bus
+    title: Spain's first on-demand autonomous bus in regular service
+    place: Mercamadrid, Madrid, Spain
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-madrid-mercamadrid-bus
+    fields:
+      - label: What happened
+        text: An autonomous on-demand bus run by Alsa with the city and Mercamadrid began regular service in July 2026 for workers and visitors of the wholesale food market, on a loop between the commercial zone and the parking lot.
+      - label: Response
+        text: Timetables were coordinated with the EMT city bus lines that serve Mercamadrid.
+      - label: When
+        text: 2026-07
+    sources: &a5
+      - s-g01-madrid-mercamadrid-bus-1
+      - s-g01-madrid-mercamadrid-bus-2
+  - id: c-g01-buenos-aires-testing-rule
+    title: City rule opens public roads to driverless car and delivery robot tests
+    place: Buenos Aires, Argentina
+    kind: international
+    pittsburgh: false
+    pin_id: p-g01-buenos-aires-testing-rule
+    fields:
+      - label: What happened
+        text: The city government authorised tests of driverless cars and delivery robots on public roads, classing robots as automated delivery devices, with uses beyond delivery allowed.
+      - label: Response
+        text: No named operator or route was found in the sources.
+      - label: When
+        text: "2026"
+    sources: &a6
+      - s-g01-buenos-aires-testing-rule-1
+      - s-g01-buenos-aires-testing-rule-2
+  - id: c-g01-san-antonio-waymo
+    title: Driverless rides start downtown, surface streets only
+    place: Downtown San Antonio, Texas, US
+    kind: case
+    pittsburgh: false
+    pin_id: p-g01-san-antonio-waymo
+    fields:
+      - label: What happened
+        text: Waymo began driverless rides for invited riders in San Antonio on Feb 24, 2026, starting downtown and kept off highways; service later opened to everyone, including airport trips.
+      - label: Response
+        text: The city published guidance for residents on sharing the road with driverless cars as part of Vision Zero.
+      - label: When
+        text: 2026-02
+    sources: &a7
+      - s-g01-san-antonio-waymo-1
+      - s-g01-san-antonio-waymo-2
+pins:
+  - id: p-san-francisco-ca
+    place: San Francisco, CA
+    lat: 37.77
+    lng: -122.42
+    what: Waymo and Zoox; Cruise shutdown; Dec 2025 blackout stall
+    response_type: State permit (DMV + CPUC); AB 1777
+    tags:
+      - Robotaxi
+      - Black swan
+      - Regulation
+    sources:
+      - s-axios-sf-power-outage
+      - s-ca-dmv-new-av-regulations-apr-28-2026
+  - id: p-santa-monica-la-ca
+    place: Santa Monica / LA, CA
+    lat: 34.02
+    lng: -118.49
+    what: Waymo hit child near school (Jan 2026)
+    response_type: NTSB + NHTSA investigation
+    tags:
+      - Robotaxi
+      - Children
+    sources:
+      - s-ntsb-santa-monica-child-pedestrian-hwy26
+  - id: p-phoenix-az
+    place: Phoenix, AZ
+    lat: 33.45
+    lng: -112.07
+    what: Longest-running robotaxi market; airport service
+    response_type: Permissive state; early first-responder playbooks
+    tags:
+      - Robotaxi
+      - Airport
+    sources:
+      - s-techcrunch-waymo-now-in-10-us-cities-feb
+  - id: p-austin-tx
+    place: Austin, TX
+    lat: 30.27
+    lng: -97.74
+    what: Waymo and Tesla; school bus violations; AV working group and dashboard
+    response_type: Working group, dashboard; state preempts city (SB 2807)
+    tags:
+      - Robotaxi
+      - Children
+      - Best practice
+    sources:
+      - s-city-of-austin-av-dashboard
+      - s-cbs-austin-sb-2807-and-austin-dashboard
+  - id: p-dallas-tx
+    place: Dallas, TX
+    lat: 32.78
+    lng: -96.8
+    what: Waymo launch Feb 2026; fatal crash Aug 2026 (Waymo not at fault); Aurora truck lanes
+    response_type: State authorization
+    tags:
+      - Robotaxi
+      - Trucks
+    sources:
+      - s-evwire-dallas-fatal-crash
+      - s-dallas-innovates-aurora-el-paso-lane
+  - id: p-houston-tx
+    place: Houston, TX
+    lat: 29.76
+    lng: -95.37
+    what: Waymo launch; Aurora truck route endpoint; no city incident dashboard
+    response_type: State authorization
+    tags:
+      - Robotaxi
+      - Trucks
+    sources:
+      - s-techcrunch-waymo-now-in-10-us-cities-feb
+      - s-dallas-innovates-aurora-el-paso-lane
+  - id: p-atlanta-ga
+    place: Atlanta, GA
+    lat: 33.75
+    lng: -84.39
+    what: Waymo via Uber; school bus incident that started NHTSA probe
+    response_type: Federal investigation
+    tags:
+      - Robotaxi
+      - Children
+    sources:
+      - s-kxan-nhtsa-probing-waymo-recall
+  - id: p-las-vegas-nv
+    place: Las Vegas, NV
+    lat: 36.17
+    lng: -115.14
+    what: Zoox paid rides and airport service
+    response_type: Federal exemption; county airport permit
+    tags:
+      - Purpose-built
+      - Airport
+    sources:
+      - s-fox-zoox-airport-service
+      - s-baker-donelson-zoox-first-part-555-exemp
+  - id: p-jacksonville-fl
+    place: Jacksonville, FL
+    lat: 30.33
+    lng: -81.66
+    what: "NAVI: first autonomous service in a US transit system; 15,200+ riders in year one"
+    response_type: Public transit agency deployment
+    tags:
+      - Transit
+      - Accessibility
+    sources:
+      - s-sustainable-bus-navi-first-year
+  - id: p-pittsburgh-pa
+    place: Pittsburgh, PA
+    lat: 40.44
+    lng: -80
+    what: Waymo supervised testing; Aurora HQ; CMU; past Uber and Argo testing
+    response_type: State certification (PennDOT); city has little say
+    tags:
+      - Robotaxi
+      - Trucks
+      - Research
+    sources:
+      - s-axios-pittsburgh-waymo-expands-push
+      - s-axios-pittsburgh-pennstart
+  - id: p-boston-ma
+    place: Boston, MA
+    lat: 42.36
+    lng: -71.06
+    what: Waymo mapping; union-backed ordinance
+    response_type: Proposed restriction
+    tags:
+      - Labor
+    sources:
+      - s-boston-com-boston-ordinance-debate
+  - id: p-washington-dc
+    place: Washington, DC
+    lat: 38.91
+    lng: -77.04
+    what: Waymo testing; deployment bill pending
+    response_type: Permit program proposed; delayed
+    tags:
+      - Labor
+      - Regulation
+    sources:
+      - s-wtop-dc-bill-and-vmt-fee
+      - s-wjla-dc-timeline-and-delay
+  - id: p-minneapolis-mn
+    place: Minneapolis, MN
+    lat: 44.98
+    lng: -93.27
+    what: Council bill requiring human safety supervisors
+    response_type: Vetoed by mayor
+    tags:
+      - Labor
+    sources:
+      - s-bloomberg-government-unions-and-dc-bill
+  - id: p-new-york-ny
+    place: New York, NY
+    lat: 40.71
+    lng: -74.01
+    what: Testing permit with safety driver
+    response_type: City testing permit
+    tags:
+      - Regulation
+    sources:
+      - s-popsci-nyc-testing-permit
+  - id: p-wuhan-china
+    place: Wuhan, China
+    lat: 30.59
+    lng: 114.31
+    what: 1,000+ Apollo Go robotaxis; 100+ froze Mar 31, 2026
+    response_type: National pause on new licenses
+    tags:
+      - Black swan
+    sources:
+      - s-the-next-web-wuhan-fleet-freeze
+      - s-semafor-china-slows-robotaxi-rollout
+  - id: p-dubai-uae
+    place: Dubai, UAE
+    lat: 25.2
+    lng: 55.27
+    what: Commercial robotaxis since Mar 30, 2026 (Apollo Go, WeRide via Uber), 100 vehicles
+    response_type: Government-led rollout; 25% autonomous trips goal by 2030
+    tags:
+      - Robotaxi
+      - International
+    sources:
+      - s-dubai-media-office-commercial-robotaxis
+      - s-khaleej-times-100-robotaxis-in-dubai
+  - id: p-tokyo-japan
+    place: Tokyo, Japan
+    lat: 35.68
+    lng: 139.69
+    what: Waymo with Nihon Kotsu and GO; launch targeted 2027
+    response_type: National Level 4 law
+    tags:
+      - International
+    sources:
+      - s-automotive-world-waymo-tokyo-2027
+  - id: p-london-uk
+    place: London, UK
+    lat: 51.51
+    lng: -0.13
+    what: Waymo testing for UK pilot scheme
+    response_type: Automated Vehicles Act 2024
+    tags:
+      - International
+    sources: []
+  - id: p-g01-wuhan-apollo-go
+    place: Wuhan, China
+    lat: 30.5928
+    lng: 114.3055
+    what: Baidu's Apollo Go ran about 300 fully driverless robotaxis in Wuhan in 2024, with some reports giving close to 500, covering a large share of the city's road network.
+    response_type: Wuhan allowed fully driverless commercial rides in designated areas. Human taxi drivers complained about lost income as the service grew.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a1
+    media:
+      kind: image
+      url: https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg/1280px-%28CHN-Hubei%29_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg
+      alt: An Apollo Go RT6 robotaxi on Heping Avenue, Wuhan
+      credit: S5A-0043, CC BY 4.0, via Wikimedia Commons
+      page: https://commons.wikimedia.org/wiki/File:(CHN-Hubei)_Apollo_Go_Apollo_RT6_Temporary-%E9%84%82A1395%E8%AF%95_2025-12-17.jpg
+  - id: p-g01-tokyo-waymo
+    place: Central Tokyo, Japan
+    lat: 35.6812
+    lng: 139.7671
+    what: Waymo began driving on Tokyo's public roads in April 2025, at first driven manually by trained Nihon Kotsu drivers across seven central wards to map the city, working with Tokyo's largest taxi company and the GO app.
+    response_type: Nihon Kotsu manages and services the vehicles. Waymo set up first-responder training with its partners. No commercial launch date was announced.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a2
+  - id: p-g01-london-wayve-uber
+    place: London, United Kingdom
+    lat: 51.5072
+    lng: -0.1276
+    what: Uber launched rides in London using Wayve's driving software on Sept 3, 2026, with licensed safety drivers on board at first.
+    response_type: Transport for London granted private hire licences in August 2026. The UK government brought pilots forward to spring 2026; full deployment under the Automated Vehicles Act 2024 is expected around 2027.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a3
+  - id: p-g01-madrid-casa-de-campo-bus
+    place: Casa de Campo, Madrid, Spain
+    lat: 40.4194
+    lng: -3.748
+    what: Madrid's city bus company EMT ran an electric driverless minibus on a 1.8 km loop with six stops in Casa de Campo from Sept 15 to Oct 24, 2025, carrying up to 12 passengers. More than 2,600 people rode it.
+    response_type: The next step EMT described is buses that can drive themselves to the depot.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a4
+  - id: p-g01-madrid-mercamadrid-bus
+    place: Mercamadrid, Madrid, Spain
+    lat: 40.3742
+    lng: -3.6619
+    what: An autonomous on-demand bus run by Alsa with the city and Mercamadrid began regular service in July 2026 for workers and visitors of the wholesale food market, on a loop between the commercial zone and the parking lot.
+    response_type: Timetables were coordinated with the EMT city bus lines that serve Mercamadrid.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a5
+  - id: p-g01-buenos-aires-testing-rule
+    place: Buenos Aires, Argentina
+    lat: -34.6037
+    lng: -58.3816
+    what: The city government authorised tests of driverless cars and delivery robots on public roads, classing robots as automated delivery devices, with uses beyond delivery allowed.
+    response_type: No named operator or route was found in the sources.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a6
+  - id: p-g01-san-antonio-waymo
+    place: Downtown San Antonio, Texas, US
+    lat: 29.4241
+    lng: -98.4936
+    what: Waymo began driverless rides for invited riders in San Antonio on Feb 24, 2026, starting downtown and kept off highways; service later opened to everyone, including airport trips.
+    response_type: The city published guidance for residents on sharing the road with driverless cars as part of Vision Zero.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a7
+places: []
+scenarios:
+  - horizon: 1
+    label: 1 year (2027)
+    best: Robotaxis in 20+ US cities with standard first-responder plans; NHTSA publishes a draft ADS performance standard
+    worst: A robotaxi kills a child near a school; national backlash; patchwork bans
+    surprise: Federal preemption passes inside a transportation bill and voids city and state rules overnight
+    city_action: Start a working group before launch; sign data and emergency contact agreements; map school zones, fire stations and event zones for operators
+  - horizon: 5
+    label: 5 years (2031)
+    best: Robotaxis cut serious crashes in served areas; transit agencies run autonomous shuttles that fill coverage gaps; drivers retrained
+    worst: Empty-mile congestion, transit ridership falls, curb chaos; a fleet-wide freeze during a hurricane evacuation
+    surprise: "Remote assistance becomes the bottleneck: a cyberattack on an overseas ops center grounds fleets in several cities"
+    city_action: Price curbs and empty miles; require outage and evacuation plans; ask for onshore or audited remote ops; build a shared incident database with peer cities
+  - horizon: 10
+    label: 10 years (2036)
+    best: Most ride-hail and much freight is autonomous; parking lots redeveloped; traffic deaths drop sharply
+    worst: Two or three companies control city mobility; cities dependent with no leverage; job losses concentrated in immigrant communities
+    surprise: Car ownership collapses faster than expected and gas tax and parking revenue disappear, creating a budget crisis
+    city_action: Plan revenue replacement (per-mile fees); keep public transit as the backbone; negotiate public data rights early
+war_games:
+  - id: w-6-pm-power-outage-300-robotaxis-on-the-r
+    title: 6 pm power outage, 300 robotaxis on the road
+  - id: w-a-fleet-update-makes-cars-pass-school-bu
+    title: a fleet update makes cars pass school buses on day one of school
+  - id: w-wildfire-evacuation-order-with-robotaxis
+    title: wildfire evacuation order with robotaxis as the only ride for car-free seniors.
+recommendation_candidate: 'a shared cross-city "fleet emergency protocol" that every operator must sign before entering any member city: a 24/7 fleet-level contact, the right to order a geofenced stand-down, outage and evacuation behavior, and incident data in a common format. Pittsburgh could pilot it through the Bloomberg network even without state authority, because operators want to be in many cities.'
+sources:
+  - id: s-techcrunch-waymo-now-in-10-us-cities-feb
+    publisher: TechCrunch
+    title: Waymo now in 10 US cities (Feb 24, 2026)
+    url: https://www.techcrunch.com/2026/02/24/waymo-robotaxis-are-now-operating-in-10-us-cities/
+    published: 2026-02-24
+  - id: s-cleantechnica-waymo-invites-riders-in-3
+    publisher: CleanTechnica
+    title: Waymo invites riders in 3 new cities, now 14 (Sept 1, 2026)
+    url: https://cleantechnica.com/2026/09/01/waymo-invites-riders-in-3-new-cities
+    published: 2026-09-01
+  - id: s-tt-news-bloomberg-waymo-targets-1m-weekl
+    publisher: TT News / Bloomberg
+    title: Waymo targets 1M weekly rides
+    url: https://www.ttnews.com/articles/waymo-eyes-1-million-rides
+  - id: s-holland-and-knight-nhtsa-july-2026-av-pa
+    publisher: Holland & Knight
+    title: NHTSA July 2026 AV package
+    url: https://www.hklaw.com/en/insights/publications/2026/07/green-lights-and-red-flags-autonomous-vehicles-rule-the-roads
+    published: 2026-07
+  - id: s-baker-donelson-zoox-first-part-555-exemp
+    publisher: Baker Donelson
+    title: Zoox first Part 555 exemption
+    url: https://www.bakerdonelson.com/nhtsa-signals-flexible-approach-to-av-regulation-what-manufacturers-need-to-know
+  - id: s-federal-register-av-step-withdrawal
+    publisher: Federal Register
+    title: AV STEP withdrawal
+    url: https://public-inspection.federalregister.gov/2026-12980.pdf
+  - id: s-smart-cities-dive-self-drive-act-committ
+    publisher: Smart Cities Dive
+    title: SELF DRIVE Act committee vote
+    url: https://www.smartcitiesdive.com/news/av-federal-legislation-city-state-regulatory-authority/809954/
+  - id: s-holland-and-knight-house-passes-build-am
+    publisher: Holland & Knight
+    title: House passes BUILD America 250 AV framework
+    url: https://www.hklaw.com/en/insights/publications/2026/06/house-passes-autonomous-vehicles-framework
+    published: 2026-06
+  - id: s-naco-on-federal-preemption
+    publisher: NACo on federal preemption
+    title: NACo on federal preemption
+    url: https://www.naco.org/news/congress-nears-agreement-comprehensive-framework-autonomous-vehicles
+  - id: s-ca-dmv-new-av-regulations-apr-28-2026
+    publisher: CA DMV
+    title: new AV regulations (Apr 28, 2026)
+    url: https://www.dmv.ca.gov/portal/?p=321530
+  - id: s-ca-dmv-notice-of-av-noncompliance-memo
+    publisher: CA DMV
+    title: Notice of AV Noncompliance memo
+    url: https://www.dmv.ca.gov/portal/file/avim-2026-002-notice-of-autonomous-vehicles-noncompliance-pdf/
+  - id: s-covington-on-ca-rules
+    publisher: Covington on CA rules
+    title: Covington on CA rules
+    url: https://www.cov.com/en/news-and-insights/insights/2026/05/californias-new-av-rules-open-door-to-heavy-duty-deployment-while-imposing-significant-new-compliance-obligations
+    published: 2026-05
+  - id: s-txdmv-av-program-sb-2807
+    publisher: TxDMV AV program (SB 2807)
+    title: TxDMV AV program (SB 2807)
+    url: https://www.txdmv.gov/AVprogram
+  - id: s-cbs-austin-sb-2807-and-austin-dashboard
+    publisher: CBS Austin
+    title: SB 2807 and Austin dashboard
+    url: https://cbsaustin.com/news/local/story/new-texas-law-tightens-rules-for-autonomous-vehicle-companies-including-waymo
+  - id: s-community-impact-texas-senate-hearing-42
+    publisher: Community Impact
+    title: Texas Senate hearing (42 complaints)
+    url: https://communityimpact.com/central-austin/texas-legislature/texas-senators-weigh-impact-of-driverless-vehicles-amid-recent-state-regulations/
+  - id: s-city-of-austin-av-dashboard
+    publisher: City of Austin AV dashboard
+    title: City of Austin AV dashboard
+    url: https://austin.maps.arcgis.com/apps/dashboards/dbd59d9b20634de1afad32a8267b739b
+  - id: s-kxan-nhtsa-probing-waymo-recall
+    publisher: KXAN
+    title: NHTSA probing Waymo recall
+    url: https://www.kxan.com/investigations/nhtsa-probing-waymo-software-recall-after-bus-violations/amp/
+  - id: s-cbs-waymo-recalls-3-000-vehicles
+    publisher: CBS
+    title: Waymo recalls 3,000+ vehicles
+    url: https://www.cbsnews.com/amp/news/waymo-recall-3000-vehicles-software-school-bus
+  - id: s-ntsb-santa-monica-child-pedestrian-hwy26
+    publisher: NTSB
+    title: Santa Monica child pedestrian (HWY26FH008)
+    url: https://www.ntsb.gov/investigations/Pages/HWY26FH008.aspx
+  - id: s-evwire-dallas-fatal-crash
+    publisher: EVwire
+    title: Dallas fatal crash
+    url: https://evwire.com/p/waymo-fatal-accident-dallas-pedestrian-everything-we-know
+  - id: s-axios-sf-power-outage
+    publisher: Axios
+    title: SF power outage
+    url: https://www.axios.com/2025/12/22/waymo-robotaxi-san-francisco-risk
+    published: 2025-12-22
+  - id: s-fast-company-why-waymo-went-down
+    publisher: Fast Company
+    title: why Waymo went down
+    url: https://www.fastcompany.com/91465377/waymo-san-francisco-outage-robotaxi
+  - id: s-wardsauto-waymo-fleet-wide-update-after
+    publisher: WardsAuto
+    title: Waymo fleet-wide update after blackout
+    url: https://www.wardsauto.com/news/waymo-san-francisco-blackout-robotaxi-suspended/808529/
+  - id: s-the-next-web-wuhan-fleet-freeze
+    publisher: The Next Web
+    title: Wuhan fleet freeze
+    url: https://thenextweb.com/news/baidu-apollo-go-robotaxi-wuhan-mass-malfunction
+  - id: s-semafor-china-slows-robotaxi-rollout
+    publisher: Semafor
+    title: China slows robotaxi rollout
+    url: https://www.semafor.com/article/04/29/2026/china-slows-robotaxi-rollout-after-system-failure
+  - id: s-carnewschina-wuhan-stranding
+    publisher: CarNewsChina
+    title: Wuhan stranding
+    url: https://carnewschina.com/2026/04/01/apollo-gos-robotaxi-fleet-suffers-mass-paralysis-stranding-passengers-on-elevated-highways/
+    published: 2026-04-01
+  - id: s-cbs-tesla-14-crashes-in-austin
+    publisher: CBS
+    title: Tesla 14 crashes in Austin
+    url: https://www.cbsnews.com/news/tesla-robotaxi-austin-14-crashes-nhtsa
+  - id: s-techcrunch-tesla-teleoperator-crashes
+    publisher: TechCrunch
+    title: Tesla teleoperator crashes
+    url: https://www.techcrunch.com/2026/05/15/tesla-reveals-two-robotaxi-crashes-involving-teleoperators/
+    published: 2026-05-15
+  - id: s-axios-markey-on-remote-assistance-70-age
+    publisher: Axios
+    title: Markey on remote assistance (70 agents, 3,000 cars)
+    url: https://www.axios.com/2026/03/31/autonomous-vehicles-remote-av-federal-markey
+    published: 2026-03-31
+  - id: s-automotive-world-waymo-s-four-remote-cen
+    publisher: Automotive World
+    title: Waymo's four remote centers
+    url: https://www.automotiveworld.com/?p=461128
+  - id: s-fox-zoox-airport-service
+    publisher: Fox
+    title: Zoox airport service
+    url: https://www.fox5atlanta.com/news/zoox-las-vegas-airport
+  - id: s-dallas-innovates-aurora-el-paso-lane
+    publisher: Dallas Innovates
+    title: Aurora El Paso lane
+    url: https://dallasinnovates.com/?p=281356
+  - id: s-arizona-tech-council-aurora-200-trucks
+    publisher: Arizona Tech Council
+    title: Aurora 200 trucks
+    url: https://www.aztechcouncil.org/?p=26066
+  - id: s-sustainable-bus-navi-first-year
+    publisher: Sustainable Bus
+    title: NAVI first year
+    url: https://www.sustainable-bus.com/news/jta-navi-project-one-year-jacksonville/
+  - id: s-dubai-media-office-commercial-robotaxis
+    publisher: Dubai Media Office
+    title: commercial robotaxis
+    url: https://mediaoffice.ae/en/news/2026/march/30-3/rta-launches-commercial-operations-involving-autonomous-taxis
+  - id: s-khaleej-times-100-robotaxis-in-dubai
+    publisher: Khaleej Times
+    title: 100 robotaxis in Dubai
+    url: https://www.khaleejtimes.com/uae/transport/dubai-launches-self-driving-taxi-service-in-umm-suqeim-jumeirah
+  - id: s-automotive-world-waymo-tokyo-2027
+    publisher: Automotive World
+    title: Waymo Tokyo 2027
+    url: https://www.automotiveworld.com/news/waymo-targets-a-2027-tokyo-launch-with-two-local-partners/
+  - id: s-axios-pittsburgh-waymo-expands-push
+    publisher: Axios Pittsburgh
+    title: Waymo expands push
+    url: https://www.axios.com/local/pittsburgh/2026/03/06/waymo-expands-robotaxi-push-in-pittsburgh
+    published: 2026-03-06
+  - id: s-city-of-pittsburgh-autonomous-technology
+    publisher: City of Pittsburgh
+    title: Autonomous Technology
+    url: https://www.pittsburghpa.gov/Resident-Services/Road-Maintenance/Road-Safety/Autonomous-Technology
+  - id: s-axios-pittsburgh-pennstart
+    publisher: Axios Pittsburgh
+    title: PennSTART
+    url: https://www.axios.com/local/pittsburgh/2025/05/06/pittsburgh-aurora-driverless-trucks-texas
+    published: 2025-05-06
+  - id: s-boston-com-boston-ordinance-debate
+    publisher: Boston.com
+    title: Boston ordinance debate
+    url: https://www.boston.com/news/local-news/2025/10/30/attack-on-our-way-of-life-debate-around-autonomous-vehicles-heats-up-in-boston
+    published: 2025-10-30
+  - id: s-bloomberg-government-unions-and-dc-bill
+    publisher: Bloomberg Government
+    title: unions and DC bill (Minneapolis veto)
+    url: https://news.bgov.com/new-york-brief/unions-raise-job-loss-issue-in-fight-to-limit-waymo-cars-in-dc
+  - id: s-wtop-dc-bill-and-vmt-fee
+    publisher: WTOP
+    title: DC bill and VMT fee
+    url: https://wtop.com/dc/2026/07/future-of-driverless-vehicles-robotaxis-to-be-debated-by-dc-council/
+    published: 2026-07
+  - id: s-wjla-dc-timeline-and-delay
+    publisher: WJLA
+    title: DC timeline and delay
+    url: https://wjla.com/news/local/will-driverless-robotaxis-operate-in-dc-their-fate-could-be-decided-thursday
+  - id: s-popsci-nyc-testing-permit
+    publisher: PopSci
+    title: NYC testing permit
+    url: https://www.popsci.com/technology/nyc-robotaxis-driverless/
+  - id: s-fc-axios-cruise-permit-suspended
+    publisher: Axios
+    title: California suspends Cruise driverless vehicles in San Francisco
+    url: https://www.axios.com/2023/10/24/cruise-permit-suspended-driverless-cars
+    published: 2023-10-24
+  - id: s-fc-cnbc-cruise-pauses-operations
+    publisher: CNBC
+    title: Cruise pauses all driverless operations after collisions with pedestrians, permit suspensions in California
+    url: https://www.cnbc.com/amp/2023/10/26/cruise-pauses-all-driverless-operations-after-collisions-suspensions.html
+    published: 2023-10-26
+  - id: s-fc-nbc-gm-cruise-ends
+    publisher: NBC News
+    title: GM's Cruise robotaxi business is latest growth initiative to falter
+    url: https://www.nbcnews.com/business/autos/gm-cruise-robotaxi-business-rcna184294
+    published: 2024-12-10
+  - id: s-g01-wuhan-apollo-go-1
+    publisher: People's Daily
+    title: Baidu's robotaxis orders surge, paving way for large-scale autonomous ride-hailing services
+    url: https://en.people.cn/n3/2024/0711/c90000-20192499.html
+    published: 2024-07-11
+  - id: s-g01-wuhan-apollo-go-2
+    publisher: ADAS & Autonomous Vehicle International
+    title: Baidu's Apollo Go robotaxi fleet in Wuhan goes from 5 to 300 vehicles in one year
+    url: https://www.autonomousvehicleinternational.com/news/robotaxis/baidus-apollo-go-robotaxi-fleet-in-wuhan-goes-from-5-to-300-vehicles-in-one-year.html
+  - id: s-g01-tokyo-waymo-1
+    publisher: Waymo
+    title: Partnering with Nihon Kotsu and GO on our first international road trip
+    url: https://waymo.com/blog/2024/12/partnering-with-nihon-kotsu-and-go-on-our-first-international-road-trip
+    published: 2024-12-16
+  - id: s-g01-tokyo-waymo-2
+    publisher: Waymo
+    title: New beginnings in Japan
+    url: https://waymo.com/blog/2025/04/new-beginnings-in-japan/
+    published: 2025-04
+  - id: s-g01-london-wayve-uber-1
+    publisher: The Star (Reuters)
+    title: Uber and AI-firm Wayve launch London's first robotaxis
+    url: https://www.thestar.com.my/tech/tech-news/2026/09/03/uber-and-ai-firm-wayve-launch-london039s-first-robotaxis
+    published: 2026-09-03
+  - id: s-g01-london-wayve-uber-2
+    publisher: TechCrunch
+    title: Wayve and Uber plan London robotaxi launch after UK speeds up autonomous vehicle rollout
+    url: https://techcrunch.com/2025/06/10/wayve-and-uber-plan-london-robotaxi-launch-after-uk-speeds-up-autonomous-vehicle-rollout/
+    published: 2025-06-10
+  - id: s-g01-madrid-casa-de-campo-bus-1
+    publisher: CTAG
+    title: CTAG collaborates with EMT Madrid on the first autonomous bus running in Casa de Campo
+    url: https://ctag.com/en/ctag-collaborates-with-emt-madrid-on-the-first-autonomous-bus-running-in-casa-de-campo/
+    published: 2025-09
+  - id: s-g01-madrid-casa-de-campo-bus-2
+    publisher: Euronews
+    title: Is this the transport of the future? Madrid tests first driverless bus made in Spain
+    url: https://www.euronews.com/2025/09/25/is-this-the-transport-of-the-future-madrid-tests-first-driverless-bus-made-in-spain
+    published: 2025-09-25
+  - id: s-g01-madrid-mercamadrid-bus-1
+    publisher: Alsa
+    title: Autonomous bus of Mercamadrid
+    url: https://www.alsa.com/en/mobility/autonomous-bus-mercamadrid
+  - id: s-g01-madrid-mercamadrid-bus-2
+    publisher: idw / Research in Germany
+    title: Spain's first autonomous on-demand bus begins regular passenger service at Mercamadrid
+    url: https://www.research-in-germany.org/idw-news/en_US/2026/7/2026-07-08_Spain_s_First_Autonomous_On-Demand_Bus_Begins_Regular_Passenger_Service_at_Mercamadrid_Through_MOBILITIES_FOR_EU.html
+    published: 2026-07-08
+  - id: s-g01-buenos-aires-testing-rule-1
+    publisher: El Economista
+    title: El gobierno porteño habilitó autos sin conductor y robots de delivery
+    url: https://eleconomista.com.ar/politica/el-gobierno-porteo-habilito-autos-conductor-robots-delivery-n97582
+  - id: s-g01-buenos-aires-testing-rule-2
+    publisher: Autoweb
+    title: La Ciudad de Buenos Aires habilitó las pruebas de autos autónomos y robots de delivery en la vía pública
+    url: https://www.autoweb.com.ar/?p=59867
+  - id: s-g01-san-antonio-waymo-1
+    publisher: KSAT
+    title: Waymo's driverless cars begin limited service in San Antonio for invited riders
+    url: https://ksat.com/news/local/2026/02/24/waymos-driverless-cars-begin-limited-service-in-san-antonio-for-invited-riders
+    published: 2026-02-24
+  - id: s-g01-san-antonio-waymo-2
+    publisher: City of San Antonio
+    title: Driverless cars have come to San Antonio. Here's how to share the road
+    url: https://www.sa.gov/Directory/Departments/Transportation/Initiatives/Vision-Zero/News/Driverless-Car-Safety
+todos:
+  - Removed interview-based text in risk case; find a public source if it should stay.
+  - "Malung-Salen (Sweden) case study and pin held back: interview-only. Add back with a public source on the SIKTA bus pilot."
+  - 'Needs source: type "Low-speed driverless delivery vehicles"'
+  - 'Needs source: type "Consumer "self-driving" cars (Level 2/3)"'
+  - 'Needs source: risk "Privacy and surveillance (cars as roaming cameras)"'
+  - 'Needs source: risk "Weather and unusual conditions"'
+  - 'Needs source: risk "Mass-casualty misuse"'
+  - 'Needs source: rule "Traffic law (school bus, yielding, police directions)"'
+  - 'Needs source: rule "Product liability and insurance"'
+  - 'Needs source: rule "International: UK Automated Vehicles Act 2024; Japan Level 4"'
+  - 'Needs source: pin "London, UK"'

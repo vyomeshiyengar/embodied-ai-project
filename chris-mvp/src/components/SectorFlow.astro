@@ -1,0 +1,86 @@
+---
+/** Top of every sector page: where you are, the six-step bar, and one small "as of" popover. */
+import type { Sector } from '../lib/content';
+import { sectors, unsourcedCount, STRICT, STATUS_LABEL } from '../lib/content';
+import { stepsFor, type StepKey } from '../lib/flow';
+import { href, sectorHref, fmtDate } from '../lib/url';
+interface Props { sector: Sector; step: StepKey; title: string }
+const { sector: s, step, title } = Astro.props;
+const steps = stepsFor(s);
+const idx = steps.findIndex((x) => x.key === step);
+const pending = STRICT ? 0 : unsourcedCount(s);
+// Switching sector keeps you on the same step (the 3D story exists for one sector only).
+const keep = step === 'overview' || step === 'map' ? '' : step;
+---
+<div class="flow-head">
+  <div class="container">
+    <div class="row">
+      <div class="crumb">
+        <a href={href('/playbook/')} data-nav-dir="back">Playbook</a>
+        <span aria-hidden="true">/</span>
+        <details class="switch">
+          <summary><span class="sid num">{s.id}</span> {s.name}<span class="visually-hidden">, switch sector</span></summary>
+          <ul>
+            {sectors.map((x) => (
+              <li><a href={sectorHref(x.slug, keep)} aria-current={x.slug === s.slug ? 'page' : undefined}><span class="sid num">{x.id}</span> {x.name}</a></li>
+            ))}
+          </ul>
+        </details>
+      </div>
+      <details class="info">
+        <summary>As of {fmtDate(s.as_of)}{pending > 0 && <span class="pend">, {pending} sources pending</span>}</summary>
+        <div class="pop">
+          <p><strong>{STATUS_LABEL[s.status]}.</strong> Research snapshot from {fmtDate(s.as_of)}.</p>
+          {s.liable_to_change && <p>Likely to change: {s.liable_to_change}</p>}
+          {step === 'risks' && <p>Which technologies each risk applies to is the team's reading of the research.</p>}
+          {pending > 0 && <p>{pending} items have no linked source yet. They show a "Source pending" tag and are hidden in the version tested with officials.</p>}
+        </div>
+      </details>
+    </div>
+    <h1>{title}</h1>
+    <nav class="steps" aria-label="Steps for this sector">
+      <ol>
+        {steps.map((x, i) => (
+          <li class:list={{ done: i < idx, now: i === idx }}>
+            <a href={x.href} aria-current={i === idx ? 'step' : undefined} data-nav-dir={i < idx ? 'back' : undefined}>
+              <span class="n num" aria-hidden="true">{i + 1}</span><span class="l">{x.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+</div>
+<style>
+  .flow-head { background: var(--c-surface-alt); padding-top: var(--sp-4); border-bottom: var(--border); }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+  .crumb { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-size: var(--fs-sm); color: var(--c-muted); }
+  .crumb > a { color: var(--c-link); font-weight: 600; }
+  .switch { position: relative; }
+  .switch summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 36px; padding: 0 0.85rem; border: 1.5px solid var(--c-heritage); border-radius: var(--radius-pill); background: #fff; color: var(--c-heritage); font-weight: 600; }
+  .switch summary::-webkit-details-marker { display: none; }
+  .switch summary::after { content: ''; width: 0.42em; height: 0.42em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin: -0.2em 0 0 0.2em; }
+  .switch ul { position: absolute; left: 0; top: calc(100% + 6px); width: min(92vw, 24rem); background: #fff; border: var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-panel); list-style: none; margin: 0; padding: var(--sp-2); z-index: 60; }
+  .switch li a { display: block; padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); color: var(--c-ink); text-decoration: none; }
+  .switch li a:hover, .switch li a:focus-visible { background: var(--c-surface-alt); }
+  .switch li a[aria-current='page'] { background: var(--c-selected); color: #fff; }
+  .sid { display: inline-block; min-width: 1.6em; color: var(--c-muted); }
+  .switch summary .sid { color: var(--c-medium); min-width: 0; }
+  [aria-current='page'] .sid { color: #fff; }
+  .info { position: relative; font-size: var(--fs-xs); }
+  .info summary { cursor: pointer; list-style: none; color: var(--c-muted); border: 1px solid var(--c-line); background: #fff; border-radius: var(--radius-pill); padding: 0.35rem 0.75rem; }
+  .info summary::-webkit-details-marker { display: none; }
+  .pend { color: var(--c-pending); font-weight: 600; }
+  .pop { position: absolute; right: 0; top: calc(100% + 6px); width: min(90vw, 24rem); background: #fff; border: var(--border); border-radius: var(--radius-md); padding: var(--sp-4); box-shadow: var(--shadow-panel); z-index: 30; font-size: var(--fs-sm); }
+  .pop p { margin: 0 0 var(--sp-2); }
+  h1 { font-size: var(--fs-2xl); margin: var(--sp-3) 0 var(--sp-3); }
+  .steps ol { display: flex; list-style: none; margin: 0; padding: 0; overflow-x: auto; gap: 2px; }
+  .steps li { flex: 1 1 0; min-width: 8.5rem; }
+  .steps a { display: flex; align-items: center; gap: 0.55rem; padding: var(--sp-3) var(--sp-3) var(--sp-3) 0; text-decoration: none; color: var(--c-muted); font-weight: 600; font-size: var(--fs-sm); border-bottom: 4px solid var(--c-line); transition: border-color var(--dur-med) var(--ease), color var(--dur-med) var(--ease); }
+  .steps .n { width: 1.7rem; height: 1.7rem; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: var(--fs-xs); background: #fff; border: 1.5px solid var(--c-line); color: var(--c-muted); }
+  .steps .done a { color: var(--c-ink); border-bottom-color: var(--c-spirit); }
+  .steps .done .n { background: var(--c-spirit); border-color: var(--c-spirit); color: var(--c-heritage-deep); }
+  .steps .now a { color: var(--c-heritage); border-bottom-color: var(--c-heritage); }
+  .steps .now .n { background: var(--c-heritage); border-color: var(--c-heritage); color: #fff; }
+  .steps a:hover { color: var(--c-heritage); }
+</style>

@@ -1,0 +1,106 @@
+---
+/** Step 5: Regulations. Pick a layer of authority, then read its rules side by side. */
+import Base from '../../../layouts/Base.astro';
+import SectorFlow from '../../../components/SectorFlow.astro';
+import StepNav from '../../../components/StepNav.astro';
+import Sources from '../../../components/Sources.astro';
+import SaveButton from '../../../components/SaveButton.astro';
+import { sectorHref } from '../../../lib/url';
+import { sectors, type Sector } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+const LAYERS = [
+  { key: 'federal', label: 'Federal', note: 'National agencies and Congress' },
+  { key: 'state', label: 'State', note: 'Legislatures, DMVs, state agencies' },
+  { key: 'city', label: 'City and local', note: 'Councils, departments, airports' },
+  { key: 'international', label: 'Other countries', note: 'Models from abroad' },
+  { key: 'voluntary', label: 'Standards', note: 'Voluntary industry standards' },
+] as const;
+const rulesFor = (k: string) => s.regulations.rules.filter((r) => r.level === k);
+const STATUS: Record<string, string> = { in_force: 'In force', pending: 'Pending', proposed: 'Proposed', vetoed: 'Vetoed' };
+const first = LAYERS.find((l) => rulesFor(l.key).length)?.key ?? 'gaps';
+---
+<Base title={`Regulations: ${s.name}`} sector={s.slug} sectorPage="regulations">
+  <SectorFlow sector={s} step="regulations" title="Regulations" />
+  <div class="container page">
+    <div class="layout">
+      <div class="stack cats" role="tablist" aria-orientation="vertical" aria-label="Levels of authority" data-switch>
+        {LAYERS.map((l, i) => {
+          const n = rulesFor(l.key).length;
+          return (
+            <button role="tab" id={`tab-${l.key}`} aria-controls={`panel-${l.key}`} aria-selected={l.key === first ? 'true' : 'false'} disabled={n === 0} style={`--i:${i}`}>
+              <span class="lbl">{l.label}</span><span class="sub">{l.note}</span><span class="n">{n} rule{n === 1 ? '' : 's'}</span>
+            </button>
+          );
+        })}
+        {s.regulations.gaps.length > 0 && (
+        <button role="tab" class="gaps-tab" id="tab-gaps" aria-controls="panel-gaps" aria-selected={first === 'gaps' ? 'true' : 'false'}>
+          <span class="lbl">Gaps</span><span class="sub">What nothing covers yet</span><span class="n">{s.regulations.gaps.length}</span>
+        </button>
+        )}
+      </div>
+      <div class="panels">
+        {!s.regulations.rules.length && !s.regulations.gaps.length && <p class="muted">Regulations for this sector are still being researched.</p>}
+        {LAYERS.filter((l) => rulesFor(l.key).length).map((l) => (
+          <section role="tabpanel" id={`panel-${l.key}`} aria-labelledby={`tab-${l.key}`} hidden={l.key !== first}>
+            <h2 class="h3">{l.label}</h2>
+            <ol class="rules">
+              {rulesFor(l.key).map((r) => (
+                <li class="rule" id={r.id}>
+                  <div class="head"><h3>{r.name}</h3><span class:list={['chip', r.status]}>{STATUS[r.status]}</span></div>
+                  <div class="cmp">
+                    <div class="covers"><span class="k">Covers</span><p>{r.covers ?? 'Not recorded yet.'}</p></div>
+                    <div class="short"><span class="k">Falls short</span><p>{r.falls_short ?? 'Not recorded yet.'}</p></div>
+                  </div>
+                  <div class="foot"><Sources ids={r.sources} sector={s} unconfirmed={r.unconfirmed} compact /><SaveButton kind="rule" id={r.id} title={r.name} href={`${sectorHref(s.slug, 'regulations')}#${r.id}`} sector={s.id} /></div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
+        {s.regulations.gaps.length > 0 && (
+          <section role="tabpanel" id="panel-gaps" aria-labelledby="tab-gaps" hidden={first !== 'gaps'}>
+            <h2 class="h3">Gaps nothing currently covers well</h2>
+            <ul class="gaps">{s.regulations.gaps.map((g) => <li>{g}</li>)}</ul>
+          </section>
+        )}
+      </div>
+    </div>
+  </div>
+  <StepNav sector={s} step="regulations" />
+</Base>
+
+<style>
+  .layout { display: grid; grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr); gap: var(--sp-6); align-items: start; }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+  /* Authority stack: layered bars, the selected one lifts. */
+  .stack { flex-direction: column; align-items: stretch; background: none; padding: 0; gap: 6px; width: 100%; border-radius: 0; }
+  .stack::before { display: none; }
+  .stack [role='tab'] { display: grid; grid-template-columns: 1fr auto; text-align: left; border-radius: var(--radius-md); padding: 0.8rem 1rem; margin-left: calc(var(--i, 0) * 10px); background: #e3ecf8; color: var(--c-ink); border-left: 6px solid var(--c-spirit); transition: background-color var(--dur-panel) var(--ease-out), transform var(--dur-panel) var(--ease-out), margin var(--dur-panel) var(--ease-out); }
+  .stack [role='tab'] .lbl { font-weight: 700; font-size: var(--fs-md); }
+  .stack [role='tab'] .sub { grid-column: 1; font-size: var(--fs-xs); font-weight: 500; color: var(--c-muted); }
+  .stack [role='tab'] .n { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+  .stack [role='tab'][aria-selected='true'] { background: var(--c-selected); color: #fff; border-left-color: var(--c-heritage); transform: translateX(8px); }
+  .stack [role='tab'][aria-selected='true'] .n { background: var(--c-selected-badge); color: #fff; }
+  .stack [role='tab'][aria-selected='true'] .sub { color: #fff; }
+  .stack .gaps-tab { margin-top: var(--sp-3); margin-left: 0; background: var(--c-pending-bg); border-left-color: var(--c-gold); }
+  .h3 { font-size: var(--fs-xl); }
+  .rules { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
+  .rule { border: var(--border); border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-5); background: #fff; }
+  .head { display: flex; gap: var(--sp-3); align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+  .head h3 { font-size: var(--fs-md); font-family: var(--font-sans); font-weight: 700; margin: 0; }
+  .chip.pending, .chip.proposed { background: var(--c-pending-bg); color: var(--c-pending); border-color: #e7cf7a; }
+  .chip.vetoed { background: #eceef2; }
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-3); font-size: var(--fs-sm); }
+  @media (max-width: 700px) { .cmp { grid-template-columns: 1fr; } }
+  .cmp > div { border-radius: var(--radius-sm); padding: var(--sp-3); }
+  .covers { background: #e8f1fb; } .short { background: #f3f0e6; }
+  .k { display: block; font-weight: 700; color: var(--c-ink); margin-bottom: 2px; }
+  .cmp p { margin: 0; }
+  .foot { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--sp-3); flex-wrap: wrap; }
+  .gaps { display: grid; gap: var(--sp-2); list-style: none; padding: 0; }
+  .gaps li { background: var(--c-pending-bg); border-radius: var(--radius-sm); padding: var(--sp-3) var(--sp-4); }
+</style>

@@ -1,0 +1,22 @@
+---
+/** Case studies now live on the global map. This page only redirects there (vercel.json also redirects). */
+import { sectors, type Sector } from '../../../lib/content';
+import { href } from '../../../lib/url';
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+const to = href(`/map/?sector=${s.id}`);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>Moved to the map</title>
+  </head>
+  <body>
+    <main><h1>Case studies moved</h1><p><a href={to}>Open {s.name} on the map</a>.</p></main>
+  </body>
+</html>

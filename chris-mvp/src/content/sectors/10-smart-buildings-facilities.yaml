@@ -1,0 +1,912 @@
+# Generated from docs/research/sectors/10-smart-buildings-municipal-facilities.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/10.mjs, then re-run. Do not invent facts.
+id: "10"
+slug: smart-buildings-facilities
+name: Smart Buildings & Municipal Facilities
+short_name: Buildings
+owner: Chris
+status: full
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/10-smart-buildings-municipal-facilities.md
+  drive_url: https://docs.google.com/document/d/14GAwGFwVJ4wwD4-7dAqJDdALW1mWIW-WLfDugYiOGCU/edit
+liable_to_change: the American Security Robotics Act and other limits on Chinese robots, Punggol's robotics testbed launch, Pittsburgh airport's six-month robot pilot results, and China's humanoid push.
+one_liner: a robot in a city building is a moving camera and computer that needs your doors and lifts, so you set the rules when you sign the contract.
+overview:
+  summary: widespread for floor cleaning, early deployment for security and inspection, pilots for humanoids and multi-robot buildings.
+  points:
+    - Cleaning robots are routine. Autonomous floor scrubbers run in airports, malls, hospitals and some public buildings. Pittsburgh International Airport was the first US airport to use autonomous UV cleaning robots (2020, with Pittsburgh's Carnegie Robotics).
+    - Security robots are common in private property, rare in government. Knightscope robots patrol parking lots, campuses and some city sites. The NYPD's Times Square subway robot pilot (2023) was dropped after a few months.
+    - Robot dogs are moving indoors. Pittsburgh's airport began a six-month pilot with Skild AI quadrupeds in fall 2026 to monitor air quality and flag spills and full trash bins.
+    - Humanoids are just arriving. A Singapore facility firm began deploying Unitree G1 humanoids for cleaning and maintenance in June 2026. China wants 10,000+ humanoids in commercial use by the end of 2026, mostly bought by government and state firms.
+    - The real action is the building, not just the robot. Singapore and South Korea now set standards so robots from different makers can ride lifts and open doors. Singapore's Punggol Digital District connects 23 building systems on one platform and is launching a public multi-operator robot testbed.
+  why_it_matters: "cities own a lot of buildings and pay a lot for cleaning, security and maintenance, so vendors will pitch robots as cost savings. But a robot inside a city building is a mobile camera, microphone and computer in places with sensitive data (police records, court files, voter rolls, children in libraries). Procurement is the main lever, and it is where cities are least prepared: few have standards for robot data, cybersecurity, accessibility, labor impact or emergency behavior."
+  core_shift: robots stop being equipment and start being "tenants" of the building. They need doors, lifts, Wi-Fi, chargers and permission to move. Whoever controls that integration (the building owner, the vendor or the city) controls the robots.
+players:
+  - type: Cleaning robots
+    who: Brain Corp (software in Tennant, Nilfisk machines), Avidbots, Carnegie Robotics (Pittsburgh), Gausium, Pudu, LionsBot (Singapore)
+  - type: Security robots
+    who: Knightscope (K5, K7), Cobalt Robotics, Asylon, Boston Dynamics Spot, Ghost Robotics
+  - type: Inspection and monitoring
+    who: Boston Dynamics, ANYbotics, Gecko Robotics (Pittsburgh), Skild AI (Pittsburgh, robot "brain" software)
+  - type: Humanoids
+    who: Unitree, AgiBot, UBTech (China); Agility, Figure, Tesla Optimus, Apptronik (US); YY Group (Singapore facility operator using Unitree)
+  - type: In-building delivery
+    who: Naver Labs (Korea), Pudu, Keenon, Bear Robotics, Savioke/Relay
+  - type: Building integration
+    who: Lift makers (KONE, Otis, Schindler, TK Elevator), door makers, Open Robotics (Open-RMF), JTC and GovTech Singapore (Open Digital Platform), Siemens, Honeywell
+  - type: Government actors
+    who: City facilities and general services departments, airport authorities, CIOs and CISOs, OSHA and state OSHA plans, procurement offices; Singapore JTC, IMDA and Enterprise Singapore; Korea's Ministry of Trade, Industry and Energy
+  - type: Labor and civil society
+    who: SEIU (janitors and building service workers), AFSCME (public employees), privacy and disability advocates
+terms:
+  - term: AMR (autonomous mobile robot)
+    definition: a robot that drives itself around a building using sensors and a map, as opposed to following tape or rails.
+    sources: []
+  - term: ASR (autonomous security robot)
+    definition: industry term for patrol robots with cameras, alarms and sometimes license plate readers.
+    sources: []
+  - term: Quadruped
+    definition: four-legged robot ("robot dog") that can handle stairs and uneven floors.
+    sources: []
+  - term: Humanoid
+    definition: robot shaped like a person so it can use human spaces and tools (door handles, buttons, mops). Still unreliable outside demos.
+    sources: []
+  - term: Robot-lift integration
+    definition: software link that lets a robot call an elevator, ride it and get off on the right floor. Singapore's standard for this is SS 713.
+    sources: []
+  - term: Fleet manager / middleware (e.g., Open-RMF)
+    definition: software that coordinates robots from different makers so they don't block each other at doors and lifts.
+    sources: []
+  - term: Digital twin
+    definition: a live 3D model of the building that robots use to navigate and that managers use to see where everything is.
+    sources: []
+  - term: BMS (building management system)
+    definition: the system that runs HVAC, lights, access control and alarms. Robots increasingly connect to it.
+    sources: []
+  - term: Robot-as-a-Service (RaaS)
+    definition: leasing robots with maintenance and software included, the usual model for cities. Knightscope calls it Machine-as-a-Service.
+    sources: []
+  - term: Keep-out zone
+    definition: an area mapped as off-limits for the robot (Pittsburgh airport's pilot uses them).
+    sources: []
+  - term: Telemetry
+    definition: "data the robot sends back to its maker: location, camera, audio, status. Where it goes matters."
+    sources: []
+  - term: OT (operational technology) security
+    definition: cybersecurity for physical systems like lifts and doors, different from office IT.
+    sources: []
+  - term: Fire service mode / elevator recall
+    definition: what lifts and doors do in a fire. Robots need to know too.
+    sources: []
+  - term: Embodied AI training data
+    definition: recordings of humans doing tasks so robots can learn them. Some operators pay cleaners to wear sensors.
+    sources: []
+types:
+  - id: t-autonomous-floor-cleaning-robots
+    name: Autonomous floor cleaning robots
+    zone: building
+    where: Lobbies, terminals, corridors, gyms
+    how: null
+    uses: Scrub, vacuum, UV disinfection
+    running_in: Pittsburgh International Airport (since 2020), many airports, malls, hospitals
+    city_response: Night shifts covered by fewer staff; mostly uncontroversial; union contracts sometimes limit use
+    progression: Multi-task robots (clean + inspect + monitor); humanoids for bathrooms and stairs
+    sources:
+      - s-cbs-pittsburgh-pit-uv-cleaning-robots-20
+  - id: t-security-patrol-robots-wheeled
+    name: Security patrol robots (wheeled)
+    zone: park
+    where: Parking garages, plazas, transit stations, campuses
+    how: null
+    uses: Patrol, record video, read plates, two-way calls
+    running_in: Knightscope in city sites (Huntington Park park patrol, Phenix City AL), NYPD subway pilot (2023, ended)
+    city_response: NYPD robot needed officer escorts and was retired; some cities renew contracts; privacy groups object
+    progression: Cheaper units, integration with gunshot detection and access control
+    sources:
+      - s-business-wire-knightscope-city-contracts
+      - s-engadget-nypd-ends-k5-trial
+  - id: t-robot-dogs-for-monitoring-and-patrol
+    name: Robot dogs for monitoring and patrol
+    zone: building
+    where: Airports, plants, data centers, perimeters
+    how: null
+    uses: Air quality, spills, trash, thermal checks, perimeter patrol
+    running_in: Pittsburgh airport (Skild AI pilot, fall 2026), LaGuardia Terminal B, utilities
+    city_response: PIT set defined areas, keep-out zones and vendor supervision
+    progression: More autonomy, arms for opening doors and pressing buttons
+    sources:
+      - s-robotics-tomorrow-pit-and-skild-ai
+      - s-future-travel-experience-pit-robot-pilot
+      - s-technical-ly-six-month-pit-pilot
+  - id: t-inspection-robots-in-city-plants
+    name: Inspection robots in city plants
+    zone: water
+    where: Water and wastewater plants, substations, tunnels, boiler rooms
+    how: null
+    uses: Gauge reading, leak and gas detection, thermal scans
+    running_in: Utilities worldwide (overlaps Maryam's Infrastructure doc)
+    city_response: Fewer staff entering hazardous spaces
+    progression: Scheduled autonomous rounds linked to work orders
+    sources: []
+  - id: t-in-building-delivery-and-service-rob
+    name: In-building delivery and service robots
+    zone: building
+    where: Offices, hospitals, hotels, mixed-use districts
+    how: null
+    uses: Mail, packages, food, lab samples
+    running_in: Naver 1784 (Seongnam, Korea), Singapore hospitals and JTC estates, Tokyo Midtown Yaesu (Naver, 2026)
+    city_response: Needs lifts and doors to talk to robots; Korea and Singapore wrote standards
+    progression: Standard robot-ready buildings; robots from many vendors sharing lifts
+    sources:
+      - s-freethink-naver-1784
+      - s-asia-economy-naver-exports-1784-tech-to
+      - s-elevator-world-korea-delivery-robot-elev
+  - id: t-humanoid-facility-robots
+    name: Humanoid facility robots
+    zone: building
+    where: Malls, hotels, commercial buildings, factories
+    how: null
+    uses: Cleaning, restocking, simple maintenance; gathering training data
+    running_in: YY Group in Singapore and Asia (Unitree G1, June 2026); China state-backed pilots
+    city_response: Labor questions; data and security worries about Chinese models
+    progression: "Unclear: big promises, weak real-world reliability so far"
+    sources:
+      - s-tech-times-yy-group-humanoids
+      - s-caixin-china-10-000-humanoids-target
+      - s-khaleej-times-bloomberg-humanoid-demand
+  - id: t-reception-and-telepresence-robots
+    name: Reception and telepresence robots
+    zone: building
+    where: City halls, libraries, hospitals
+    how: null
+    uses: Wayfinding, translation, remote staff presence
+    running_in: Some libraries and hospitals; Singapore hospitals use them with lift integration
+    city_response: Low risk, mixed usefulness
+    progression: Language AI makes them more useful for multilingual residents
+    sources: []
+  - id: t-multi-robot-district-platforms
+    name: Multi-robot district platforms
+    zone: street
+    where: Whole districts or campuses
+    how: null
+    uses: Connect robots to lifts, doors, chargers, CCTV through one platform
+    running_in: "Punggol Digital District (Singapore): 23 systems on one Open Digital Platform; robotics testbed launching late 2026"
+    city_response: null
+    progression: City-owned "robot operating systems" for districts
+    sources:
+      - s-jtc-open-digital-platform
+      - s-jtc-government-and-eight-partners-to-tes
+      - s-eweek-punggol-robot-testbed
+  - id: t-indoor-drones
+    name: Indoor drones
+    zone: air
+    where: Warehouses, large halls, roofs
+    how: null
+    uses: Inventory, roof and façade checks, security
+    running_in: Warehouses; some airports
+    city_response: Limited city use so far
+    progression: Docked indoor security drones
+    sources: []
+risks:
+  - id: r10-l-data-leaks-and-foreign-telemetry-rob
+    category: likely
+    title: Data leaks and foreign telemetry
+    detail: robots sending video, audio and maps to the vendor or abroad
+    likelihood: high
+    likelihood_label: High
+    severity: high
+    severity_label: High
+    who_affected: Staff, visitors
+    most_vulnerable:
+      - people in sensitive spaces (courts, police, libraries with kids)
+    worse_over_time: Cheap imported robots; cloud-dependent designs
+    case: Researchers found Unitree's G1 humanoid sends sensor data to servers in China every few minutes (2025). Senators proposed banning federal purchase of such robots (Mar 2026).
+    sources:
+      - s-help-net-security-g1-data-to-china
+      - s-fdd-senate-robot-procurement-ban
+    type_ids: []
+    all_types: true
+  - id: r10-l-cyber-takeover-of-robots-and-the-bui
+    category: likely
+    title: Cyber takeover of robots and the building systems they connect to
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Building occupants, city IT
+    most_vulnerable: []
+    worse_over_time: Robots linked to lifts, doors and access control
+    case: "UniPwn (Sept 2025): anyone in Bluetooth range could get root on Unitree robots and spread to others."
+    sources:
+      - s-ieee-spectrum-unipwn-exploit
+    type_ids: []
+    all_types: true
+  - id: r10-l-collisions-trips-and-blocked-paths
+    category: likely
+    title: Collisions, trips and blocked paths
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: null
+    most_vulnerable:
+      - Children, older adults, wheelchair and cane users, blind visitors
+    worse_over_time: More robots in crowded spaces; heavier robots
+    case: A Knightscope K5 ran over a toddler's foot at a Stanford-area mall (2016). In a station trial, a 300 kg cleaning robot collided with staff twice (Ruth's Sanitation doc). SF ordered a security robot off sidewalks (2017)
+    sources: []
+    unconfirmed:
+      - Knightscope K5 and toddler, Stanford-area mall, 2016
+      - SF order to move a security robot off sidewalks, 2017
+    type_ids:
+      - t-autonomous-floor-cleaning-robots
+      - t-security-patrol-robots-wheeled
+      - t-in-building-delivery-and-service-rob
+      - t-humanoid-facility-robots
+      - t-robot-dogs-for-monitoring-and-patrol
+    all_types: false
+  - id: r10-l-surveillance-creep-in-public-buildin
+    category: likely
+    title: Surveillance creep in public buildings
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: workers
+    most_vulnerable:
+      - Immigrants at city offices, unhoused people in libraries and stations
+    worse_over_time: Plate readers, face recognition add-ons
+    case: NYPD K5 recorded video for investigations (no live face recognition, per the city). Critics called it a "gimmick"
+    sources:
+      - s-engadget-nypd-ends-k5-trial
+    type_ids:
+      - t-security-patrol-robots-wheeled
+      - t-robot-dogs-for-monitoring-and-patrol
+      - t-reception-and-telepresence-robots
+      - t-indoor-drones
+    all_types: false
+  - id: r10-l-job-loss-and-worse-jobs-for-cleaners
+    category: likely
+    title: Job loss and worse jobs for cleaners and guards
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: null
+    most_vulnerable:
+      - Janitors and security guards, often immigrant and union workers
+    worse_over_time: Humanoids; RaaS priced per hour below wages
+    case: NYC's mayor pitched the K5 as "$9 an hour, no bathroom breaks." YY Group reportedly pays cleaners to wear sensors that train robots to do their jobs
+    sources:
+      - s-tech-times-yy-group-humanoids
+    type_ids:
+      - t-autonomous-floor-cleaning-robots
+      - t-security-patrol-robots-wheeled
+      - t-robot-dogs-for-monitoring-and-patrol
+    all_types: false
+  - id: r10-l-hype-and-wasted-money
+    category: likely
+    title: Hype and wasted money
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Low to Medium
+    who_affected: Taxpayers
+    most_vulnerable: []
+    worse_over_time: Pressure to look innovative
+    case: NYPD K5 sat in storage after its pilot. Humanoid demand is mostly government-created (China)
+    sources:
+      - s-amny-k5-still-unused
+      - s-khaleej-times-bloomberg-humanoid-demand
+    type_ids: []
+    all_types: true
+  - id: r10-l-accessibility-conflicts
+    category: likely
+    title: Accessibility conflicts
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: null
+    most_vulnerable:
+      - Disabled visitors and staff
+    worse_over_time: Robots using accessible routes and lifts at peak times
+    case: Naver built a robot-only lift to stop robots crowding employee lifts. Robots designed for wheelchair-accessible routes compete for the same space
+    sources:
+      - s-freethink-naver-1784
+    type_ids:
+      - t-autonomous-floor-cleaning-robots
+      - t-in-building-delivery-and-service-rob
+      - t-security-patrol-robots-wheeled
+      - t-reception-and-telepresence-robots
+    all_types: false
+  - id: r10-l-worker-health-and-stress-around-robo
+    category: likely
+    title: Worker health and stress around robots
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Facility staff
+    most_vulnerable: []
+    worse_over_time: Algorithm-driven workloads
+    case: ILO (2025) flags stress and new ergonomic risks around robots; OSHA has no robot-specific standard
+    sources:
+      - s-ilo-ai-and-digitalization-in-safety-and
+    type_ids:
+      - t-autonomous-floor-cleaning-robots
+      - t-in-building-delivery-and-service-rob
+      - t-humanoid-facility-robots
+      - t-inspection-robots-in-city-plants
+    all_types: false
+  - id: r10-b-robots-trapped-or-blocking-exits-in
+    category: black_swan
+    title: Robots trapped or blocking exits in a fire or power outage
+    likelihood: medium
+    likelihood_label: Low to Medium
+    severity: high
+    severity_label: High
+    who_affected: Occupants, firefighters
+    most_vulnerable: []
+    worse_over_time: Robots in stairwells, lifts and doorways; no US standard for robot fire behavior
+    case: Singapore's SS 713 (2025) specifically covers robot behavior with lifts and doors during fire evacuation and power outages, because it's a known gap. The SF and Wuhan robotaxi freezes show what mass stalls look like
+    sources:
+      - s-singapore-standards-ss-713-2025
+    type_ids:
+      - t-autonomous-floor-cleaning-robots
+      - t-in-building-delivery-and-service-rob
+      - t-security-patrol-robots-wheeled
+      - t-humanoid-facility-robots
+    all_types: false
+  - id: r10-b-wormable-robot-botnet-across-city-bu
+    category: black_swan
+    title: Wormable robot botnet across city buildings
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: All facilities using the same model
+    most_vulnerable: []
+    worse_over_time: Same vendor across sites; Bluetooth and Wi-Fi provisioning flaws
+    case: UniPwn was designed to jump robot to robot. Researchers also showed a humanoid could run hacking tools against the network it's on
+    sources:
+      - s-ieee-spectrum-unipwn-exploit
+    type_ids: []
+    all_types: true
+  - id: r10-b-espionage-in-sensitive-facilities-ma
+    category: black_swan
+    title: Espionage in sensitive facilities
+    detail: mapping, audio, Wi-Fi sniffing in police HQ, courts, election offices
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: Very high
+    who_affected: Investigations, elections, national security
+    most_vulnerable: []
+    worse_over_time: Foreign-made robots, vendor remote access
+    case: Congress pushed to list Unitree as a Chinese military company; the defense bill barred the military from adversary-made humanoids
+    sources:
+      - s-interesting-engineering-ndaa-military-hu
+      - s-fdd-senate-robot-procurement-ban
+    type_ids:
+      - t-security-patrol-robots-wheeled
+      - t-robot-dogs-for-monitoring-and-patrol
+      - t-reception-and-telepresence-robots
+      - t-indoor-drones
+      - t-inspection-robots-in-city-plants
+    all_types: false
+  - id: r10-b-vendor-collapse-or-remote-shutdown-r
+    category: black_swan
+    title: Vendor collapse or remote shutdown
+    detail: robots and the building platform stop working overnight
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Facilities that cut staff
+    most_vulnerable: []
+    worse_over_time: RaaS contracts; cloud-only control
+    case: No large public case yet; common in startups. Cities that cut cleaning or security staff have no fallback
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r10-b-lift-or-door-system-failure-caused-b
+    category: black_swan
+    title: Lift or door system failure caused by robot integration
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Occupants, especially
+    most_vulnerable:
+      - people who can't use stairs
+    worse_over_time: Robots given control of elevator and door systems
+    case: Not reported yet; the reason Singapore and Korea set safety standards for robot-lift data exchange
+    sources:
+      - s-elevator-world-korea-delivery-robot-elev
+      - s-singapore-standards-ss-713-2025
+    type_ids:
+      - t-in-building-delivery-and-service-rob
+      - t-multi-robot-district-platforms
+      - t-autonomous-floor-cleaning-robots
+    all_types: false
+regulations:
+  rules:
+    - id: g-osha-general-duty-clause-osha-robotics-g
+      name: OSHA general duty clause + OSHA robotics guidance
+      level: federal
+      level_label: Federal / state plans
+      status: in_force
+      covers: Employers must keep workplaces free of serious hazards
+      falls_short: No specific standard for mobile or humanoid robots in public buildings
+      sources: []
+    - id: g-ansi-a3-r15-08-parts-1-to-3-industrial-m
+      name: ANSI/A3 R15.08 Parts 1 to 3 (industrial mobile robots; Part 3 published 2026)
+      level: voluntary
+      level_label: Voluntary US standard
+      status: in_force
+      covers: Design, integration and safe use of mobile robots, including user risk assessments
+      falls_short: Written for industrial settings, not lobbies with the public
+      sources:
+        - s-ansi-r15-08-3-2026
+    - id: g-iso-13482-personal-care-robots-ul-3300-s
+      name: ISO 13482 (personal care robots), UL 3300 (service robots), ISO 25785-1 (legged robots, draft)
+      level: voluntary
+      level_label: Voluntary international / US
+      status: pending
+      covers: Safety of robots near people
+      falls_short: Voluntary; legged and humanoid robots not fully covered yet
+      sources: []
+    - id: g-singapore-ss-713-2025-replaced-tr-93-202
+      name: Singapore SS 713:2025 (replaced TR 93:2021)
+      level: voluntary
+      level_label: National standard (Singapore)
+      status: in_force
+      covers: Data exchange between robots, lifts and automatic doors, including fire evacuation and power outages
+      falls_short: No US equivalent; ASME elevator code doesn't address robot riders
+      sources:
+        - s-singapore-standards-ss-713-2025
+    - id: g-korean-industrial-standards-for-indoor-d
+      name: Korean Industrial Standards for indoor delivery robots and elevators
+      level: international
+      level_label: National (Korea)
+      status: in_force
+      covers: Safety and evaluation for robots using elevators
+      falls_short: Korea only
+      sources:
+        - s-elevator-world-korea-delivery-robot-elev
+    - id: g-american-security-robotics-act-cotton-an
+      name: American Security Robotics Act (Cotton and Schumer, introduced Mar 26, 2026) and NDAA humanoid limits
+      level: federal
+      level_label: Federal, pending / military only
+      status: pending
+      covers: Would bar federal agencies from buying or using ground robots from foreign adversaries
+      falls_short: Covers federal, not cities; but a signal for grant-funded local purchases
+      sources:
+        - s-fdd-senate-robot-procurement-ban
+        - s-interesting-engineering-ndaa-military-hu
+    - id: g-ndaa-section-889-covered-telecom-and-vid
+      name: NDAA Section 889 (covered telecom and video equipment)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Bans certain Chinese cameras and telecom gear in federal contracts
+      falls_short: Doesn't name robots; robots may contain covered parts
+      sources: []
+    - id: g-state-privacy-and-biometric-laws-illinoi
+      name: State privacy and biometric laws (Illinois BIPA, CCPA, others)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Face and voice data, consent, retention
+      falls_short: Government agencies often exempt
+      sources: []
+    - id: g-state-wiretap-and-recording-laws-e-g-pen
+      name: State wiretap and recording laws (e.g., Pennsylvania all-party consent)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Recording conversations
+      falls_short: Robots with microphones may break these without anyone noticing
+      sources: []
+    - id: g-public-records-laws
+      name: Public records laws
+      level: state
+      level_label: State
+      status: in_force
+      covers: Robot video and logs may be public records
+      falls_short: Hard to redact at scale; vendor-held data
+      sources: []
+    - id: g-fire-and-building-codes-nfpa-ibc-and-ada
+      name: Fire and building codes (NFPA, IBC) and ADA
+      level: city
+      level_label: State / local adoption
+      status: in_force
+      covers: Egress, accessible routes, elevators
+      falls_short: Silent on robots in egress paths and accessible routes
+      sources: []
+    - id: g-city-procurement-templates-e-g-govai-coa
+      name: City procurement templates (e.g., GovAI Coalition)
+      level: city
+      level_label: City
+      status: in_force
+      covers: AI vendor terms, fact sheets, incident plans
+      falls_short: Software-focused; no physical safety or robot telemetry clauses
+      sources: []
+    - id: g-eu-machinery-regulation-2023-1230-applie
+      name: EU Machinery Regulation 2023/1230 (applies from 2027) and EU AI Act
+      level: international
+      level_label: EU
+      status: in_force
+      covers: Machine safety including AI-driven behavior; high-risk AI rules
+      falls_short: EU only; timelines shifting
+      sources: []
+  gaps:
+    - A US standard for how robots behave in fires, outages and evacuations.
+    - "Procurement clauses for robot telemetry: what data leaves the building, where it's stored, who can access it remotely."
+    - Security certification for robots before they join a city network.
+    - Rules on robots in accessible routes and lifts during busy hours.
+    - Labor transition and consultation rules when robots replace cleaning or security contracts.
+    - Rules on using workers to collect robot training data.
+case_studies:
+  - id: c-punggol-digital-district-singapore-the-c
+    title: The city builds the robot operating system
+    place: Punggol Digital District, Singapore
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: a government-built Open Digital Platform (JTC and GovTech) linking 23 systems (lifts, chargers, CCTV, district cooling, building management) in a 50-hectare district, with an operational playbook covering charging points, movement speeds, coordinate mapping, APIs and lift use. A living robotics testbed with eight industry partners (IMDA, JTC, Singapore Institute of Technology) launches later in 2026.
+      - label: What happened (good)
+        text: robot companies don't have to build every integration themselves; the platform is part of the district's offer to tenants.
+      - label: Lessons
+        text: interest is not adoption. Match requirements to what a robot does and where. Question whether every robot must be tracked centrally.
+    sources:
+      - s-jtc-open-digital-platform
+      - s-jtc-government-and-eight-partners-to-tes
+      - s-eweek-punggol-robot-testbed
+    pin_id: p-punggol-digital-district-singapo
+  - id: c-naver-1784-korea-designing-the-building
+    title: designing the building for robots
+    place: Naver 1784, Korea
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What
+        text: Naver's 36-floor second headquarters (completed 2022), billed as the first robot-friendly building. Delivery robots ride a robot-only elevator ("Roboport") and share a cloud "brain" instead of each carrying expensive computers.
+      - label: What happened
+        text: robots deliver coffee and packages across floors. Designers found small things matter, like where the robot stands in a lift so people feel comfortable. In 2026 Naver exported a version to Tokyo Midtown Yaesu that works without robot-only lifts.
+      - label: How the government responded
+        text: Korea wrote national standards for indoor delivery robots and elevator use.
+      - label: Lessons
+        text: following wheelchair accessibility standards also made the building work for robots. Standards for lifts and doors are what let robots from different makers share a building, the same move Singapore made with SS 713.
+    sources:
+      - s-freethink-naver-1784
+      - s-asia-economy-naver-exports-1784-tech-to
+      - s-elevator-world-korea-delivery-robot-elev
+    pin_id: p-naver-1784-seongnam-korea
+  - id: c-pittsburgh-international-airport-pilotin
+    title: piloting with guardrails
+    place: Pittsburgh International Airport
+    kind: international
+    pittsburgh: true
+    fields:
+      - label: What
+        text: in 2020 PIT became the first US airport with autonomous UV cleaning robots (Nilfisk machines with Pittsburgh's Carnegie Robotics). In fall 2026, through its xBridge innovation program, it began a six-month pilot with up to four Skild AI robot dogs and two chargers in the Airside Terminal.
+      - label: How it's set up
+        text: each robot has a defined area and keep-out zones; Skild handles mapping, supervision and monitoring and trains airport staff; robots stop when someone blocks their path. First task is indoor air quality, later spills and full trash bins.
+      - label: Lessons
+        text: "a public authority can test with clear scope, time limit and vendor supervision. This is a model a city could copy for its own buildings, and it shows Pittsburgh's advantage: local robotics firms testing in local public facilities."
+    sources:
+      - s-cbs-pittsburgh-pit-uv-cleaning-robots-20
+      - s-robotics-tomorrow-pit-and-skild-ai
+      - s-future-travel-experience-pit-robot-pilot
+      - s-technical-ly-six-month-pit-pilot
+    pin_id: p-pittsburgh-international-airport
+  - id: c-nypd-s-k5-subway-robot-the-pilot-that-di
+    title: the pilot that didn't stick
+    place: NYPD's K5 subway robot
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What
+        text: a 400-pound Knightscope K5 leased to patrol the Times Square subway station overnight in 2023 for about $12,250 for the whole contract.
+      - label: What happened
+        text: officers had to escort it (to prevent vandalism), riders said it was usually plugged in, and it was retired after the pilot. A year later the city still had no use for it.
+      - label: Lessons
+        text: set success measures before launch; a robot that needs human guards doesn't save labor; public-facing security robots draw strong reactions. Good "what not to do" case.
+    sources:
+      - s-engadget-nypd-ends-k5-trial
+      - s-amny-k5-still-unused
+    pin_id: p-times-square-station-new-york
+  - id: c-humanoids-for-facility-management-yy-gro
+    title: YY Group and China's push
+    place: Humanoids for facility management
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What
+        text: in June 2026 Singapore's YY Group began deploying Unitree G1 humanoids for cleaning and maintenance in commercial buildings. China is pushing to put over 10,000 humanoids into commercial use by end of 2026.
+      - label: What happened
+        text: reporting finds demand so far is mostly created by government purchases and subsidies, and the robots still struggle outside staged demos. The same Unitree models had a serious wireless security flaw and send telemetry to China.
+      - label: Lessons
+        text: for cities, humanoids are a "watch, don't buy yet" item. If they arrive, the procurement questions (data, security, labor) matter more than the robot's abilities.
+    sources:
+      - s-tech-times-yy-group-humanoids
+      - s-caixin-china-10-000-humanoids-target
+      - s-khaleej-times-bloomberg-humanoid-demand
+      - s-help-net-security-g1-data-to-china
+  - id: c-g10-changi-cleaning-robots
+    title: Autonomous floor cleaners across airport terminals
+    place: Changi Airport, Singapore
+    kind: international
+    pittsburgh: false
+    pin_id: p-g10-changi-cleaning-robots
+    fields:
+      - label: What happened
+        text: Changi Airport started with 11 autonomous cleaning robots in Terminals 3 and 4 in 2017 to raise cleaners' productivity, with plans for 32 units across all terminals.
+      - label: Response
+        text: A 2025 university study looked at how the robots changed cleaning jobs at the airport.
+      - label: When
+        text: "2017"
+    sources: &a1
+      - s-g10-changi-cleaning-robots-1
+pins:
+  - id: p-pittsburgh-international-airport
+    place: Pittsburgh International Airport, PA
+    lat: 40.49
+    lng: -80.23
+    what: UV cleaning robots (2020); Skild AI robot dog pilot (2026)
+    response_type: Innovation program pilot (xBridge) with keep-out zones
+    tags:
+      - Cleaning
+      - Robot dogs
+      - Pittsburgh
+    sources:
+      - s-cbs-pittsburgh-pit-uv-cleaning-robots-20
+      - s-technical-ly-six-month-pit-pilot
+  - id: p-punggol-digital-district-singapo
+    place: Punggol Digital District, Singapore
+    lat: 1.41
+    lng: 103.91
+    what: One platform for 23 building systems; multi-operator robot testbed
+    response_type: Government-built platform; procurement standards in progress
+    tags:
+      - Platform
+      - Standards
+      - International
+    sources:
+      - s-jtc-open-digital-platform
+      - s-jtc-government-and-eight-partners-to-tes
+  - id: p-naver-1784-seongnam-korea
+    place: Naver 1784, Seongnam, Korea
+    lat: 37.36
+    lng: 127.11
+    what: First "robot-friendly building," robot-only lift
+    response_type: Private testbed; national standards
+    tags:
+      - Delivery
+      - Standards
+      - International
+    sources:
+      - s-freethink-naver-1784
+  - id: p-tokyo-midtown-yaesu-japan
+    place: Tokyo Midtown Yaesu, Japan
+    lat: 35.68
+    lng: 139.77
+    what: Naver's robot delivery system exported without robot-only lifts (2026)
+    response_type: Private deployment
+    tags:
+      - Delivery
+      - International
+    sources:
+      - s-asia-economy-naver-exports-1784-tech-to
+  - id: p-times-square-station-new-york
+    place: Times Square station, New York
+    lat: 40.76
+    lng: -73.99
+    what: NYPD Knightscope K5 pilot (2023), retired
+    response_type: Pilot ended
+    tags:
+      - Security
+      - Lessons
+    sources:
+      - s-engadget-nypd-ends-k5-trial
+  - id: p-huntington-park-ca
+    place: Huntington Park, CA
+    lat: 33.98
+    lng: -118.22
+    what: City park patrol robot, contract renewed
+    response_type: City contract
+    tags:
+      - Security
+    sources: []
+  - id: p-singapore-yy-group
+    place: Singapore (YY Group)
+    lat: 1.35
+    lng: 103.82
+    what: Humanoid robots for facility management (June 2026)
+    response_type: Private deployment
+    tags:
+      - Humanoids
+      - Labor
+    sources:
+      - s-tech-times-yy-group-humanoids
+  - id: p-laguardia-airport-ny
+    place: LaGuardia Airport, NY
+    lat: 40.78
+    lng: -73.87
+    what: Robot dog patrol in Terminal B
+    response_type: Airport operator deployment
+    tags:
+      - Robot dogs
+    sources: []
+  - id: p-washington-dc-washington-harbour
+    place: Washington, DC (Washington Harbour)
+    lat: 38.9
+    lng: -77.06
+    what: Security robot drove into a fountain (2017)
+    response_type: None
+    tags:
+      - Security
+      - Failure
+    sources: []
+  - id: p-g10-changi-cleaning-robots
+    place: Changi Airport, Singapore
+    lat: 1.3389
+    lng: 103.9837
+    what: Changi Airport started with 11 autonomous cleaning robots in Terminals 3 and 4 in 2017 to raise cleaners' productivity, with plans for 32 units across all terminals.
+    response_type: A 2025 university study looked at how the robots changed cleaning jobs at the airport.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a1
+places: []
+scenarios:
+  - horizon: 1
+    label: 1 year (2027)
+    best: Cities adopt a shared robot procurement addendum (data, security, emergency behavior); pilots like PIT publish results
+    worst: A cheap imported robot in a city building is found sending video abroad
+    surprise: Federal ban on adversary-made robots extended to grant-funded local purchases
+    city_action: Inventory every robot and connected device in city buildings; add telemetry and security clauses to contracts
+  - horizon: 5
+    label: 5 years (2031)
+    best: New public buildings are "robot-ready" with standard lift and door interfaces; robots handle night cleaning and hazardous inspection; workers moved to supervision roles
+    worst: A fire evacuation is slowed by robots in stairwells or lifts; lawsuits follow
+    surprise: Humanoids get good fast and vendors offer them below janitor wages, triggering union fights
+    city_action: Write a robot fire and outage standard with the fire marshal; bargain with unions early; prefer open standards like SS 713
+  - horizon: 10
+    label: 10 years (2036)
+    best: District-level platforms (city-run) coordinate robots across public buildings with strong privacy rules
+    worst: A wormable exploit takes over robots across many cities' buildings at once
+    surprise: Robots become so capable at using human interfaces that building integration platforms become obsolete
+    city_action: Keep fallback staffing plans; avoid single-vendor lock-in; require security updates and code escrow
+war_games:
+  - id: w-fire-alarm-at-city-hall-with-three-robot
+    title: fire alarm at city hall with three robots in the lobby and one in a lift
+  - id: w-a-security-researcher-announces-your-cle
+    title: a security researcher announces your cleaning robots send video abroad
+  - id: w-a-vendor-goes-bankrupt-and-its-cloud-shu
+    title: a vendor goes bankrupt and its cloud shuts off overnight.
+recommendation_candidate: "a common robot procurement addendum for member cities: data stays local unless approved, security testing before network access, a defined fire and outage behavior, accessibility rules, labor consultation, and exit and fallback plans. It works without new laws because the city is the buyer."
+sources:
+  - id: s-jtc-open-digital-platform
+    publisher: JTC
+    title: Open Digital Platform
+    url: https://estates.jtc.gov.sg/pdd/stories/open-digital-platform-the-digital-backbone-of-pdd
+  - id: s-jtc-government-and-eight-partners-to-tes
+    publisher: JTC
+    title: Government and eight partners to test physical AI in PDD
+    url: https://www.jtc.gov.sg/about-jtc/news-and-stories/press-releases/singapore-government-and-8-industry-leaders-to-research-test-and-deploy-physical-ai-in-pdd
+  - id: s-eweek-punggol-robot-testbed
+    publisher: eWeek
+    title: Punggol robot testbed
+    url: https://www.eweek.com/news/singapore-apac-physical-ai-punggol-robot-testbed/
+  - id: s-singapore-standards-ss-713-2025
+    publisher: Singapore Standards
+    title: SS 713:2025
+    url: https://www.singaporestandardseshop.sg/Product/SSPdtDetail/4bc72ff7-951f-4a5e-b85f-edafe36a8a3d
+  - id: s-freethink-naver-1784
+    publisher: Freethink
+    title: Naver 1784
+    url: https://www.freethink.com/robots-ai/1784-naver-labs
+  - id: s-asia-economy-naver-exports-1784-tech-to
+    publisher: Asia Economy
+    title: Naver exports 1784 tech to Tokyo
+    url: https://view.asiae.co.kr/en/article/2026072311405496404
+  - id: s-elevator-world-korea-delivery-robot-elev
+    publisher: Elevator World
+    title: Korea delivery robot elevator standards
+    url: https://elevatorworld.com/news/daily-news/south-korea-sets-standards-for-delivery-robot-elevator-use
+  - id: s-robotics-tomorrow-pit-and-skild-ai
+    publisher: Robotics Tomorrow
+    title: PIT and Skild AI
+    url: https://www.roboticstomorrow.com/news/2026/09/29/pittsburgh-tech-powers-aviation-industry-innovation-/27180/
+    published: 2026-09-29
+  - id: s-future-travel-experience-pit-robot-pilot
+    publisher: Future Travel Experience
+    title: PIT robot pilot details
+    url: https://www.futuretravelexperience.com/2026/10/pit-advances-robotics-ai-and-computer-vision-to-enhance-passenger-service-and-efficiency/
+    published: 2026-10
+  - id: s-technical-ly-six-month-pit-pilot
+    publisher: Technical.ly
+    title: six-month PIT pilot
+    url: https://technical.ly/entrepreneurship/pittsburgh-airport-skild-ai-robot-dogs-pilot/
+  - id: s-cbs-pittsburgh-pit-uv-cleaning-robots-20
+    publisher: CBS Pittsburgh
+    title: PIT UV cleaning robots (2020)
+    url: https://cbsnews.com/pittsburgh/news/coronavirus-pandemic-pittsburgh-airport-becomes-first-in-nation-to-deploy-ultraviolet-cleaning-robots
+  - id: s-engadget-nypd-ends-k5-trial
+    publisher: Engadget
+    title: NYPD ends K5 trial
+    url: https://www.engadget.com/nyc-ends-trial-run-of-times-square-subways-security-robot-105528275.html
+  - id: s-amny-k5-still-unused
+    publisher: amNY
+    title: K5 still unused
+    url: https://amny.com/news/adams-admin-k5-police-robot-alternate-use
+  - id: s-business-wire-knightscope-city-contracts
+    publisher: Business Wire
+    title: Knightscope city contracts
+    url: https://www.businesswire.com/news/home/20240606140762/en/City-of-Phenix-AL-Signs-Contract-for-6-K1-Hemispheres/
+  - id: s-tech-times-yy-group-humanoids
+    publisher: Tech Times
+    title: YY Group humanoids
+    url: https://www.techtimes.com/articles/318297/20260612/yy-group-deploys-humanoid-robots-clean-buildings-harvest-training-data.htm
+  - id: s-caixin-china-10-000-humanoids-target
+    publisher: Caixin
+    title: China 10,000 humanoids target
+    url: https://www.caixinglobal.com/2026-06-10/china-targets-10000-humanoid-robots-in-commercial-use-by-end-2026-102452656.html
+    published: 2026-06-10
+  - id: s-khaleej-times-bloomberg-humanoid-demand
+    publisher: Khaleej Times / Bloomberg
+    title: humanoid demand from government
+    url: https://www.khaleejtimes.com/chinas-humanoid-robots-arent-smart-enough-to-take-your-job-yet
+  - id: s-ieee-spectrum-unipwn-exploit
+    publisher: IEEE Spectrum
+    title: UniPwn exploit
+    url: https://spectrum.ieee.org/unitree-robot-exploit
+  - id: s-help-net-security-g1-data-to-china
+    publisher: Help Net Security
+    title: G1 data to China
+    url: https://www.helpnetsecurity.com/2025/10/16/unitree-g1-humanoid-robot-vulnerability/
+    published: 2025-10-16
+  - id: s-fdd-senate-robot-procurement-ban
+    publisher: FDD
+    title: Senate robot procurement ban
+    url: https://www.fdd.org/analysis/2026/03/27/as-chinese-robotics-industry-surges-senate-considers-limited-federal-procurement-ban/
+    published: 2026-03-27
+  - id: s-interesting-engineering-ndaa-military-hu
+    publisher: Interesting Engineering
+    title: NDAA military humanoid ban
+    url: https://interestingengineering.com/military/us-ban-china-humanoid-robots-military
+  - id: s-ansi-r15-08-3-2026
+    publisher: ANSI
+    title: R15.08-3-2026
+    url: https://blog.ansi.org/ansi/ansi-a3-r15-08-3-2026-industrial-mobile-robot/
+  - id: s-ilo-ai-and-digitalization-in-safety-and
+    publisher: ILO
+    title: AI and digitalization in safety and health at work
+    url: https://www.ilo.org/resource/news/ai-and-digitalization-are-transforming-safety-and-health-work
+  - id: s-g10-changi-cleaning-robots-1
+    publisher: Changi Airport Group
+    title: Keeping Changi spick and span
+    url: https://www.changiairport.com/corporate/media-centre/changijourneys/the-changi-experience/keeping-changi-spick-and-span.html
+todos:
+  - Removed interview-based text in risk case; find a public source if it should stay.
+  - 'Needs source: type "Inspection robots in city plants"'
+  - 'Needs source: type "Reception and telepresence robots"'
+  - 'Needs source: type "Indoor drones"'
+  - 'Needs source: risk "Collisions, trips and blocked paths"'
+  - 'Needs source: risk "Vendor collapse or remote shutdown"'
+  - 'Needs source: rule "OSHA general duty clause + OSHA robotics guidance"'
+  - 'Needs source: rule "ISO 13482 (personal care robots), UL 3300 (service robots), "'
+  - 'Needs source: rule "NDAA Section 889 (covered telecom and video equipment)"'
+  - 'Needs source: rule "State privacy and biometric laws (Illinois BIPA, CCPA, other"'
+  - 'Needs source: rule "State wiretap and recording laws (e.g., Pennsylvania all-par"'
+  - 'Needs source: rule "Public records laws"'
+  - 'Needs source: rule "Fire and building codes (NFPA, IBC) and ADA"'
+  - 'Needs source: rule "City procurement templates (e.g., GovAI Coalition)"'
+  - 'Needs source: rule "EU Machinery Regulation 2023/1230 (applies from 2027) and EU"'
+  - 'Needs source: pin "Huntington Park, CA"'
+  - 'Needs source: pin "LaGuardia Airport, NY"'
+  - 'Needs source: pin "Washington, DC (Washington Harbour)"'

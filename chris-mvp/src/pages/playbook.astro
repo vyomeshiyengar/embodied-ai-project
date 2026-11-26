@@ -1,0 +1,78 @@
+---
+/** Playbook: choose a sector (ten tiles), then walk its six steps. Hover or focus shows the takeaway. */
+import Base from '../layouts/Base.astro';
+import { sectors } from '../lib/content';
+import { href, sectorHref } from '../lib/url';
+
+// Simple line pictograms (24x24, stroke = currentColor). Drawn for this project.
+const ICONS: Record<string, string> = {
+  '01': 'M3 15h18v3H3zM5 15l2-5h10l2 5M7 18v2M17 18v2M8 13h8',
+  '02': 'M9 12h6M12 9v6M4 6h4M16 6h4M4 18h4M16 18h4M6 6v1M18 6v1M6 18v-1M18 18v-1M9 9l-3-3M15 9l3-3M9 15l-3 3M15 15l3 3',
+  '03': 'M2 16h20M4 16V10M20 16V10M4 10c4-5 12-5 16 0M8 16v-4M12 16v-5M16 16v-4M3 20h18',
+  '04': 'M6 7h12l-1 13H7L6 7zM4 7h16M10 4h4v3M10 11v6M14 11v6',
+  '05': 'M5 9h11v7H5zM16 11h3l2 3v2h-5M7 19a1.5 1.5 0 1 0 0-.1M17 19a1.5 1.5 0 1 0 0-.1M8 9V6h5v3',
+  '06': 'M3 20h18M6 20V6l10-3v4M6 8h12M14 8v5M12 13h4v3h-4zM9 20v-6h3v6',
+  '07': 'M12 3c4 4 6 7 6 10a6 6 0 0 1-12 0c0-3 2-6 6-10zM12 19v-8M12 14l3-2M12 16l-3-2',
+  '08': 'M12 3a5 5 0 0 1 5 5 4 4 0 0 1-1 7H8a4 4 0 0 1-1-7 5 5 0 0 1 5-5zM12 15v6M8 21h8',
+  '09': 'M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10zM12 9v5M9.5 11.5h5',
+  '10': 'M5 21V5l7-2v18M12 7h7v14M8 8h1M8 11h1M8 14h1M15 10h1M15 13h1M15 16h1M3 21h18',
+};
+---
+<Base title="Playbook">
+  <div class="container page">
+    <div class="intro">
+      <h1>Choose a sector</h1>
+      <a class="maplink" href={href('/map/')}>Global map</a>
+    </div>
+    <ul class="tiles">
+      {sectors.map((s) => {
+        const swans = s.risks.filter((r) => r.category === 'black_swan').length;
+        return (
+          <li>
+            <a class="tile" href={sectorHref(s.slug)} data-sector-tile={s.id}>
+              <span class="top">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d={ICONS[s.id]} /></svg>
+                <span class="id num">{s.id}</span>
+              </span>
+              <span class="name">{s.name}</span>
+              <span class="yours" hidden>Your sector</span>
+              <span class="counts">{s.types.length} types, {s.risks.length - swans} likely and {swans} black swan risks</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</Base>
+
+<script>
+  import { ws } from '../lib/workspace-store';
+  import { getSession } from '../lib/demo-auth';
+  document.addEventListener('astro:page-load', () => {
+    const mine = getSession() ? ws.profile()?.sectors ?? [] : [];
+    document.querySelectorAll<HTMLElement>('[data-sector-tile]').forEach((t) => {
+      const on = mine.includes(t.dataset.sectorTile || '');
+      t.classList.toggle('is-mine', on);
+      t.querySelector<HTMLElement>('.yours')!.hidden = !on;
+    });
+  });
+</script>
+
+<style>
+  .intro { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-4); flex-wrap: wrap; margin-bottom: var(--sp-5); }
+  .intro h1 { font-size: var(--fs-2xl); margin: 0; }
+  .maplink { font-weight: 600; }
+  .yours { align-self: flex-start; font-size: var(--fs-xs); font-weight: 700; color: var(--c-heritage-deep); background: var(--c-gold); padding: 0.1rem 0.6rem; border-radius: var(--radius-pill); }
+  .yours[hidden] { display: none; }
+  .tile.is-mine { box-shadow: inset 0 0 0 2px var(--c-gold); }
+  .tiles { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); }
+  .tile { position: relative; display: flex; flex-direction: column; gap: var(--sp-2); height: 100%; min-height: 12rem; padding: var(--sp-5); border-radius: var(--radius-md); background: var(--c-surface-alt); color: var(--c-ink); text-decoration: none; overflow: hidden; transition: background-color var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out); }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  svg { width: 40px; height: 40px; fill: none; stroke: var(--c-heritage); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--dur-med) var(--ease); }
+  .id { font-family: var(--font-serif); font-size: var(--fs-lg); color: var(--c-muted); }
+  .name { font-family: var(--font-serif); font-size: var(--fs-lg); font-weight: 600; line-height: 1.2; }
+  .counts { font-size: var(--fs-xs); color: var(--c-muted); margin-top: auto; }
+  .tile:hover, .tile:focus-visible { background: var(--c-selected); color: #fff; transform: translateY(-4px); }
+  .tile:hover svg, .tile:focus-visible svg { stroke: #fff; }
+  .tile:hover .counts, .tile:focus-visible .counts, .tile:hover .id, .tile:focus-visible .id { color: #fff; }
+</style>

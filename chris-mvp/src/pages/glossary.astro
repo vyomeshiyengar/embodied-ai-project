@@ -1,0 +1,59 @@
+---
+/** Glossary: pick a sector, or search every term. */
+import Base from '../layouts/Base.astro';
+import { sectors } from '../lib/content';
+const withTerms = sectors.filter((s) => s.terms.length);
+---
+<Base title="Glossary">
+  <div class="container page">
+    <div class="page-intro">
+      <h1>Glossary</h1>
+      <label class="search">Search all terms <input type="search" data-gsearch placeholder="e.g. geofence, BVLOS" /></label>
+    </div>
+    <div class="cats" role="tablist" aria-label="Terms by sector" data-switch>
+      {withTerms.map((s, i) => <button role="tab" id={`tab-g${s.id}`} aria-controls={`panel-g${s.id}`} aria-selected={i === 0 ? 'true' : 'false'}>{s.id} {s.short_name} <span class="n">{s.terms.length}</span></button>)}
+    </div>
+    {withTerms.map((s, i) => (
+      <section role="tabpanel" id={`panel-g${s.id}`} aria-labelledby={`tab-g${s.id}`} hidden={i !== 0}>
+        <dl class="terms">{s.terms.map((t) => <div><dt>{t.term}</dt><dd>{t.definition}</dd></div>)}</dl>
+      </section>
+    ))}
+    <section class="results" data-gresults hidden aria-live="polite">
+      <h2 class="h3" data-gcount></h2>
+      <dl class="terms" data-glist></dl>
+    </section>
+  </div>
+</Base>
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const input = document.querySelector<HTMLInputElement>('[data-gsearch]');
+    if (!input || input.dataset.ready) return;
+    input.dataset.ready = '1';
+    const all = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"] .terms > div')];
+    const res = document.querySelector<HTMLElement>('[data-gresults]')!;
+    const list = document.querySelector<HTMLElement>('[data-glist]')!;
+    const count = document.querySelector<HTMLElement>('[data-gcount]')!;
+    const tabs = document.querySelector<HTMLElement>('[data-switch]')!;
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      const panels = document.querySelectorAll<HTMLElement>('[role="tabpanel"]');
+      if (!q) { res.hidden = true; tabs.hidden = false; panels.forEach((p) => { p.style.display = ''; }); return; }
+      tabs.hidden = true;
+      panels.forEach((p) => { p.style.display = 'none'; });
+      const hits = all.filter((d) => d.textContent!.toLowerCase().includes(q));
+      list.replaceChildren(...hits.map((h) => h.cloneNode(true)));
+      count.textContent = `${hits.length} term${hits.length === 1 ? '' : 's'} found`;
+      res.hidden = false;
+    });
+  });
+</script>
+<style>
+  .search { display: grid; gap: 4px; font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink); }
+  .search input { font: var(--fs-md) var(--font-sans); padding: 0.55rem 0.8rem; border: 1px solid #9aa9be; border-radius: var(--radius-pill); min-width: min(80vw, 20rem); min-height: 44px; }
+  .terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--sp-3); margin-top: var(--sp-5); }
+  .terms > div { background: var(--c-surface-alt); border-radius: var(--radius-md); padding: var(--sp-4); }
+  dt { font-weight: 700; color: var(--c-ink); }
+  dd { margin: 0.2rem 0 0; font-size: var(--fs-sm); }
+  .h3 { font-size: var(--fs-lg); }
+  @media print { .cats, .search { display: none; } [role='tabpanel'][hidden] { display: block !important; } }
+</style>
