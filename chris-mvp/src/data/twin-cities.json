@@ -1,0 +1,15 @@
+{
+  "_note": "Sample cities for the 3D city twin. Centre and half-size (metres) of the neighborhood. Run `npm run twins` after editing. No officials are named anywhere in the app.",
+  "cities": [
+    { "id": "san-francisco", "name": "San Francisco", "country": "US", "area": "SoMa and Market Street", "lat": 37.7885, "lng": -122.4015, "half": 600 },
+    { "id": "boston", "name": "Boston", "country": "US", "area": "Seaport", "lat": 42.3505, "lng": -71.0445, "half": 600 },
+    { "id": "san-antonio", "name": "San Antonio", "country": "US", "area": "Downtown and River Walk", "lat": 29.4245, "lng": -98.4895, "half": 600 },
+    { "id": "london", "name": "London", "country": "GB", "area": "King's Cross", "lat": 51.5320, "lng": -0.1240, "half": 600 },
+    { "id": "madrid", "name": "Madrid", "country": "ES", "area": "Gran Vía and Sol", "lat": 40.4190, "lng": -3.7035, "half": 600 },
+    { "id": "kyiv", "name": "Kyiv", "country": "UA", "area": "Khreshchatyk and Maidan", "lat": 50.4500, "lng": 30.5235, "half": 600 },
+    { "id": "nairobi", "name": "Nairobi", "country": "KE", "area": "Central Business District", "lat": -1.2850, "lng": 36.8225, "half": 600 },
+    { "id": "bogota", "name": "Bogotá", "country": "CO", "area": "Centro Internacional", "lat": 4.6120, "lng": -74.0700, "half": 600 },
+    { "id": "buenos-aires", "name": "Buenos Aires", "country": "AR", "area": "Microcentro and Puerto Madero", "lat": -34.6050, "lng": -58.3700, "half": 600 },
+    { "id": "tokyo", "name": "Tokyo", "country": "JP", "area": "Shibuya", "lat": 35.6595, "lng": 139.7005, "half": 600 }
+  ]
+}

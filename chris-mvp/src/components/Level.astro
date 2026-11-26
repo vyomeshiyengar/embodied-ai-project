@@ -1,0 +1,21 @@
+---
+/** Likelihood or severity: three bars plus the verbatim label. Never color alone. */
+interface Props { kind: 'Likelihood' | 'Severity'; level: 'low' | 'medium' | 'high' | null; label?: string | null }
+const { kind, level, label } = Astro.props;
+const n = level === 'high' ? 3 : level === 'medium' ? 2 : level === 'low' ? 1 : 0;
+---
+<span class="level" data-level={level ?? 'none'}>
+  <span class="k">{kind}</span>
+  <span class="bars" aria-hidden="true">{[1, 2, 3].map((i) => <i class:list={{ on: i <= n }}></i>)}</span>
+  <span class="v">{label || (level ? level[0].toUpperCase() + level.slice(1) : 'Not rated yet')}</span>
+</span>
+<style>
+  .level { display: inline-flex; align-items: center; gap: 0.4rem; font-size: var(--fs-xs); color: var(--c-ink); }
+  .k { color: var(--c-muted); }
+  .v { font-weight: 600; }
+  .bars { display: inline-flex; gap: 2px; align-items: flex-end; }
+  .bars i { width: 5px; background: var(--c-line); border-radius: 1px; }
+  .bars i:nth-child(1) { height: 6px; } .bars i:nth-child(2) { height: 9px; } .bars i:nth-child(3) { height: 12px; }
+  .bars i.on { background: var(--c-heritage); }
+  [data-level='none'] .v { font-weight: 400; color: var(--c-muted); }
+</style>

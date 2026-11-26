@@ -1,0 +1,237 @@
+---
+/** Step 4: Risks. Choose Likely, Black swan or Looking ahead; narrow by technology; then pick a risk. */
+import Base from '../../../layouts/Base.astro';
+import SectorFlow from '../../../components/SectorFlow.astro';
+import StepNav from '../../../components/StepNav.astro';
+import Level from '../../../components/Level.astro';
+import Sources from '../../../components/Sources.astro';
+import SaveButton from '../../../components/SaveButton.astro';
+import { sectors, type Sector, type Risk } from '../../../lib/content';
+import { sectorHref } from '../../../lib/url';
+import { byConcern } from '../../../lib/rank';
+
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+const groups = [
+  { key: 'likely', label: 'Likely', risks: s.risks.filter((r) => r.category === 'likely').sort(byConcern) },
+  { key: 'black_swan', label: 'Black swan', risks: s.risks.filter((r) => r.category === 'black_swan').sort(byConcern) },
+].filter((g) => g.risks.length);
+const hasOutlook = s.scenarios.length > 0;
+const first = groups[0]?.key ?? (hasOutlook ? 'outlook' : '');
+// Technology filter: every type that at least one risk names (risks that apply to all count for every type).
+const applies = (r: Risk, typeId: string) => r.all_types || r.type_ids.includes(typeId);
+const techs = s.risks.length ? s.types.map((t) => ({ ...t, n: s.risks.filter((r) => applies(r, t.id)).length })).filter((t) => t.n > 0) : [];
+const typeName = new Map(s.types.map((t) => [t.id, t.name] as const));
+const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 : l === 'low' ? 1 : 0);
+---
+<Base title={`Risks: ${s.name}`} sector={s.slug} sectorPage="risks">
+  <SectorFlow sector={s} step="risks" title="Risks" />
+  <div class="container page">
+    {first ? (
+      <div class="cats big" role="tablist" aria-label="Kinds of risk" data-switch>
+        {groups.map((g) => <button role="tab" id={`tab-${g.key}`} aria-controls={`panel-${g.key}`} aria-selected={g.key === first ? 'true' : 'false'}>{g.label} <span class="n" data-group-count={g.key}>{g.risks.length}</span></button>)}
+        {hasOutlook && <button role="tab" id="tab-outlook" aria-controls="panel-outlook" aria-selected={first === 'outlook' ? 'true' : 'false'}>Looking ahead</button>}
+      </div>
+    ) : <p class="muted">Risks for this sector are still being written up.</p>}
+
+    {techs.length > 1 && (
+      <div class="techfilter" data-techfilter>
+        <p class="tf-label" id="tf-label">Technology</p>
+        <div class="tf-chips" role="group" aria-labelledby="tf-label">
+          <button type="button" class="tf" aria-pressed="true" data-tech="">All technologies <span class="n">{s.risks.length}</span></button>
+          {techs.map((t) => <button type="button" class="tf" aria-pressed="false" data-tech={t.id}>{t.name} <span class="n">{t.n}</span></button>)}
+        </div>
+        <p class="visually-hidden" aria-live="polite" data-tf-status></p>
+      </div>
+    )}
+
+    {groups.map((g) => {
+      return (
+        <section role="tabpanel" id={`panel-${g.key}`} aria-labelledby={`tab-${g.key}`} hidden={g.key !== first} class="rp">
+          <div class="layout">
+            <div class="left">
+              <div class="cats vert" role="tablist" aria-orientation="vertical" aria-label={`${g.label} risks`} data-switch>
+                {g.risks.map((r, i) => (
+                  <button role="tab" id={`tab-${r.id}`} aria-controls={`panel-${r.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-types={r.all_types ? '*' : r.type_ids.join(' ')}>
+                    <span class="rt">{r.title}</span>
+                    <span class="mini" aria-hidden="true" title={`Likelihood ${r.likelihood ?? 'not rated'}, severity ${r.severity ?? 'not rated'}`}>
+                      <span class="mb">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.likelihood) }}></i>)}</span>
+                      <span class="mb sev">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.severity) }}></i>)}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <p class="empty small muted" data-empty hidden>No {g.label.toLowerCase()} risks for this technology.</p>
+              <p class="legend small muted" aria-hidden="true"><span class="mb"><i class="on"></i><i class="on"></i><i></i></span> likelihood <span class="mb sev"><i class="on"></i><i class="on"></i><i></i></span> severity</p>
+            </div>
+            <div class="right">
+              {g.risks.map((r, i) => (
+                <article role="tabpanel" id={`panel-${r.id}`} aria-labelledby={`tab-${r.id}`} hidden={i !== 0} class="detail">
+                  <div class="dhead">
+                    <h2 class="h3">{r.title}</h2>
+                    <SaveButton kind="risk" id={r.id} title={r.title} href={`${sectorHref(s.slug, 'risks')}#${r.id}`} sector={s.id} />
+                  </div>
+                  {r.detail && <p class="small muted">{r.detail}</p>}
+                  <div class="levels">
+                    <Level kind="Likelihood" level={r.likelihood} label={r.likelihood_label} />
+                    <Level kind="Severity" level={r.severity} label={r.severity_label} />
+                  </div>
+                  {(r.who_affected || r.most_vulnerable.length > 0) && (
+                    <div class="people">
+                      <h3>Who is affected</h3>
+                      {r.most_vulnerable.length > 0 && <ul class="vuln" aria-label="Most vulnerable">{r.most_vulnerable.map((v) => <li>{v}</li>)}</ul>}
+                      {r.who_affected && <p class="small">{r.who_affected}</p>}
+                    </div>
+                  )}
+                  <dl class="facts">
+                    {r.case && <div><dt>{g.key === 'likely' ? 'Real case and response' : 'Happened, or nearly'}</dt><dd>{r.case}</dd></div>}
+                    {r.worse_over_time && <div><dt>What makes it worse</dt><dd>{r.worse_over_time}</dd></div>}
+                  </dl>
+                  <div class="applies">
+                    <h3>Applies to</h3>
+                    {r.all_types ? <p class="small">Every technology in this sector.</p> : (
+                      <ul>{r.type_ids.map((t) => <li><button type="button" class="tchip" data-tech-set={t}>{typeName.get(t)}</button></li>)}</ul>
+                    )}
+                  </div>
+                  <Sources ids={r.sources} sector={s} unconfirmed={r.unconfirmed} />
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    })}
+
+    {hasOutlook && (
+      <section role="tabpanel" id="panel-outlook" aria-labelledby="tab-outlook" hidden={first !== 'outlook'} class="rp">
+        <div class="cats" role="tablist" aria-label="Time horizon" data-switch>
+          {s.scenarios.map((x, i) => <button role="tab" id={`tab-h${x.horizon}`} aria-controls={`panel-h${x.horizon}`} aria-selected={i === 0 ? 'true' : 'false'}>{x.horizon} year{x.horizon === 1 ? '' : 's'}</button>)}
+        </div>
+        {s.scenarios.map((x, i) => (
+          <div role="tabpanel" id={`panel-h${x.horizon}`} aria-labelledby={`tab-h${x.horizon}`} hidden={i !== 0} class="horizon">
+            <p class="when">{x.label}</p>
+            <div class="bands">
+              <div class="band best"><h3>Best case</h3><p>{x.best}</p></div>
+              <div class="band worst"><h3>Worst case</h3><p>{x.worst}</p></div>
+              <div class="band surprise"><h3>Surprise</h3><p>{x.surprise}</p></div>
+            </div>
+            {x.city_action && <div class="act"><h3>What a city should do now</h3><p>{x.city_action}</p></div>}
+          </div>
+        ))}
+      </section>
+    )}
+  </div>
+  <StepNav sector={s} step="risks" />
+</Base>
+
+<script>
+  import { select } from '../../../scripts/switcher';
+
+  function initTechFilter() {
+    const box = document.querySelector<HTMLElement>('[data-techfilter]');
+    if (!box || box.dataset.ready) return;
+    box.dataset.ready = '1';
+    const chips = [...box.querySelectorAll<HTMLButtonElement>('[data-tech]')];
+    const status = box.querySelector<HTMLElement>('[data-tf-status]')!;
+    const apply = (tech: string) => {
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.tech === tech)));
+      let total = 0;
+      document.querySelectorAll<HTMLElement>('.rp .cats.vert').forEach((list) => {
+        const tabs = [...list.querySelectorAll<HTMLElement>('[role="tab"]')];
+        let shown = 0;
+        for (const t of tabs) {
+          const types = (t.dataset.types || '').split(' ');
+          const on = !tech || types.includes('*') || types.includes(tech);
+          if (on && t.hidden) { t.classList.remove('in'); void t.offsetWidth; t.classList.add('in'); }
+          t.hidden = !on;
+          if (on) shown++;
+        }
+        total += shown;
+        const panel = list.closest<HTMLElement>('.rp')!;
+        const key = panel.id.replace('panel-', '');
+        const count = document.querySelector<HTMLElement>(`[data-group-count="${key}"]`);
+        if (count) count.textContent = String(shown);
+        panel.querySelector<HTMLElement>('[data-empty]')!.hidden = shown > 0;
+        panel.querySelector<HTMLElement>('.right')!.hidden = shown === 0;
+        list.hidden = shown === 0;
+        const sel = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
+        const first = tabs.find((t) => !t.hidden);
+        if (sel?.hidden && first) select(first);
+      });
+      window.dispatchEvent(new Event('resize')); // re-measure the sliding indicator
+      const name = chips.find((c) => c.dataset.tech === tech)?.firstChild?.textContent?.trim();
+      status.textContent = `${total} risks shown for ${name}.`;
+    };
+    chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.tech || '')));
+    document.querySelectorAll<HTMLButtonElement>('[data-tech-set]').forEach((b) => b.addEventListener('click', () => {
+      apply(b.dataset.techSet || '');
+      box.scrollIntoView({ block: 'nearest', behavior: document.documentElement.dataset.motion === 'reduce' ? 'auto' : 'smooth' });
+      chips.find((c) => c.dataset.tech === b.dataset.techSet)?.focus();
+    }));
+    // Hide the filter on the Looking ahead tab, where it does not apply.
+    const sync = () => { box.hidden = document.getElementById('tab-outlook')?.getAttribute('aria-selected') === 'true'; };
+    document.querySelector('.cats.big')?.addEventListener('switch', sync);
+    sync();
+    const want = new URLSearchParams(location.search).get('tech');
+    if (want && chips.some((c) => c.dataset.tech === want)) apply(want);
+  }
+
+  document.addEventListener('astro:page-load', initTechFilter);
+</script>
+
+<style>
+  .rp { margin-top: var(--sp-5); }
+  .layout { display: grid; grid-template-columns: minmax(16rem, 1fr) minmax(0, 1.6fr); gap: var(--sp-6); align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .vert { flex-direction: column; align-items: stretch; width: 100%; border-radius: var(--radius-md); }
+  .vert::before { border-radius: var(--radius-sm); }
+  .vert [role='tab'] { border-radius: var(--radius-sm); justify-content: space-between; text-align: left; min-height: 44px; gap: var(--sp-3); }
+  .vert [role='tab'][hidden] { display: none; }
+  .vert [role='tab'].in { animation: panel-in var(--dur-panel) var(--ease-out) both; }
+  .rt { flex: 1; }
+  .mini { display: inline-flex; gap: 6px; flex: none; }
+  .mb { display: inline-flex; gap: 2px; align-items: flex-end; vertical-align: middle; }
+  .mb i { width: 4px; border-radius: 1px; background: rgb(0 45 114 / 0.18); }
+  .mb i:nth-child(1) { height: 5px; } .mb i:nth-child(2) { height: 8px; } .mb i:nth-child(3) { height: 11px; }
+  .mb i.on { background: var(--c-medium); }
+  .mb.sev i.on { background: var(--c-heritage); }
+  [aria-selected='true'] .mb i { background: rgb(255 255 255 / 0.3); }
+  [aria-selected='true'] .mb i.on { background: #fff; }
+  [aria-selected='true'] .mb.sev i.on { background: var(--c-gold); }
+  .legend { margin-top: var(--sp-3); display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+  .legend .sev { margin-left: var(--sp-2); }
+  .empty { padding: var(--sp-4); background: var(--c-surface-alt); border-radius: var(--radius-md); }
+  .techfilter { margin-top: var(--sp-5); padding: var(--sp-4); border: var(--border); border-radius: var(--radius-md); background: #fff; }
+  .tf-label { margin: 0 0 var(--sp-2); font-weight: 700; color: var(--c-ink); font-size: var(--fs-sm); }
+  .tf-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tf { font: 600 var(--fs-xs) var(--font-sans); color: var(--c-ink); background: var(--c-surface-alt); border: 1.5px solid transparent; border-radius: var(--radius-pill); padding: 0 0.8rem; min-height: 34px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+  .tf:hover { border-color: var(--c-medium); }
+  .tf[aria-pressed='true'] { background: var(--c-selected); color: #fff; }
+  .tf .n { font-size: 0.72rem; padding: 0 0.4rem; border-radius: var(--radius-pill); background: rgb(0 45 114 / 0.1); }
+  .tf[aria-pressed='true'] .n { background: var(--c-selected-badge); }
+  .dhead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-3); flex-wrap: wrap; }
+  .dhead .h3 { margin: 0 0 var(--sp-2); }
+  .applies { margin: var(--sp-4) 0; }
+  .applies h3 { font: 700 var(--fs-sm) var(--font-sans); color: var(--c-ink); margin-bottom: var(--sp-2); }
+  .applies ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tchip { font: 600 var(--fs-xs) var(--font-sans); color: var(--c-heritage); background: #e8f1fb; border: 1px solid #c4d9f1; border-radius: var(--radius-pill); padding: 0 0.7rem; min-height: 30px; cursor: pointer; }
+  .tchip:hover { background: var(--c-heritage); color: #fff; }
+  .h3 { font-size: var(--fs-xl); }
+  .levels { display: flex; gap: var(--sp-5); flex-wrap: wrap; padding-bottom: var(--sp-3); margin-bottom: var(--sp-3); border-bottom: var(--border); }
+  .people h3, .band h3, .act h3 { font: 700 var(--fs-sm) var(--font-sans); color: var(--c-ink); margin-bottom: var(--sp-2); }
+  .vuln { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--sp-2); }
+  .vuln li { background: var(--c-gold-tint); border: 1px solid #e3c45c; color: #4d3a00; border-radius: var(--radius-pill); padding: 0.25rem 0.7rem; font-size: var(--fs-xs); font-weight: 700; }
+  .people { margin-bottom: var(--sp-4); }
+  .horizon { margin-top: var(--sp-4); }
+  .when { font-family: var(--font-serif); font-size: var(--fs-xl); color: var(--c-heritage); }
+  .bands { display: grid; gap: var(--sp-2); }
+  .band { display: grid; grid-template-columns: 9rem 1fr; gap: var(--sp-4); align-items: start; padding: var(--sp-4); border-radius: var(--radius-md); background: var(--c-surface-alt); }
+  .band p { margin: 0; }
+  .band.best { background: #e8f1fb; } .band.worst { background: #e7e9f0; } .band.surprise { background: #f3f0e6; }
+  @media (max-width: 700px) { .band { grid-template-columns: 1fr; gap: 0; } }
+  .act { margin-top: var(--sp-4); background: var(--c-heritage); color: #fff; padding: var(--sp-5); border-radius: var(--radius-md); }
+  .act h3 { color: #fff; }
+  .act p { margin: 0; }
+</style>

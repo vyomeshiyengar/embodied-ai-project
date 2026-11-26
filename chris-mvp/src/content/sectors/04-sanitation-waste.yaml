@@ -1,0 +1,292 @@
+# Generated from docs/research/sectors/04-sanitation-waste-management.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/04.mjs, then re-run. Do not invent facts.
+id: "04"
+slug: sanitation-waste
+name: Sanitation & Waste Management
+short_name: Sanitation
+owner: Ruth
+status: partial
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/04-sanitation-waste-management.md
+  drive_url: https://docs.google.com/document/d/1iFF4CkVmne1f_DUB0e3cD3G28SF48PqarKtpArWTP3g/edit
+liable_to_change: null
+one_liner: null
+overview:
+  summary: null
+  points: []
+  why_it_matters: null
+  core_shift: null
+players: []
+terms: []
+types:
+  - id: t-bin-bot-autonomous-roaming-trash-bin
+    name: Bin Bot (Autonomous roaming trash bin)
+    zone: street
+    where: Train stations;
+    how: These bin-bots contain systems that can measure the amount of waste in their compartments and will automatically transport the waste to the station bin collection centre. When the compartment is full robots can identify when a passenger has waste to dispose of and can travel to that person to enable disposal.
+    uses: Mobile robot bins that can move through a defined area within the station, to detect waste on the floor and people wanting to dispose of waste
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+  - id: t-ai-powered-robots-and-machines-autom
+    name: AI-powered robots and machines (Automated recycling sorting systems)
+    zone: park
+    where: Train stations, neighborhoods, commercial campus, business parks
+    how: I-powered robots and machines equipped with sensors, cameras, and machine learning algorithms can identify, sort, and separate different types of waste materials more accurately and rapidly than manual sorting There is a self-driving robot named HARR-E which prevents the need to drag bins to the curb. HARR-E uses AI to navigate from your location to the central collection point, picking up refuse and recycling on your schedule.
+    uses: Powered Robots that can sort through trash and dispose waste in appropriate bins
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+  - id: t-ai-driven-automation-system-self-dri
+    name: AI-driven automation system/self driving waste trucks
+    zone: street
+    where: In neighborhoods
+    how: It uses cameras and sensors (including light detection and ranging technology) to identify the exact location of trash carts on the curb, then automatically controls the truck’s robotic arm to grab and dump the carts – all with the push of a button. normally do. It speeds up the collection cycle at each stop. It also enhances safety across an entire fleet. Autonomous garbage trucks use LiDAR, computer vision, and real-time mapping to navigate collection routes without human drivers, reducing labor costs, eliminating driver fatigue risk, and enabling 24/7 collection scheduling in low-traffic overnight windows. AI fleet management platforms monitor vehicle position, fill capacity, battery or fuel levels, and maintenance status in real time, automatically rerouting units when obstacles or mechanical issues are detected mid-route.
+    uses: They are used for picking up trash from the bins. It alleviates truck drivers from having to find the trash bin, and manually lifting the bin to put trash into the truck
+    running_in: null
+    city_response: null
+    progression: null
+    sources: []
+risks: []
+regulations:
+  rules: []
+  gaps: []
+case_studies:
+  - id: c-g04-helsinki-zenrobotics
+    title: AI robot arms sort construction waste
+    place: Tattarisuo, Helsinki, Finland
+    kind: international
+    pittsburgh: false
+    pin_id: p-g04-helsinki-zenrobotics
+    fields:
+      - label: What happened
+        text: Recycling plants in and near Helsinki use ZenRobotics' AI-guided robot arms to pick wood, plastic, metal and stone from construction and demolition waste; one plant near Helsinki uses 12 arms on about 120,000 tonnes a year.
+      - label: Response
+        text: The arms run inside safety cages. Reports said robots replaced some sorting jobs at recycling centres.
+      - label: When
+        text: "2021"
+    sources: &a1
+      - s-g04-helsinki-zenrobotics-1
+      - s-g04-helsinki-zenrobotics-2
+pins:
+  - id: p-shenzhen-china
+    place: Shenzhen, China
+    lat: 22.54
+    lng: 114.06
+    what: Autonomous street-cleaning robots & unmanned sweepers
+    response_type: Uses large AI models and visual sensors to recognize traffic lights, avoid pedestrians, climb slopes, and collect leaves and street litter alongside sanitation workers.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-bo-ao-hainan-china
+    place: Bo'ao, Hainan, China
+    lat: 19.16
+    lng: 110.58
+    what: Autonomous beach-cleaning robots
+    response_type: Navigates shorelines day and night to sift sand and collect coastal debris into internal bins.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-guangzhou-china
+    place: Guangzhou, China
+    lat: 23.13
+    lng: 113.26
+    what: AI optical & infrared sorting lines
+    response_type: Combines computer vision and infrared scanning with mechanical/robotic actuators to separate mixed household waste and plastics.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-xiamen-china
+    place: Xiamen, China
+    lat: 24.48
+    lng: 118.09
+    what: AI optical & infrared sorting lines
+    response_type: Combines computer vision and infrared scanning with mechanical/robotic actuators to separate mixed household waste and plastics.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-denver-co
+    place: Denver, CO
+    lat: 39.74
+    lng: -104.99
+    what: Glacier AI robotic sorting arms
+    response_type: Installed at Republic Services' facility; uses computer vision to track and pick up to 70 recyclable items per minute off conveyor belts.
+    tags: []
+    approx: true
+    sources:
+      - s-youtube-com-watch-v-6eoexbpgfa0
+  - id: p-york-county-pa
+    place: York County, PA
+    lat: 39.96
+    lng: -76.73
+    what: Glacier AI sorting robots
+    response_type: Operating on Penn Waste's single-stream fiber line to identify and pull cardboard and PET plastics.
+    tags: []
+    approx: true
+    sources:
+      - s-recyclingproductnews-com-article-43761-g
+  - id: p-seattle-wa
+    place: Seattle, WA
+    lat: 47.61
+    lng: -122.33
+    what: Glacier AI computer-vision sorters
+    response_type: Partnered with Recology King County to sort 70+ types of recyclables and remove contamination on processing lines.
+    tags: []
+    approx: true
+    sources:
+      - s-elementalimpact-com-glaciers-ai-is-reima
+  - id: p-san-francisco-ca
+    place: San Francisco, CA
+    lat: 37.77
+    lng: -122.42
+    what: Optical sorters & Oscar Sort stations
+    response_type: Uses automated optical sorting lines at Recology facilities alongside interactive AI-vision kiosks at public hubs (like the Ferry Building) that scan trash and guide users to the right bin.
+    tags: []
+    approx: true
+    sources:
+      - s-govtech-com-artificial-intelligence-loca
+  - id: p-sarasota-fl
+    place: Sarasota, FL
+    lat: 27.34
+    lng: -82.53
+    what: High-speed AI robotic sorting arms
+    response_type: Deployed at Circular Services to scan waste streams and mechanically pull missed recyclables.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-detroit-mi
+    place: Detroit, MI
+    lat: 42.33
+    lng: -83.05
+    what: Sidewalk delivery/collection bots (Ottonomy)
+    response_type: Piloted in Corktown to autonomously navigate sidewalks and bike lanes to pick up food waste from homes and businesses for local composting.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tokyo-japan
+    place: Tokyo, Japan
+    lat: 35.68
+    lng: 139.69
+    what: SmaGO solar-powered compacting bins
+    response_type: Smart street receptacles equipped with internal sensors and automated mechanical compactors that crush trash every 5 minutes to increase capacity fivefold.
+    tags: []
+    approx: true
+    sources:
+      - s-goodnewsnetwork-org-tokyo-tackles-trash
+  - id: p-barcelona-spain
+    place: Barcelona, Spain
+    lat: 41.39
+    lng: 2.17
+    what: Robotic waste-separation systems
+    response_type: Integrates AI-guided robotic arms into municipal sorting plants to handle mixed waste streams.
+    tags: []
+    approx: true
+    sources: []
+  - id: p-g04-helsinki-zenrobotics
+    place: Tattarisuo, Helsinki, Finland
+    lat: 60.2533
+    lng: 25.0217
+    what: Recycling plants in and near Helsinki use ZenRobotics' AI-guided robot arms to pick wood, plastic, metal and stone from construction and demolition waste; one plant near Helsinki uses 12 arms on about 120,000 tonnes a year.
+    response_type: The arms run inside safety cages. Reports said robots replaced some sorting jobs at recycling centres.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a1
+places:
+  - place: Shenzhen, China
+    note: Autonomous street-cleaning robots & unmanned sweepers — Uses large AI models and visual sensors to recognize traffic lights, avoid pedestrians, climb slopes, and collect leaves and street litter alongside sanitation workers.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Bo'ao Town (Hainan), China
+    note: Autonomous beach-cleaning robots — Navigates shorelines day and night to sift sand and collect coastal debris into internal bins.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Guangzhou & Xiamen, China
+    note: AI optical & infrared sorting lines — Combines computer vision and infrared scanning with mechanical/robotic actuators to separate mixed household waste and plastics.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Denver, Colorado
+    note: Glacier AI robotic sorting arms — Installed at Republic Services' facility; uses computer vision to track and pick up to 70 recyclable items per minute off conveyor belts.
+    sources:
+      - s-youtube-com-watch-v-6eoexbpgfa0
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: York County, Pennsylvania
+    note: Glacier AI sorting robots — Operating on Penn Waste's single-stream fiber line to identify and pull cardboard and PET plastics.
+    sources:
+      - s-recyclingproductnews-com-article-43761-g
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Seattle, Washington
+    note: Glacier AI computer-vision sorters — Partnered with Recology King County to sort 70+ types of recyclables and remove contamination on processing lines.
+    sources:
+      - s-elementalimpact-com-glaciers-ai-is-reima
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: San Francisco, California
+    note: Optical sorters & Oscar Sort stations — Uses automated optical sorting lines at Recology facilities alongside interactive AI-vision kiosks at public hubs (like the Ferry Building) that scan trash and guide users to the right bin.
+    sources:
+      - s-govtech-com-artificial-intelligence-loca
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Sarasota, Florida
+    note: High-speed AI robotic sorting arms — Deployed at Circular Services to scan waste streams and mechanically pull missed recyclables.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Detroit, Michigan
+    note: Sidewalk delivery/collection bots (Ottonomy) — Piloted in Corktown to autonomously navigate sidewalks and bike lanes to pick up food waste from homes and businesses for local composting.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Tokyo, Japan
+    note: SmaGO solar-powered compacting bins — Smart street receptacles equipped with internal sensors and automated mechanical compactors that crush trash every 5 minutes to increase capacity fivefold.
+    sources:
+      - s-goodnewsnetwork-org-tokyo-tackles-trash
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+  - place: Barcelona, Spain
+    note: Robotic waste-separation systems — Integrates AI-guided robotic arms into municipal sorting plants to handle mixed waste streams.
+    sources: []
+    flag: Compiled with an AI tool in the research doc. Needs the original sources.
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-youtube-com-watch-v-6eoexbpgfa0
+    publisher: youtube.com
+    title: youtube.com
+    url: https://www.youtube.com/watch?v=6eOEXbPgfa0
+  - id: s-recyclingproductnews-com-article-43761-g
+    publisher: recyclingproductnews.com
+    title: recyclingproductnews.com
+    url: https://www.recyclingproductnews.com/article/43761/glacier-deploys-ai-sorting-robots-at-penn-waste-mrf
+  - id: s-elementalimpact-com-glaciers-ai-is-reima
+    publisher: elementalimpact.com
+    title: elementalimpact.com
+    url: https://elementalimpact.com/glaciers-ai-is-reimagining-recycling/
+  - id: s-govtech-com-artificial-intelligence-loca
+    publisher: govtech.com
+    title: govtech.com
+    url: https://www.govtech.com/artificial-intelligence/local-governments-integrate-ai-in-recycling-initiatives
+  - id: s-goodnewsnetwork-org-tokyo-tackles-trash
+    publisher: goodnewsnetwork.org
+    title: goodnewsnetwork.org
+    url: https://www.goodnewsnetwork.org/tokyo-tackles-trash-troubles-with-new-generation-of-robotic-street-waste-bins/
+  - id: s-g04-helsinki-zenrobotics-1
+    publisher: ZenRobotics (Terex)
+    title: Kuljetusrinki Ltd invests in fully autonomous robot sorting station
+    url: https://www.terex.com/zenrobotics/about-us/news/kuljetusrinki-ltd-invests-in-fully-autonomous-robot-sorting-station
+  - id: s-g04-helsinki-zenrobotics-2
+    publisher: Recycling Today
+    title: Stadler, Remeo and ZenRobotics sorting plant in Finland
+    url: https://www.recyclingtoday.com/news/finland-recycling-stadler-remeo-zenrobotics-sorting
+todos:
+  - Overview summary missing.
+  - City table (places) cites a Gemini prompt in the doc. Replace with original articles before showing in strict mode.
+  - 'Needs source: type "Bin Bot (Autonomous roaming trash bin)"'
+  - 'Needs source: type "AI-powered robots and machines (Automated recycling sorting "'
+  - 'Needs source: type "AI-driven automation system/self driving waste trucks"'
+  - 'Needs source: pin "Shenzhen, China"'
+  - "Needs source: pin \"Bo'ao, Hainan, China\""
+  - 'Needs source: pin "Guangzhou, China"'
+  - 'Needs source: pin "Xiamen, China"'
+  - 'Needs source: pin "Sarasota, FL"'
+  - 'Needs source: pin "Detroit, MI"'
+  - 'Needs source: pin "Barcelona, Spain"'

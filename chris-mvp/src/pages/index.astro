@@ -1,0 +1,117 @@
+---
+/** Welcome: a dimmed, slowly moving city scene behind the title and one button. */
+import Base from '../layouts/Base.astro';
+import Wordmark from '../components/Wordmark.astro';
+import { SITE_NAME, SITE_TAGLINE } from '../lib/site';
+import { href } from '../lib/url';
+---
+<Base title={SITE_NAME} welcome>
+  <section class="welcome" data-welcome>
+    <div class="backdrop" aria-hidden="true">
+      <img class="poster" src={href('/posters/welcome.png')} alt="" width="1600" height="1000" />
+      <canvas data-welcome-canvas></canvas>
+      <div class="dim"></div>
+    </div>
+    <div class="center">
+      <h1><Wordmark size="hero" tone="light" intro /></h1>
+      <p class="full rise" style="--d:780ms" aria-hidden="true">{SITE_NAME}</p>
+      <p class="line rise" style="--d:920ms">{SITE_TAGLINE}</p>
+      <div class="acts rise" style="--d:1060ms">
+        <button type="button" class="go" data-signin-open data-after-signin={href('/playbook/')}>Sign in</button>
+        <a class="go ghost" href={href('/playbook/')} data-guest>Continue as guest</a>
+      </div>
+    </div>
+    <button type="button" class="pause" data-welcome-pause aria-pressed="false" hidden>Pause animation</button>
+  </section>
+</Base>
+
+<script>
+  import { buildScene } from '../scenes/street/build-scene';
+
+  let cleanup: (() => void) | null = null;
+
+  function mount() {
+    const stage = document.querySelector<HTMLElement>('[data-welcome]');
+    if (!stage) return;
+    const canvas = stage.querySelector<HTMLCanvasElement>('[data-welcome-canvas]')!;
+    const pauseBtn = stage.querySelector<HTMLButtonElement>('[data-welcome-pause]')!;
+    const root = document.documentElement;
+    const reduced = () => root.dataset.motion === 'reduce' || (root.dataset.motion !== 'full' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (reduced()) return; // the still poster stays
+
+    let scene: ReturnType<typeof buildScene>;
+    try { scene = buildScene(canvas); } catch { return; }
+    stage.classList.add('live');
+    pauseBtn.hidden = false;
+    scene.apply({ mode: 'day', show: ['extras'], highlight: [], frozen: false, signalsOff: false }, { instant: true });
+
+    const resize = () => scene.resize(Math.max(1, stage.clientWidth), Math.max(1, stage.clientHeight));
+    resize();
+    window.addEventListener('resize', resize);
+
+    let paused = false, raf = 0, last = performance.now(), t = 0;
+    const frame = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (!paused) {
+        t += dt;
+        const a = 0.7 + t * 0.06, r = 150;
+        scene.camera.position.set(Math.cos(a) * r, 70 + Math.sin(t * 0.2) * 6, Math.sin(a) * r);
+        scene.camera.lookAt(0, 4, 0);
+        scene.setTime(t * 0.8);
+        scene.render();
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    const onPause = () => {
+      paused = !paused;
+      pauseBtn.setAttribute('aria-pressed', String(paused));
+      pauseBtn.textContent = paused ? 'Play animation' : 'Pause animation';
+    };
+    pauseBtn.addEventListener('click', onPause);
+    const onMotion = () => { if (reduced()) { cleanup?.(); cleanup = null; } };
+    window.addEventListener('eacp-motion-change', onMotion);
+
+    cleanup = () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('eacp-motion-change', onMotion);
+      pauseBtn.removeEventListener('click', onPause);
+      pauseBtn.hidden = true;
+      stage.classList.remove('live');
+      scene.dispose();
+    };
+  }
+
+  document.addEventListener('astro:page-load', () => { cleanup?.(); cleanup = null; mount(); });
+  document.addEventListener('astro:before-swap', () => { cleanup?.(); cleanup = null; });
+</script>
+
+<style>
+  .welcome { position: relative; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; overflow: hidden; background: var(--scene-bg); }
+  .backdrop, .backdrop > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .poster { object-fit: cover; }
+  canvas { display: block; opacity: 0; transition: opacity 600ms var(--ease); }
+  .live canvas { opacity: 1; }
+  .dim { background: var(--c-overlay); }
+  .center { position: relative; z-index: 1; text-align: center; padding: var(--sp-6) var(--sp-4); max-width: 46rem; }
+  h1 { margin: 0 0 var(--sp-4); line-height: 1; }
+  .full { color: #fff; font: 600 var(--fs-lg) var(--font-sans); letter-spacing: 0.02em; margin: 0 0 var(--sp-2); }
+  .line { color: #dbe6f5; font-size: var(--fs-lg); margin: 0 auto var(--sp-6); max-width: 34rem; }
+  .go { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 2.2rem; border-radius: var(--radius-pill); background: #fff; color: var(--c-heritage); font: 700 var(--fs-lg) var(--font-sans); text-decoration: none; transition: transform var(--dur-med) var(--ease-out), background-color var(--dur-med) var(--ease); }
+  .go:hover { background: var(--c-gold); color: var(--c-heritage-deep); transform: scale(1.04); }
+  .go:focus-visible { outline: 3px solid var(--c-gold); outline-offset: 4px; }
+  .acts { display: flex; gap: var(--sp-3); justify-content: center; flex-wrap: wrap; }
+  .go { cursor: pointer; border: 2px solid transparent; }
+  .go.ghost { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.85); }
+  .go.ghost:hover { background: #fff; color: var(--c-heritage); }
+  .go[hidden] { display: none; }
+  /* Entrance: text rises in after the wordmark. Plays once on load, never on scroll. */
+  .rise { animation: rise-in 560ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both; }
+  @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { :global(html:not([data-motion='full'])) .rise { animation: none; } }
+  :global(html[data-motion='reduce']) .rise { animation: none; }
+  .pause { position: absolute; z-index: 2; right: 1rem; bottom: 1rem; font: 600 var(--fs-xs) var(--font-sans); color: #fff; background: rgb(0 29 74 / 0.7); border: 1px solid rgb(255 255 255 / 0.5); border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; min-height: 36px; cursor: pointer; }
+  .pause[hidden] { display: none; }
+</style>

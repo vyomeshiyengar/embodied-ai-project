@@ -1,0 +1,802 @@
+# Generated from docs/research/sectors/05-urban-logistics-delivery.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/05.mjs, then re-run. Do not invent facts.
+id: "05"
+slug: urban-logistics-delivery
+name: Urban Logistics & Delivery
+short_name: Delivery
+owner: Vyomesh
+status: partial
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/05-urban-logistics-delivery.md
+  drive_url: https://docs.google.com/document/d/1zTLJQ-Jo5V7tfszyAWp0kKYZhAMn1Y4djQ9_oqaYg0A/edit
+liable_to_change: null
+one_liner: null
+overview:
+  summary: "Currently, physical AI is already operating at commercial scale in this space. The governance questions that are important happen in three instances: where delivery robots use shared public space for private commercial trips (sidewalks, curb ramps, bike lanes, low airspace), where state law limits what cities can do, and where robots cross paths with emergency response."
+  points: []
+  why_it_matters: null
+  core_shift: null
+players: []
+terms: []
+types:
+  - id: t-sidewalk-delivery-robots
+    name: Sidewalk delivery robots
+    zone: sidewalk
+    where: Sidewalks & crosswalks
+    how: null
+    uses: null
+    running_in: Serve (LA, Chicago, Miami, Atlanta, DFW), Coco (LA, Chicago, Miami, Jersey City), Avride (Jersey City), Starship (UK, Finland, Estonia, US campuses)
+    city_response: Starship passed 10M deliveries in 8 countries; Chicago residents petitioned to pause robots after crashes and blocked sidewalks
+    progression: null
+    sources: []
+  - id: t-faster-hybrid-delivery-robots
+    name: Faster hybrid delivery robots
+    zone: street
+    where: Bike lanes & road shoulders
+    how: null
+    uses: null
+    running_in: DoorDash Dot (Fremont, CA, from Mar 2026); Tennessee law allows bike-lane use from Jul 2026
+    city_response: New conflict zone with cyclists; a Jersey City cyclist was injured by a sidewalk robot in a bike lane (Oct 2025)
+    progression: null
+    sources: []
+  - id: t-road-going-autonomous-delivery-vehic
+    name: Road-going autonomous delivery vehicles
+    zone: street
+    where: Streets
+    how: null
+    uses: null
+    running_in: Nuro R2 (Houston)
+    city_response: First NHTSA exemption for a vehicle with no human controls (2020), capped at 5,000 vehicles over two years
+    progression: null
+    sources: []
+  - id: t-delivery-drones
+    name: Delivery drones
+    zone: air
+    where: Low airspace (suburbs)
+    how: null
+    uses: null
+    running_in: Wing, Zipline, Amazon Prime Air (DFW, Phoenix area)
+    city_response: Two Amazon drones hit a crane in Tolleson, AZ (Oct 2025); noise backlash in Richardson, TX
+    progression: null
+    sources: []
+  - id: t-urban-drone-networks-and-lockers
+    name: Urban drone networks & lockers
+    zone: air
+    where: Low airspace (dense cities)
+    how: null
+    uses: null
+    running_in: Meituan (Shenzhen, Shanghai West Bund); SF Express (Shenzhen)
+    city_response: Meituan's network went commercial in May 2026; Shenzhen runs 300+ low-altitude logistics routes
+    progression: null
+    sources: []
+  - id: t-mobile-robots-and-robot-arms
+    name: Mobile robots and robot arms
+    zone: building
+    where: Warehouses & distribution centers
+    how: null
+    uses: null
+    running_in: Amazon, SF Express, GXO (with humanoid pilots)
+    city_response: Makes overnight, 24/7 operation possible; little hard data published in vendor sources
+    progression: null
+    sources: []
+  - id: t-humanoid-sorting-robots
+    name: Humanoid sorting robots
+    zone: building
+    where: Distribution centers (night shift)
+    how: null
+    uses: null
+    running_in: Shenzhen distribution centers (from Nov 2026)
+    city_response: Reported 35% faster night processing after 40% overnight vacancy rates (figures from one unverified article)
+    progression: null
+    sources: []
+  - id: t-inspection-and-inventory-robots
+    name: Inspection & inventory robots
+    zone: building
+    where: Industrial sites, cold storage, receiving docks
+    how: null
+    uses: null
+    running_in: ANYbotics, Humanoid (via SAP integrations)
+    city_response: Vendor-described use cases; no named customers or results
+    progression: null
+    sources: []
+  - id: t-low-altitude-economy-networks
+    name: Low-altitude economy networks
+    zone: street
+    where: Network layer
+    how: null
+    uses: null
+    running_in: China's national low-altitude economy policy; Shenzhen's 1,200 planned landing sites
+    city_response: Research flags unreliable links, energy limits and the need for "auditable" autonomy in controlled airspace
+    progression: null
+    sources: []
+risks:
+  - id: r05-l-collisions-with-cyclists-and-pedestr
+    category: likely
+    title: Collisions with cyclists & pedestrians
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Pedestrians, cyclists, couriers, remote operators. Cyclists, older adults, children, blind people
+    most_vulnerable: []
+    worse_over_time: Heavier and faster robots (Pennsylvania allows 550 lb at 12 mph on sidewalks); bike-lane access
+    case: "Jersey City, Oct 2025: a robot darted into a bike lane; the cyclist suffered a concussion and broken clavicle, and bystanders had to stop the robot. A 2021 study logged 40 dangerous near-misses in five days on one campus"
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+    all_types: false
+  - id: r05-l-accessibility-blockage-robots-in-cur
+    category: likely
+    title: "Accessibility blockage: robots in curb ramps, narrow sidewalks, crosswalks"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Pedestrians, people with mobility aids, parents with strollers. Wheelchair users, blind and low-vision people
+    most_vulnerable: []
+    worse_over_time: Fleet growth on already narrow sidewalks; snow and construction
+    case: Toronto banned sidewalk robots in Dec 2021 after its Accessibility Advisory Committee called them a new disability barrier
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+    all_types: false
+  - id: r05-l-unclear-accountability-after-crashes
+    category: likely
+    title: Unclear accountability after crashes
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Injured people, insurers, city 311 staff. People without lawyers or insurance
+    most_vulnerable: []
+    worse_over_time: Platform–vendor–merchant contracts that shift liability; robots that don't stop after contact
+    case: The Jersey City cyclist is suing both Uber and Avride; his lawyer says residents are "unwitting crash test dummies"
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+      - t-delivery-drones
+    all_types: false
+  - id: r05-l-sidewalk-congestion-and-property-dam
+    category: likely
+    title: Sidewalk congestion & property damage
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Pedestrians, transit riders, businesses. People waiting at bus stops
+    most_vulnerable: []
+    worse_over_time: Software changes rolled out fleet-wide; more operators per block
+    case: "Chicago, Mar 2026: two robots damaged CTA bus shelters; the city created a dedicated 311 category for robot complaints"
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+    all_types: false
+  - id: r05-l-interference-with-police-and-emergen
+    category: likely
+    title: Interference with police & emergency response
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Police, EMS, firefighters. People at emergency scenes
+    most_vulnerable: []
+    worse_over_time: Remote operators following bystanders' cues; no responder override
+    case: "LA, Sept 2022: a delivery robot crossed police tape at a suspected school shooting after a bystander lifted it; a human operator made the call"
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+      - t-delivery-drones
+    all_types: false
+  - id: r05-l-surveillance-every-robot-and-drone-i
+    category: likely
+    title: "Surveillance: every robot and drone is a moving camera"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: All passersby, residents under drone routes. People avoiding police contact
+    most_vulnerable: []
+    worse_over_time: Footage shared with police or used for AI training; no retention limits
+    case: Chicago residents raised surveillance alongside safety and job loss
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+      - t-delivery-drones
+      - t-urban-drone-networks-and-lockers
+    all_types: false
+  - id: r05-l-drone-noise-and-privacy
+    category: likely
+    title: Drone noise & privacy
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Residents under routes and near hubs, wildlife
+    most_vulnerable: []
+    worse_over_time: More operators; federal preemption of city rules
+    case: Richardson, TX residents logged a drone every few minutes; the city had few legal tools
+    sources: []
+    type_ids:
+      - t-delivery-drones
+      - t-urban-drone-networks-and-lockers
+      - t-low-altitude-economy-networks
+    all_types: false
+  - id: r05-l-unequal-burden-robots-go-where-profi
+    category: likely
+    title: "Unequal burden: robots go where profitable while others bear the sidewalk cost"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Neighborhood residents, small merchants. Dense, walkable neighborhoods without a vote on deployment
+    most_vulnerable: []
+    worse_over_time: City-wide pilots approved without ward input
+    case: Chicago Ald. Daniel La Spata blocked expansion in his ward after 83% of survey respondents opposed it
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-delivery-drones
+    all_types: false
+  - id: r05-b-robots-become-essential-goods-infras
+    category: black_swan
+    title: "Robots become essential-goods infrastructure: after the courier workforce shrinks, homebound residents depend on robot and drone delivery for groceries and prescriptions. A fleet-wide outage, regulatory grounding or storm cuts deliveries for days."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Homebound residents, pharmacies, grocers, social services. Older and disabled residents who can't shop in person
+    most_vulnerable: []
+    worse_over_time: Couriers pushed out of the market; one or two dominant fleets
+    case: null
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+      - t-delivery-drones
+      - t-urban-drone-networks-and-lockers
+    all_types: false
+  - id: r05-b-citywide-central-dispatch-at-scale-t
+    category: black_swan
+    title: "Citywide central dispatch at scale: thousands of robots in one city run on one routing system. A bad update sends them into the same crosswalks, freezes them in intersections or blocks emergency routes across the city."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: "Pedestrians, drivers, transit, EMS. People who need the blocked route: patients, wheelchair users"
+    most_vulnerable: []
+    worse_over_time: Fleets of thousands per city; updates pushed fleet-wide at once
+    case: null
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+    all_types: false
+  - id: r05-b-hijacked-delivery-fleet-robots-or-dr
+    category: black_swan
+    title: "Hijacked delivery fleet: robots or drones with cloud links and remote updates are hacked to block streets, steal cargo, carry dangerous payloads or surveil neighborhoods."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Everyone on the route, police, operators. Pedestrians and residents near hijacked units
+    most_vulnerable: []
+    worse_over_time: Shared low-altitude traffic networks; weak device security
+    case: null
+    sources: []
+    type_ids:
+      - t-sidewalk-delivery-robots
+      - t-faster-hybrid-delivery-robots
+      - t-road-going-autonomous-delivery-vehic
+      - t-delivery-drones
+    all_types: false
+  - id: r05-b-dense-urban-drone-corridors-part-108
+    category: black_swan
+    title: 'Dense urban drone corridors: Part 108 or "low-altitude economy" rules open busy corridors over downtowns. A drone hits a medical helicopter or falls into a crowd.'
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Residents, event crowds, air-ambulance crews. Crowds, construction workers, aircrews
+    most_vulnerable: []
+    worse_over_time: Temporary obstacles missing from maps; more operators per corridor
+    case: null
+    sources: []
+    type_ids:
+      - t-delivery-drones
+      - t-urban-drone-networks-and-lockers
+      - t-low-altitude-economy-networks
+    all_types: false
+  - id: r05-b-lights-out-robot-hubs-in-neighborhoo
+    category: black_swan
+    title: "Lights-out robot hubs in neighborhoods: unstaffed micro-hubs and humanoid night-sort centers sit next to housing. A battery fire at a charging bank starts overnight with no one on site and spreads."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Neighbors, firefighters, building owners. Residents of adjacent housing
+    most_vulnerable: []
+    worse_over_time: Hundreds of lithium batteries per site; no fire-code category for robot charging hubs
+    case: null
+    sources: []
+    type_ids:
+      - t-mobile-robots-and-robot-arms
+      - t-humanoid-sorting-robots
+      - t-inspection-and-inventory-robots
+      - t-urban-drone-networks-and-lockers
+    all_types: false
+  - id: r05-b-high-speed-hybrid-robots-in-bike-lan
+    category: black_swan
+    title: "High-speed hybrid robots in bike lanes: 20-mph robots that switch between sidewalks, bike lanes and roads scale up. A shared perception flaw causes a string of cyclist injuries that goes unnoticed because nothing requires reporting."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Cyclists, pedestrians, couriers. Cyclists, children on bikes
+    most_vulnerable: []
+    worse_over_time: State laws opening bike lanes; no public incident reporting
+    case: null
+    sources: []
+    type_ids:
+      - t-faster-hybrid-delivery-robots
+    all_types: false
+regulations:
+  rules:
+    - id: g-state-pdd-laws-30-states-e-g-pennsylvani
+      name: State PDD laws (30+ states; e.g., Pennsylvania Act 106 of 2020, Virginia, Florida, Tennessee 2026)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Size, weight, speed, where robots may operate, insurance, yield-to-pedestrians rules
+      falls_short: Limits vary widely (Washington's 120-lb cap vs. Pennsylvania's 550 lb); many restrict local bans; few require incident reporting or accessibility standards
+      sources: []
+    - id: g-city-sidewalk-and-right-of-way-ordinance
+      name: City sidewalk & right-of-way ordinances and pilot permits (e.g., San Francisco 2017; Chicago PDD pilot 2022)
+      level: city
+      level_label: City (where states allow)
+      status: in_force
+      covers: San Francisco capped robots at 9 citywide, 3 mph, industrial areas, with human chaperones; Chicago runs a pilot overseen by its consumer protection and transportation departments
+      falls_short: Pilots often lack public metrics; complaint data sits with 311, not the permit
+      sources: []
+    - id: g-outright-local-bans-toronto-2021-ottawa
+      name: Outright local bans (Toronto 2021; Ottawa)
+      level: city
+      level_label: City
+      status: in_force
+      covers: Toronto bans robots on sidewalks and cycle tracks pending provincial rules
+      falls_short: Protects access but leaves no path to a safe, regulated version
+      sources: []
+    - id: g-nhtsa-vehicle-safety-standards-and-exemp
+      name: NHTSA vehicle safety standards & exemptions
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Road vehicles; Nuro's R2 got the first exemption for a vehicle with no human controls, with reporting duties
+      falls_short: Sidewalk robots fall outside; exemptions are case-by-case
+      sources: []
+    - id: g-state-av-laws-and-dmv-permits
+      name: State AV laws & DMV permits
+      level: state
+      level_label: State
+      status: in_force
+      covers: Road-going autonomous vehicles
+      falls_short: Hybrid robots that switch between sidewalk, bike lane and road fall between PDD and AV rules
+      sources: []
+    - id: g-faa-rules-part-107-waivers-part-108-bvlo
+      name: FAA rules (Part 107 waivers; Part 108 BVLOS pending)
+      level: federal
+      level_label: Federal
+      status: pending
+      covers: Drone certification, operations, routes
+      falls_short: Cities can't regulate flight paths or noise; Part 108 still at White House review as of Nov 2026; Texas bars city drone ordinances
+      sources: []
+    - id: g-city-zoning-for-drone-hubs
+      name: City zoning for drone hubs
+      level: city
+      level_label: City
+      status: in_force
+      covers: Where nests and launch pads can go
+      falls_short: Hard to revisit after approval (Richardson, TX)
+      sources: []
+    - id: g-ada-title-ii-and-iii
+      name: ADA Title II & III
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Accessible public right-of-way and services
+      falls_short: No technical rule keeping robots out of curb ramps or setting minimum clear sidewalk width with robots present
+      sources: []
+    - id: g-tort-and-product-liability
+      name: Tort & product liability
+      level: state
+      level_label: State
+      status: in_force
+      covers: Injury claims
+      falls_short: Liability split across platform, robot maker, merchant and remote operator; robots may not stop or identify themselves after a crash
+      sources: []
+    - id: g-labor-and-employment-law-incl-app-based
+      name: Labor & employment law (incl. app-based worker pay rules)
+      level: city
+      level_label: State / City
+      status: in_force
+      covers: Courier pay and conditions
+      falls_short: Doesn't address robot substitution or remote-operator working conditions
+      sources: []
+    - id: g-privacy-law-state-consumer-privacy-wiret
+      name: Privacy law (state consumer privacy, wiretap and biometric laws)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Data collection and use
+      falls_short: Continuous public-space video is lightly regulated; no rules on footage retention or police access
+      sources: []
+    - id: g-china-s-low-altitude-economy-policy-and
+      name: China's low-altitude economy policy & Shenzhen regulations
+      level: city
+      level_label: National / City (China)
+      status: in_force
+      covers: Dedicated drone corridors, landing sites, operator training
+      falls_short: "A comparison point: cities plan the airspace as infrastructure rather than reacting to it"
+      sources: []
+  gaps:
+    - "Incident reporting: no US rule requires sidewalk-robot operators to report collisions or near-misses publicly."
+    - "Stop-and-identify duty: nothing requires a robot to stop after contact and display who operates it."
+    - "Accessibility standards: there's no rule for robots at curb ramps, for clear sidewalk width, or for crosswalk behavior."
+    - "Responder override: there's no standard that lets police, fire or EMS stop or move a robot at a scene."
+    - "Hybrid robots: robots that move between sidewalks, bike lanes and roads fall between PDD and AV laws."
+    - "Density and curb management: there are no caps tied to sidewalk width or pedestrian volume, and no fees for commercial use of public sidewalks."
+    - "Data rules: nothing governs retention, police access or AI training for footage collected in public."
+    - "Labor transition: there's no plan for couriers and remote operators as fleets grow."
+case_studies:
+  - id: c-g05-shenzhen-meituan-drones
+    title: Food delivery drones over city parks
+    place: Lianhua Hill Park, Shenzhen, China
+    kind: international
+    pittsburgh: false
+    pin_id: p-g05-shenzhen-meituan-drones
+    fields:
+      - label: What happened
+        text: Meituan drones deliver food to pickup kiosks in Shenzhen, including routes opened in 2024 in Central Park, Shenzhen Bay Park and Lianhua Hill Park. By the end of 2024 the company reported 53 routes and more than 400,000 deliveries across Chinese cities.
+      - label: Response
+        text: China's aviation regulator granted Meituan the country's first nationwide drone delivery licence in April 2025. Deliveries in parts of Shenzhen were paused at the regulator's request during the November 2026 APEC summit.
+      - label: When
+        text: 2024-07
+    sources: &a1
+      - s-g05-shenzhen-meituan-drones-1
+      - s-g05-shenzhen-meituan-drones-2
+  - id: c-g05-tokyo-nihonbashi-robots
+    title: Sidewalk delivery robots under Japan's new road rules
+    place: Nihonbashi, Tokyo, Japan
+    kind: international
+    pittsburgh: false
+    pin_id: p-g05-tokyo-nihonbashi-robots
+    fields:
+      - label: What happened
+        text: Uber Eats began robot food deliveries in central Tokyo with Cartken robots supervised by Mitsubishi Electric staff, starting in a small area around Nihonbashi on weekdays.
+      - label: Response
+        text: Revised traffic rules from April 2023 let remotely monitored delivery robots use sidewalks across Japan as a type of sidewalk vehicle.
+      - label: When
+        text: 2024-03
+    sources: &a2
+      - s-g05-tokyo-nihonbashi-robots-1
+      - s-g05-tokyo-nihonbashi-robots-2
+pins:
+  - id: p-chicago-il
+    place: Chicago, IL
+    lat: 41.88
+    lng: -87.63
+    what: PDD pilot since 2022; Coco (2024) and Serve (2025); 3,700+ signatures to end it; dedicated 311 category
+    response_type: Pilot under pressure
+    tags: []
+    approx: true
+    sources: []
+  - id: p-jersey-city-nj
+    place: Jersey City, NJ
+    lat: 40.72
+    lng: -74.04
+    what: First East Coast Uber Eats robot service (Feb 2025); cyclist injury lawsuit (2026)
+    response_type: Pilot
+    tags: []
+    approx: true
+    sources: []
+  - id: p-los-angeles-ca
+    place: Los Angeles, CA
+    lat: 34.05
+    lng: -118.24
+    what: Serve and Coco fleets; 2022 crime-scene incident
+    response_type: Largest US market
+    tags: []
+    approx: true
+    sources: []
+  - id: p-toronto-on
+    place: Toronto, ON
+    lat: 43.65
+    lng: -79.38
+    what: Toronto banned sidewalk and cycle-track robots in Dec 2021; Ottawa told businesses robots aren't allowed
+    response_type: Ban
+    tags: []
+    approx: true
+    sources: []
+  - id: p-ottawa-on
+    place: Ottawa, ON
+    lat: 45.42
+    lng: -75.7
+    what: Toronto banned sidewalk and cycle-track robots in Dec 2021; Ottawa told businesses robots aren't allowed
+    response_type: Ban
+    tags: []
+    approx: true
+    sources: []
+  - id: p-san-francisco-ca
+    place: San Francisco, CA
+    lat: 37.77
+    lng: -122.42
+    what: "2017 ordinance: 9 robots citywide, 3 mph, industrial zones, chaperones"
+    response_type: Restrictive permits
+    tags: []
+    approx: true
+    sources: []
+  - id: p-pennsylvania-statewide
+    place: Pennsylvania (statewide)
+    lat: 40.27
+    lng: -76.88
+    what: Robots classed as pedestrians; 550 lb, 12 mph on sidewalks
+    response_type: Permissive state law
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tennessee-statewide
+    place: Tennessee (statewide)
+    lat: 36.16
+    lng: -86.78
+    what: Robots allowed in bike lanes, road shoulders and parking lots from Jul 2026
+    response_type: Expanded access
+    tags: []
+    approx: true
+    sources: []
+  - id: p-fremont-ca
+    place: Fremont, CA
+    lat: 37.55
+    lng: -121.99
+    what: DoorDash Dot, up to 20 mph across roads, bike lanes and sidewalks (Mar 2026)
+    response_type: New vehicle type
+    tags: []
+    approx: true
+    sources: []
+  - id: p-houston-tx
+    place: Houston, TX
+    lat: 29.76
+    lng: -95.37
+    what: Nuro R2 occupant-less delivery vehicles
+    response_type: Federal exemption
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tolleson-az
+    place: Tolleson, AZ
+    lat: 33.45
+    lng: -112.26
+    what: Amazon, Wing, Zipline; crashes and noise complaints
+    response_type: Drone delivery
+    tags: []
+    approx: true
+    sources: []
+  - id: p-college-station-tx
+    place: College Station, TX
+    lat: 30.63
+    lng: -96.33
+    what: Amazon, Wing, Zipline; crashes and noise complaints
+    response_type: Drone delivery
+    tags: []
+    approx: true
+    sources: []
+  - id: p-waco-tx
+    place: Waco, TX
+    lat: 31.55
+    lng: -97.15
+    what: Amazon, Wing, Zipline; crashes and noise complaints
+    response_type: Drone delivery
+    tags: []
+    approx: true
+    sources: []
+  - id: p-dallas-fort-worth-tx
+    place: Dallas-Fort Worth, TX
+    lat: 32.9
+    lng: -97.04
+    what: Amazon, Wing, Zipline; crashes and noise complaints
+    response_type: Drone delivery
+    tags: []
+    approx: true
+    sources: []
+  - id: p-shenzhen-china
+    place: Shenzhen, China
+    lat: 22.54
+    lng: 114.06
+    what: Meituan drone networks; 300+ Shenzhen logistics routes; humanoid night sorting
+    response_type: Planned airspace
+    tags: []
+    approx: true
+    sources: []
+  - id: p-shanghai-china
+    place: Shanghai, China
+    lat: 31.23
+    lng: 121.47
+    what: Meituan drone networks; 300+ Shenzhen logistics routes; humanoid night sorting
+    response_type: Planned airspace
+    tags: []
+    approx: true
+    sources: []
+  - id: p-milton-keynes-uk
+    place: Milton Keynes, UK
+    lat: 52.04
+    lng: -0.76
+    what: Starship's earliest commercial markets; about one in five Finnish grocery deliveries
+    response_type: Mature service
+    tags: []
+    approx: true
+    sources: []
+  - id: p-helsinki-area-finland
+    place: Helsinki area, Finland
+    lat: 60.17
+    lng: 24.94
+    what: Starship's earliest commercial markets; about one in five Finnish grocery deliveries
+    response_type: Mature service
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tallinn-estonia
+    place: Tallinn, Estonia
+    lat: 59.44
+    lng: 24.75
+    what: Starship's earliest commercial markets; about one in five Finnish grocery deliveries
+    response_type: Mature service
+    tags: []
+    approx: true
+    sources: []
+  - id: p-g05-shenzhen-meituan-drones
+    place: Lianhua Hill Park, Shenzhen, China
+    lat: 22.5531
+    lng: 114.0567
+    what: Meituan drones deliver food to pickup kiosks in Shenzhen, including routes opened in 2024 in Central Park, Shenzhen Bay Park and Lianhua Hill Park. By the end of 2024 the company reported 53 routes and more than 400,000 deliveries across Chinese cities.
+    response_type: China's aviation regulator granted Meituan the country's first nationwide drone delivery licence in April 2025. Deliveries in parts of Shenzhen were paused at the regulator's request during the November 2026 APEC summit.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a1
+  - id: p-g05-tokyo-nihonbashi-robots
+    place: Nihonbashi, Tokyo, Japan
+    lat: 35.6838
+    lng: 139.7745
+    what: Uber Eats began robot food deliveries in central Tokyo with Cartken robots supervised by Mitsubishi Electric staff, starting in a small area around Nihonbashi on weekdays.
+    response_type: Revised traffic rules from April 2023 let remotely monitored delivery robots use sidewalks across Japan as a type of sidewalk vehicle.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a2
+places:
+  - place: Chicago, IL
+    note: Pilot under pressure — PDD pilot since 2022; Coco (2024) and Serve (2025); 3,700+ signatures to end it; dedicated 311 category
+    sources: []
+  - place: Jersey City, NJ
+    note: Pilot — First East Coast Uber Eats robot service (Feb 2025); cyclist injury lawsuit (2026)
+    sources: []
+  - place: Los Angeles, CA
+    note: Largest US market — Serve and Coco fleets; 2022 crime-scene incident
+    sources: []
+  - place: Toronto & Ottawa, ON
+    note: Ban — Toronto banned sidewalk and cycle-track robots in Dec 2021; Ottawa told businesses robots aren't allowed
+    sources: []
+  - place: San Francisco, CA
+    note: "Restrictive permits — 2017 ordinance: 9 robots citywide, 3 mph, industrial zones, chaperones"
+    sources: []
+  - place: Pennsylvania (statewide)
+    note: Permissive state law — Robots classed as pedestrians; 550 lb, 12 mph on sidewalks
+    sources: []
+  - place: Tennessee (statewide)
+    note: Expanded access — Robots allowed in bike lanes, road shoulders and parking lots from Jul 2026
+    sources: []
+  - place: Fremont, CA
+    note: New vehicle type — DoorDash Dot, up to 20 mph across roads, bike lanes and sidewalks (Mar 2026)
+    sources: []
+  - place: Houston, TX
+    note: Federal exemption — Nuro R2 occupant-less delivery vehicles
+    sources: []
+  - place: Tolleson (AZ), College Station & Waco (TX), DFW
+    note: Drone delivery — Amazon, Wing, Zipline; crashes and noise complaints
+    sources: []
+  - place: Shenzhen & Shanghai, China
+    note: Planned airspace — Meituan drone networks; 300+ Shenzhen logistics routes; humanoid night sorting
+    sources: []
+  - place: Milton Keynes (UK), Finland, Tallinn
+    note: Mature service — Starship's earliest commercial markets; about one in five Finnish grocery deliveries
+    sources: []
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-g05-shenzhen-meituan-drones-1
+    publisher: Shenzhen Government Online
+    title: "Low-altitude economy: logistics"
+    url: https://www.sz.gov.cn/en_szgov/news/infocus/LowAltitudeEconomy/Areasofapplication/logistics/index.html
+  - id: s-g05-shenzhen-meituan-drones-2
+    publisher: TechNode
+    title: Meituan secures China's first nationwide drone delivery license
+    url: https://technode.com/2025/04/23/meituan-secures-chinas-first-nationwide-drone-delivery-license-ramping-up-competition-with-google-wing/
+    published: 2025-04-23
+  - id: s-g05-tokyo-nihonbashi-robots-1
+    publisher: Kyodo via MarketScreener
+    title: Uber Eats to start robot deliveries in central Tokyo
+    url: https://ca.marketscreener.com/quote/stock/THE-KODENSHA-CO-LTD-6494498/news/Uber-Eats-to-start-robot-deliveries-in-central-Tokyo-from-Wed-46093151/
+    published: 2024-03
+  - id: s-g05-tokyo-nihonbashi-robots-2
+    publisher: Taipei Times (AFP)
+    title: Japan rolls out delivery robots
+    url: https://taipeitimes.com/News/biz/archives/2023/02/09/2003793995
+    published: 2023-02-09
+todos:
+  - 'Needs source: type "Sidewalk delivery robots"'
+  - 'Needs source: type "Faster hybrid delivery robots"'
+  - 'Needs source: type "Road-going autonomous delivery vehicles"'
+  - 'Needs source: type "Delivery drones"'
+  - 'Needs source: type "Urban drone networks & lockers"'
+  - 'Needs source: type "Mobile robots and robot arms"'
+  - 'Needs source: type "Humanoid sorting robots"'
+  - 'Needs source: type "Inspection & inventory robots"'
+  - 'Needs source: type "Low-altitude economy networks"'
+  - 'Needs source: risk "Collisions with cyclists & pedestrians"'
+  - 'Needs source: risk "Accessibility blockage: robots in curb ramps, narrow sidewal"'
+  - 'Needs source: risk "Unclear accountability after crashes"'
+  - 'Needs source: risk "Sidewalk congestion & property damage"'
+  - 'Needs source: risk "Interference with police & emergency response"'
+  - 'Needs source: risk "Surveillance: every robot and drone is a moving camera"'
+  - 'Needs source: risk "Drone noise & privacy"'
+  - 'Needs source: risk "Unequal burden: robots go where profitable while others bear"'
+  - 'Needs source: risk "Robots become essential-goods infrastructure: after the cour"'
+  - 'Needs source: risk "Citywide central dispatch at scale: thousands of robots in o"'
+  - 'Needs source: risk "Hijacked delivery fleet: robots or drones with cloud links a"'
+  - 'Needs source: risk "Dense urban drone corridors: Part 108 or "low-altitude econo"'
+  - 'Needs source: risk "Lights-out robot hubs in neighborhoods: unstaffed micro-hubs"'
+  - 'Needs source: risk "High-speed hybrid robots in bike lanes: 20-mph robots that s"'
+  - 'Needs source: rule "State PDD laws (30+ states; e.g., Pennsylvania Act 106 of 20"'
+  - 'Needs source: rule "City sidewalk & right-of-way ordinances and pilot permits (e"'
+  - 'Needs source: rule "Outright local bans (Toronto 2021; Ottawa)"'
+  - 'Needs source: rule "NHTSA vehicle safety standards & exemptions"'
+  - 'Needs source: rule "State AV laws & DMV permits"'
+  - 'Needs source: rule "FAA rules (Part 107 waivers; Part 108 BVLOS pending)"'
+  - 'Needs source: rule "City zoning for drone hubs"'
+  - 'Needs source: rule "ADA Title II & III"'
+  - 'Needs source: rule "Tort & product liability"'
+  - 'Needs source: rule "Labor & employment law (incl. app-based worker pay rules)"'
+  - 'Needs source: rule "Privacy law (state consumer privacy, wiretap and biometric l"'
+  - "Needs source: rule \"China's low-altitude economy policy & Shenzhen regulations\""
+  - 'Needs source: pin "Chicago, IL"'
+  - 'Needs source: pin "Jersey City, NJ"'
+  - 'Needs source: pin "Los Angeles, CA"'
+  - 'Needs source: pin "Toronto, ON"'
+  - 'Needs source: pin "Ottawa, ON"'
+  - 'Needs source: pin "San Francisco, CA"'
+  - 'Needs source: pin "Pennsylvania (statewide)"'
+  - 'Needs source: pin "Tennessee (statewide)"'
+  - 'Needs source: pin "Fremont, CA"'
+  - 'Needs source: pin "Houston, TX"'
+  - 'Needs source: pin "Tolleson, AZ"'
+  - 'Needs source: pin "College Station, TX"'
+  - 'Needs source: pin "Waco, TX"'
+  - 'Needs source: pin "Dallas-Fort Worth, TX"'
+  - 'Needs source: pin "Shenzhen, China"'
+  - 'Needs source: pin "Shanghai, China"'
+  - 'Needs source: pin "Milton Keynes, UK"'
+  - 'Needs source: pin "Helsinki area, Finland"'
+  - 'Needs source: pin "Tallinn, Estonia"'

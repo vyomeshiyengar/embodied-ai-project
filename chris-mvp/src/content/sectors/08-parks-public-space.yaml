@@ -1,0 +1,784 @@
+# Generated from docs/research/sectors/08-parks-public-space.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/08.mjs, then re-run. Do not invent facts.
+id: "08"
+slug: parks-public-space
+name: Parks & Public Space
+short_name: Parks
+owner: Vyomesh
+status: partial
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/08-parks-public-space.md
+  drive_url: https://docs.google.com/document/d/17tYaBxs297eOR9eVDEq3atIwu98uUSIlIstaPd4MeO0/edit
+liable_to_change: null
+one_liner: null
+overview:
+  summary: "Currently, physical AI has already begun to show up in parks, mostly as maintenance robots and drones. The governance questions that are important happen in three instances: where a robot or drone takes on work staff used to do (mowing, inspection, lifeguarding), where it watches the public (patrol robots, police drones), and where it shares space with wildlife and visitors who never agreed to it."
+  points: []
+  why_it_matters: null
+  core_shift: null
+players: []
+terms: []
+types:
+  - id: t-line-painting-robots
+    name: Line-painting robots
+    zone: street
+    where: Sports fields
+    how: null
+    uses: null
+    running_in: Turf Tank (Sioux Falls, SD; Chattanooga, TN; South Burlington, VT)
+    city_response: Sioux Falls has used one for two seasons; lining fields once took a team of five multiple days
+    progression: null
+    sources: []
+  - id: t-autonomous-mowers
+    name: Autonomous mowers
+    zone: park
+    where: Lawns & sports fields
+    how: null
+    uses: null
+    running_in: Sioux Falls, Mobile (AL), Calgary, Edmonton, Dallas, Richmond (BC) pilots
+    city_response: Sioux Falls runs ~8 robotic mowers after starting at four sites in 2025; Mobile paid $85,247 for two. Cities say seasonal, not full-time, labor is affected
+    progression: null
+    sources: []
+  - id: t-robotic-rough-mowers
+    name: Robotic rough mowers
+    zone: street
+    where: Public golf courses
+    how: null
+    uses: null
+    running_in: Kress mowers on Milwaukee County Parks courses
+    city_response: Crews see them as "a tool, not a threat"
+    progression: null
+    sources: []
+  - id: t-tree-inspection-and-forestry-drones
+    name: Tree-inspection & forestry drones
+    zone: air
+    where: Tree canopy
+    how: null
+    uses: null
+    running_in: NParks Singapore (since 2017); Denver Parks with CU Denver and USGS (research, 2018–2021)
+    city_response: Singapore arborists inspect upper branches without climbing; Denver tested drones for species inventory and health assessment
+    progression: null
+    sources: []
+  - id: t-cleaning-and-sweeping-robots
+    name: Cleaning & sweeping robots
+    zone: street
+    where: Plazas, paths & squares
+    how: null
+    uses: null
+    running_in: Temple of Heaven Park (Beijing)
+    city_response: Cleaning robots drew crowds as attractions; Beijing planned 72 robots and smart devices across its municipal parks in 2026
+    progression: null
+    sources: []
+  - id: t-security-patrol-robots
+    name: Security / patrol robots
+    zone: park
+    where: Paths, parking lots, plazas
+    how: null
+    uses: null
+    running_in: Knightscope K5 (Huntington Park, CA; NYC subway), Xavier (Singapore), Spot (Singapore)
+    city_response: Huntington Park's K5 failed to summon help in 2019 but was renewed; NYC ended its K5 pilot in 2024; Singapore runs patrol robots alongside officers
+    progression: null
+    sources: []
+  - id: t-visitor-service-and-entertainment-hu
+    name: Visitor-service & entertainment humanoids
+    zone: street
+    where: Visitor centers & walkways
+    how: null
+    uses: null
+    running_in: Qianhai Stone Park robot volunteer station (Shenzhen); AGIBOT at Chimelong Spaceship Park (Zhuhai)
+    city_response: Shenzhen replaced human volunteers with robots offering eight services; Chimelong runs 300+ humanoids in open walkways
+    progression: null
+    sources: []
+  - id: t-sand-sifting-robots
+    name: Sand-sifting robots
+    zone: park
+    where: Beaches & shorelines
+    how: null
+    uses: null
+    running_in: BeBot (Detroit Belle Isle, Lake Tahoe, Muskegon)
+    city_response: Found 6,315 hidden pieces on Tahoe beaches after volunteers had already cleaned them
+    progression: null
+    sources: []
+  - id: t-waterway-cleaning-boats
+    name: Waterway cleaning boats
+    zone: water
+    where: Lakes, rivers, harbors
+    how: null
+    uses: null
+    running_in: Clearbot (Hong Kong, Bengaluru, Shillong)
+    city_response: About a dozen boats for government and corporate clients; data shows where waste enters
+    progression: null
+    sources: []
+  - id: t-lifesaving-and-shark-spotting-drones
+    name: Lifesaving & shark-spotting drones
+    zone: air
+    where: Airspace over beaches & water
+    how: null
+    uses: null
+    running_in: NYC (40+ drones), Atlantic City and Ocean County (NJ), NY State parks (46), Little Ripper (NSW)
+    city_response: First drone rescue at Lennox Head, Australia, 2018; a NJ sheriff's drone kept a rip-current swimmer afloat in July 2026
+    progression: null
+    sources: []
+  - id: t-monitoring-and-enforcement-drones
+    name: Monitoring & enforcement drones
+    zone: air
+    where: Airspace over parks
+    how: null
+    uses: null
+    running_in: NPS administrative use; police DFR programs (Chula Vista, Oceanside, Tucson)
+    city_response: National parks ban public drones; ~1,500 US police departments have some drone program
+    progression: null
+    sources: []
+  - id: t-mobility-robots-and-micromobility
+    name: Mobility robots & micromobility
+    zone: sidewalk
+    where: Trails & sidewalks through parks
+    how: null
+    uses: null
+    running_in: Simulated in MetaUrban (UCLA)
+    city_response: Best simulated navigation success is only 66% for point-to-point and 36% for socially aware navigation
+    progression: null
+    sources: []
+  - id: t-sensor-driven-operations
+    name: Sensor-driven operations
+    zone: park
+    where: Whole park (back end)
+    how: null
+    uses: null
+    running_in: Carlsbad (CA), Seattle, Des Moines
+    city_response: Carlsbad's GeoAI cut inspection costs 44%; this is the data layer future robots will act on
+    progression: null
+    sources: []
+risks:
+  - id: r08-l-false-sense-of-safety-patrol-robots
+    category: likely
+    title: "False sense of safety: patrol robots that look like police but can't get help"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Park visitors, police dispatch, victims of violence. People without phones, non-English speakers, children
+    most_vulnerable: []
+    worse_over_time: Cities replacing patrol hours with robots; "POLICE" branding on leased devices
+    case: "Huntington Park, CA, 2019: a woman pressed a K5's emergency button during a fight and it told her to step aside; the button wasn't yet connected to police"
+    sources: []
+    type_ids:
+      - t-security-patrol-robots
+    all_types: false
+  - id: r08-l-surveillance-and-chilling-of-public
+    category: likely
+    title: "Surveillance & chilling of public life: cameras and analytics on mobile robots and drones"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: All visitors, organizers, vendors. Unhoused people, protesters, people avoiding police contact
+    most_vulnerable: []
+    worse_over_time: Visual-recognition patrols; data shared with police; DFR drones over parks
+    case: Singapore's park Spot carried video analytics to count visitors (2020); Shenzhen's patrol robots use visual recognition
+    sources: []
+    type_ids:
+      - t-security-patrol-robots
+      - t-monitoring-and-enforcement-drones
+      - t-sensor-driven-operations
+      - t-visitor-service-and-entertainment-hu
+    all_types: false
+  - id: r08-l-physical-contact-with-crowds-humanoi
+    category: likely
+    title: "Physical contact with crowds: humanoids and robots in open walkways"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Visitors, performers, staff. Children, older adults
+    most_vulnerable: []
+    worse_over_time: Hundreds of humanoids moving among families outside fenced areas
+    case: "Tianjin, Feb 2025: a humanoid lunged at festival-goers behind a barrier; Shaanxi, Mar 2026: a dancing robot struck a boy in the face"
+    sources: []
+    type_ids:
+      - t-visitor-service-and-entertainment-hu
+      - t-cleaning-and-sweeping-robots
+      - t-security-patrol-robots
+      - t-mobility-robots-and-micromobility
+    all_types: false
+  - id: r08-l-wildlife-harm-mowers-and-drones-in-h
+    category: likely
+    title: "Wildlife harm: mowers and drones in habitats"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Wildlife, rehab centers, ecologists. Small nocturnal animals, nesting birds, juveniles
+    most_vulnerable: []
+    worse_over_time: Night mowing (quiet machines can run when noisier ones can't); more drone traffic; no pre-deployment testing
+    case: All 18 robotic mowers tested had to touch a hedgehog to detect it; a drone separated bighorn sheep from their young at Zion National Park
+    sources: []
+    type_ids:
+      - t-autonomous-mowers
+      - t-robotic-rough-mowers
+      - t-tree-inspection-and-forestry-drones
+      - t-waterway-cleaning-boats
+      - t-sand-sifting-robots
+    all_types: false
+  - id: r08-l-path-conflicts-and-accessibility-rob
+    category: likely
+    title: "Path conflicts & accessibility: robots on narrow trails and ramps"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Walkers, cyclists, maintenance crews. Wheelchair users, blind and low-vision visitors
+    most_vulnerable: []
+    worse_over_time: Mixed fleets (delivery bots, robot dogs, mowers) on the same paths; crowded events
+    case: "Pittsburgh, 2019: a sidewalk robot blocked a curb cut; in simulation, navigation success fell sharply as pedestrian density rose"
+    sources: []
+    type_ids:
+      - t-cleaning-and-sweeping-robots
+      - t-security-patrol-robots
+      - t-mobility-robots-and-micromobility
+      - t-autonomous-mowers
+      - t-line-painting-robots
+    all_types: false
+  - id: r08-l-unequal-deployment-robots-land-in-fl
+    category: likely
+    title: "Unequal deployment: robots land in flagship parks first"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Neighborhood parks, residents. Low-income neighborhoods, people without smartphones
+    most_vulnerable: []
+    worse_over_time: Pilot funding tied to showcase sites; app-based access
+    case: Pilots cluster in signature parks (Temple of Heaven, Belle Isle)
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r08-l-terrain-and-water-failures-robots-de
+    category: likely
+    title: "Terrain & water failures: robots defeated by steps, fountains, mud, weather"
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Visitors near the robot, maintenance staff. People at the water's edge
+    most_vulnerable: []
+    worse_over_time: Robots moved from paved to natural terrain
+    case: "Georgetown, DC, 2017: a 300-lb security robot rolled down steps into a fountain within days of starting"
+    sources: []
+    type_ids:
+      - t-autonomous-mowers
+      - t-robotic-rough-mowers
+      - t-cleaning-and-sweeping-robots
+      - t-mobility-robots-and-micromobility
+      - t-sand-sifting-robots
+      - t-line-painting-robots
+    all_types: false
+  - id: r08-b-humanoid-staff-at-mass-events-a-city
+    category: black_swan
+    title: "Humanoid staff at mass events: a city staffs a major festival or concert in a park with humanoid guides, first-aid stations and crowd marshals. During a crowd surge or evacuation, robots misread the crowd, freeze at exits or malfunction, triggering panic."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Event crowds, police, EMS, organizers. Children, older adults, people with mobility aids
+    most_vulnerable: []
+    worse_over_time: Robots placed at gates and choke points; human staff reduced
+    case: null
+    sources: []
+    type_ids:
+      - t-visitor-service-and-entertainment-hu
+    all_types: false
+  - id: r08-b-park-surveillance-network-dfr-drones
+    category: black_swan
+    title: "Park surveillance network: DFR drones, patrol robots and fixed cameras feed facial and behavior recognition to a real-time crime center covering every park. Mass misidentification leads to wrongful stops, and protests and unhoused residents are tracked."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Visitors, protesters, civil-liberties groups. Unhoused people, people of color, protesters
+    most_vulnerable: []
+    worse_over_time: Footage kept indefinitely; no council approval for new analytics
+    case: null
+    sources: []
+    type_ids:
+      - t-monitoring-and-enforcement-drones
+      - t-security-patrol-robots
+      - t-sensor-driven-operations
+    all_types: false
+  - id: r08-b-citywide-autonomous-night-maintenanc
+    category: black_swan
+    title: "Citywide autonomous night maintenance: all parks switch to overnight robotic mowing, weeding and spraying. A fleet-wide update weakens obstacle detection, and robots kill wildlife across the city or strike a person sleeping in the grass."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Wildlife, rehab centers, crews. Small nocturnal animals; unhoused people sleeping in parks
+    most_vulnerable: []
+    worse_over_time: Night operation chosen for quiet; no pre-deployment wildlife or human-contact testing
+    case: null
+    sources: []
+    type_ids:
+      - t-autonomous-mowers
+      - t-robotic-rough-mowers
+      - t-line-painting-robots
+      - t-cleaning-and-sweeping-robots
+    all_types: false
+  - id: r08-b-drones-replace-some-lifeguard-towers
+    category: black_swan
+    title: "Drones replace some lifeguard towers: a city cuts staffed stands on lower-traffic beaches and relies on rescue drones. Wind, rain or a comms outage grounds the fleet on a peak day, and swimmers drown before staff arrive."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Swimmers, lifeguards, beach patrol. Children and weak swimmers on unstaffed beaches
+    most_vulnerable: []
+    worse_over_time: Persistent lifeguard shortages; storms that ground drones when rip currents peak
+    case: null
+    sources: []
+    type_ids:
+      - t-lifesaving-and-shark-spotting-drones
+    all_types: false
+  - id: r08-b-robotic-wayfinding-for-blind-visitor
+    category: black_swan
+    title: "Robotic wayfinding for blind visitors: guide robots lead blind and low-vision visitors through large parks. A stale map or sensor fault walks users into water, construction or traffic."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: Blind and low-vision visitors, park staff. Visitors who rely fully on the robot
+    most_vulnerable: []
+    worse_over_time: Maps not updated for closures; no human fallback
+    case: null
+    sources: []
+    type_ids:
+      - t-mobility-robots-and-micromobility
+      - t-visitor-service-and-entertainment-hu
+    all_types: false
+  - id: r08-b-one-network-runs-every-park-robot-mo
+    category: black_swan
+    title: "One network runs every park robot: mowers, patrol robots and humanoids share one city or vendor control platform. A hack turns them against visitors or disables them citywide during an emergency."
+    likelihood: null
+    likelihood_label: null
+    severity: null
+    severity_label: null
+    who_affected: All visitors, operators, police. Children near humanoids
+    most_vulnerable: []
+    worse_over_time: Central coordination over dedicated 5G; remote updates
+    case: null
+    sources: []
+    type_ids: []
+    all_types: true
+regulations:
+  rules:
+    - id: g-faa-airspace-rules-part-107-now-part-108
+      name: FAA airspace rules (Part 107 now; Part 108 BVLOS pending)
+      level: federal
+      level_label: Federal
+      status: pending
+      covers: Who may fly, where, how high, beyond line of sight
+      falls_short: Cities can regulate only takeoff and landing on public land, not flight paths or noise
+      sources: []
+    - id: g-nps-policy-memorandum-14-05-2014
+      name: NPS Policy Memorandum 14-05 (2014)
+      level: federal
+      level_label: Federal (national parks only)
+      status: in_force
+      covers: Bans launching, landing or operating drones in national parks; violations are a misdemeanor, up to 6 months in jail and a $5,000 fine
+      falls_short: Prompted by noise complaints and wildlife harassment. Doesn't reach city parks; agency drones still allowed with approval
+      sources: []
+    - id: g-city-park-rules-and-takeoff-landing-perm
+      name: City park rules & takeoff/landing permits (e.g., NYC Rules Title 38, Ch. 24, July 2023)
+      level: city
+      level_label: City
+      status: in_force
+      covers: NYC requires a permit, insurance and FAA documents for most drone takeoffs; crashes must be reported to NYPD
+      falls_short: Written for the public's drones; ground robots and city-owned fleets mostly unaddressed
+      sources: []
+    - id: g-surveillance-technology-ordinances-e-g-b
+      name: Surveillance-technology ordinances (e.g., Berkeley Municipal Code §2.99)
+      level: city
+      level_label: City
+      status: in_force
+      covers: Council approval, community input and civilian oversight before police acquire drones or similar tech
+      falls_short: Often limited to police; a parks department's camera-equipped mower or patrol robot can fall outside
+      sources: []
+    - id: g-fourth-amendment-and-state-constitutiona
+      name: Fourth Amendment & state constitutional privacy (e.g., Calif. Art. I §1)
+      level: federal
+      level_label: Federal / State
+      status: in_force
+      covers: Limits on government searches
+      falls_short: Low expectation of privacy in public parks; little limit on mobile cameras or data retention. Chula Vista, CA lost a records lawsuit over its drone video in 2025
+      sources: []
+    - id: g-ada-title-ii
+      name: ADA Title II
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Accessible public programs and facilities, including park paths
+      falls_short: No standard for robots blocking accessible routes or for accessible robot interfaces (buttons, voice-only prompts)
+      sources: []
+    - id: g-wildlife-law-esa-migratory-bird-treaty-a
+      name: Wildlife law (ESA, Migratory Bird Treaty Act, state wildlife codes)
+      level: federal
+      level_label: Federal / State
+      status: in_force
+      covers: Harming protected species
+      falls_short: Applies after harm; no pre-deployment wildlife safety test (the Oxford hedgehog test is voluntary)
+      sources: []
+    - id: g-local-noise-ordinances
+      name: Local noise ordinances
+      level: city
+      level_label: City
+      status: in_force
+      covers: Limits on loud equipment by hour
+      falls_short: Quiet electric machines escape limits and can run at night, when wildlife is active (Germany allows robot mowers at night and on Sundays)
+      sources: []
+    - id: g-product-safety-standards-for-mowers-and
+      name: Product safety standards for mowers and machinery (CPSC, UL/EN standards)
+      level: federal
+      level_label: Federal / industry
+      status: in_force
+      covers: Blade guards, stop functions
+      falls_short: Tested against people and objects, not small animals; humanoids and patrol robots have no public-space standard
+      sources: []
+    - id: g-public-procurement-law-and-contracts
+      name: Public procurement law & contracts
+      level: city
+      level_label: City / State
+      status: in_force
+      covers: Bidding, leases, service agreements
+      falls_short: The key lever, but contracts rarely include labor provisions, evaluation standards or data terms. NYC kept paying for its K5 while it sat unused
+      sources: []
+    - id: g-public-sector-labor-law-civil-service-un
+      name: Public-sector labor law, civil service, union contracts
+      level: city
+      level_label: State / City
+      status: in_force
+      covers: Contracting-out limits, job classifications
+      falls_short: '"Robot-as-a-service" leases may count as contracting out; few contracts define it'
+      sources: []
+    - id: g-tort-law-and-sovereign-immunity
+      name: Tort law & sovereign immunity
+      level: state
+      level_label: State
+      status: in_force
+      covers: Injury claims against cities and vendors
+      falls_short: Municipal immunity caps; unclear who pays when a leased robot injures a visitor
+      sources: []
+  gaps:
+    - "Rules for the city's own drones over parks: NPS restricts drones in national parks, but most city parks have no equivalent for city-operated or DFR drones."
+    - "Pre-deployment wildlife testing: there's no requirement to test mowers, drones or ground robots against wildlife before use."
+    - "Human-contact edge cases: there's no required testing for robots that could touch people, including rare cases (a child reaching out, a crowd surge)."
+    - 'Working emergency features: nothing requires a "help" button to actually reach help before a robot is deployed.'
+    - "Noise standards for quiet, always-on machines: nothing sets when they may run, including at night."
+    - "Accessibility: there are no requirements for robots on paths or for their interfaces."
+    - "Data retention limits: nothing caps how long park robots and drones keep video, audio and location data."
+    - "Evaluation and labor metrics in contracts: there's no standard for what success means, how it's measured, and what happens to the work and workers it changes."
+case_studies:
+  - id: c-g08-singapore-spot-park
+    title: Robot dog reminds park visitors to keep their distance
+    place: Bishan-Ang Mo Kio Park, Singapore
+    kind: international
+    pittsburgh: false
+    pin_id: p-g08-singapore-spot-park
+    fields:
+      - label: What happened
+        text: For two weeks from May 8, 2020, Spot walked a 3 km stretch of Bishan-Ang Mo Kio Park playing a recorded safe-distancing message and counting visitors with video analytics.
+      - label: Response
+        text: The government said the robot was not for enforcement and was meant to reduce patrol staff and contact.
+      - label: When
+        text: 2020-05
+    sources: &a1
+      - s-g08-singapore-spot-park-1
+pins:
+  - id: p-sioux-falls-sd
+    place: Sioux Falls, SD
+    lat: 43.54
+    lng: -96.73
+    what: Turf Tank line-painting robot for two seasons; ~8 robotic mowers since 2025
+    response_type: Adopted
+    tags: []
+    approx: true
+    sources: []
+  - id: p-milwaukee-county-wi
+    place: Milwaukee County, WI
+    lat: 43.04
+    lng: -87.91
+    what: Kress robotic mowers on county golf courses; crews call them a tool, not a threat
+    response_type: Adopted
+    tags: []
+    approx: true
+    sources: []
+  - id: p-mobile-al
+    place: Mobile, AL
+    lat: 30.69
+    lng: -88.04
+    what: Mobile bought two for $85,247; Calgary ran a 30-day single-site trial
+    response_type: Mower pilots
+    tags: []
+    approx: true
+    sources: []
+  - id: p-calgary-ab
+    place: Calgary, AB
+    lat: 51.05
+    lng: -114.07
+    what: Mobile bought two for $85,247; Calgary ran a 30-day single-site trial
+    response_type: Mower pilots
+    tags: []
+    approx: true
+    sources: []
+  - id: p-edmonton-ab
+    place: Edmonton, AB
+    lat: 53.55
+    lng: -113.49
+    what: Mobile bought two for $85,247; Calgary ran a 30-day single-site trial
+    response_type: Mower pilots
+    tags: []
+    approx: true
+    sources: []
+  - id: p-dallas-tx
+    place: Dallas, TX
+    lat: 32.78
+    lng: -96.8
+    what: Mobile bought two for $85,247; Calgary ran a 30-day single-site trial
+    response_type: Mower pilots
+    tags: []
+    approx: true
+    sources: []
+  - id: p-singapore
+    place: Singapore
+    lat: 1.35
+    lng: 103.82
+    what: Tree-inspection drones since 2017; Spot distancing trial (2020); Xavier patrol robots with officers (2021)
+    response_type: Adopted + trials
+    tags: []
+    approx: true
+    sources: []
+  - id: p-denver-co
+    place: Denver, CO
+    lat: 39.74
+    lng: -104.99
+    what: Denver Parks worked with CU Denver and USGS (2018–2021) to test drones for species inventory and tree health
+    response_type: Research partner
+    tags: []
+    approx: true
+    sources: []
+  - id: p-new-york-city-ny
+    place: New York City, NY
+    lat: 40.71
+    lng: -74.01
+    what: 40+ flotation-dropping drones at city beaches; state beaches up to 46 drones in 2026
+    response_type: Expanded
+    tags: []
+    approx: true
+    sources: []
+  - id: p-atlantic-city-nj
+    place: Atlantic City, NJ
+    lat: 39.36
+    lng: -74.42
+    what: Beach patrol drones drop flotation and spot rip currents
+    response_type: Adopted
+    tags: []
+    approx: true
+    sources: []
+  - id: p-ocean-county-nj
+    place: Ocean County, NJ
+    lat: 39.95
+    lng: -74.2
+    what: Beach patrol drones drop flotation and spot rip currents
+    response_type: Adopted
+    tags: []
+    approx: true
+    sources: []
+  - id: p-belle-isle-detroit-mi
+    place: Belle Isle, Detroit, MI
+    lat: 42.3405
+    lng: -82.984
+    what: BeBot sand-cleaning robot in its third summer (2026)
+    response_type: Pilot → recurring
+    tags: []
+    approx: false
+    sources: []
+  - id: p-huntington-park-ca
+    place: Huntington Park, CA
+    lat: 33.98
+    lng: -118.22
+    what: K5 patrol robot renewed for a 6th year despite the 2019 emergency-button failure
+    response_type: Kept
+    tags: []
+    approx: true
+    sources: []
+  - id: p-times-square-new-york-ny
+    place: Times Square, New York, NY
+    lat: 40.7577
+    lng: -73.9857
+    what: K5 pilot ended after ~4 months (Jan 2024)
+    response_type: Ended
+    tags: []
+    approx: false
+    sources: []
+  - id: p-shenzhen-china
+    place: Shenzhen, China
+    lat: 22.54
+    lng: 114.06
+    what: Robot volunteer station at Qianhai Stone Park; 72 robots across Beijing municipal parks
+    response_type: Scaling
+    tags: []
+    approx: true
+    sources: []
+  - id: p-beijing-china
+    place: Beijing, China
+    lat: 39.9
+    lng: 116.41
+    what: Robot volunteer station at Qianhai Stone Park; 72 robots across Beijing municipal parks
+    response_type: Scaling
+    tags: []
+    approx: true
+    sources: []
+  - id: p-berkeley-ca
+    place: Berkeley, CA
+    lat: 37.87
+    lng: -122.27
+    what: Police drone programs face privacy review before expansion
+    response_type: Debating DFR
+    tags: []
+    approx: true
+    sources: []
+  - id: p-oceanside-ca
+    place: Oceanside, CA
+    lat: 33.2
+    lng: -117.38
+    what: Police drone programs face privacy review before expansion
+    response_type: Debating DFR
+    tags: []
+    approx: true
+    sources: []
+  - id: p-tucson-az
+    place: Tucson, AZ
+    lat: 32.22
+    lng: -110.97
+    what: Police drone programs face privacy review before expansion
+    response_type: Debating DFR
+    tags: []
+    approx: true
+    sources: []
+  - id: p-g08-singapore-spot-park
+    place: Bishan-Ang Mo Kio Park, Singapore
+    lat: 1.3627
+    lng: 103.8435
+    what: For two weeks from May 8, 2020, Spot walked a 3 km stretch of Bishan-Ang Mo Kio Park playing a recorded safe-distancing message and counting visitors with video analytics.
+    response_type: The government said the robot was not for enforcement and was meant to reduce patrol staff and contact.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a1
+places:
+  - place: Sioux Falls, SD
+    note: Adopted — Turf Tank line-painting robot for two seasons; ~8 robotic mowers since 2025
+    sources: []
+  - place: Milwaukee County, WI
+    note: Adopted — Kress robotic mowers on county golf courses; crews call them a tool, not a threat
+    sources: []
+  - place: Mobile, AL; Calgary, AB; Edmonton, AB; Dallas, TX
+    note: Mower pilots — Mobile bought two for $85,247; Calgary ran a 30-day single-site trial
+    sources: []
+  - place: Singapore (NParks, HTX)
+    note: Adopted + trials — Tree-inspection drones since 2017; Spot distancing trial (2020); Xavier patrol robots with officers (2021)
+    sources: []
+  - place: Denver, CO
+    note: Research partner — Denver Parks worked with CU Denver and USGS (2018–2021) to test drones for species inventory and tree health
+    sources: []
+  - place: New York City; NY State parks
+    note: Expanded — 40+ flotation-dropping drones at city beaches; state beaches up to 46 drones in 2026
+    sources: []
+  - place: Atlantic City & Ocean County, NJ
+    note: Adopted — Beach patrol drones drop flotation and spot rip currents
+    sources: []
+  - place: Detroit, MI (Belle Isle)
+    note: Pilot → recurring — BeBot sand-cleaning robot in its third summer (2026)
+    sources: []
+  - place: Huntington Park, CA
+    note: Kept — K5 patrol robot renewed for a 6th year despite the 2019 emergency-button failure
+    sources: []
+  - place: New York City (Times Square subway)
+    note: Ended — K5 pilot ended after ~4 months (Jan 2024)
+    sources: []
+  - place: Shenzhen & Beijing, China
+    note: Scaling — Robot volunteer station at Qianhai Stone Park; 72 robots across Beijing municipal parks
+    sources: []
+  - place: US national parks
+    note: Ban — Public drone ban since 2014
+    sources: []
+  - place: Berkeley, Oceanside (CA); Tucson (AZ)
+    note: Debating DFR — Police drone programs face privacy review before expansion
+    sources: []
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-g08-singapore-spot-park-1
+    publisher: GovTech Singapore
+    title: NParks and SNDGG trial SPOT robot for safe distancing operations at Bishan-Ang Mo Kio Park
+    url: https://www.tech.gov.sg/media/media-releases/spot-robot-trial-for-safe-distancing-operations
+    published: 2020-05-08
+todos:
+  - Place "US national parks" has no map location.
+  - 'Needs source: type "Line-painting robots"'
+  - 'Needs source: type "Autonomous mowers"'
+  - 'Needs source: type "Robotic rough mowers"'
+  - 'Needs source: type "Tree-inspection & forestry drones"'
+  - 'Needs source: type "Cleaning & sweeping robots"'
+  - 'Needs source: type "Security / patrol robots"'
+  - 'Needs source: type "Visitor-service & entertainment humanoids"'
+  - 'Needs source: type "Sand-sifting robots"'
+  - 'Needs source: type "Waterway cleaning boats"'
+  - 'Needs source: type "Lifesaving & shark-spotting drones"'
+  - 'Needs source: type "Monitoring & enforcement drones"'
+  - 'Needs source: type "Mobility robots & micromobility"'
+  - 'Needs source: type "Sensor-driven operations"'
+  - 'Needs source: risk "False sense of safety: patrol robots that look like police b"'
+  - 'Needs source: risk "Surveillance & chilling of public life: cameras and analytic"'
+  - 'Needs source: risk "Physical contact with crowds: humanoids and robots in open w"'
+  - 'Needs source: risk "Wildlife harm: mowers and drones in habitats"'
+  - 'Needs source: risk "Path conflicts & accessibility: robots on narrow trails and "'
+  - 'Needs source: risk "Unequal deployment: robots land in flagship parks first"'
+  - 'Needs source: risk "Terrain & water failures: robots defeated by steps, fountain"'
+  - 'Needs source: risk "Humanoid staff at mass events: a city staffs a major festiva"'
+  - 'Needs source: risk "Park surveillance network: DFR drones, patrol robots and fix"'
+  - 'Needs source: risk "Citywide autonomous night maintenance: all parks switch to o"'
+  - 'Needs source: risk "Drones replace some lifeguard towers: a city cuts staffed st"'
+  - 'Needs source: risk "Robotic wayfinding for blind visitors: guide robots lead bli"'
+  - 'Needs source: risk "One network runs every park robot: mowers, patrol robots and"'
+  - 'Needs source: rule "FAA airspace rules (Part 107 now; Part 108 BVLOS pending)"'
+  - 'Needs source: rule "NPS Policy Memorandum 14-05 (2014)"'
+  - 'Needs source: rule "City park rules & takeoff/landing permits (e.g., NYC Rules T"'
+  - 'Needs source: rule "Surveillance-technology ordinances (e.g., Berkeley Municipal"'
+  - 'Needs source: rule "Fourth Amendment & state constitutional privacy (e.g., Calif"'
+  - 'Needs source: rule "ADA Title II"'
+  - 'Needs source: rule "Wildlife law (ESA, Migratory Bird Treaty Act, state wildlife"'
+  - 'Needs source: rule "Local noise ordinances"'
+  - 'Needs source: rule "Product safety standards for mowers and machinery (CPSC, UL/"'
+  - 'Needs source: rule "Public procurement law & contracts"'
+  - 'Needs source: rule "Public-sector labor law, civil service, union contracts"'
+  - 'Needs source: rule "Tort law & sovereign immunity"'
+  - 'Needs source: pin "Sioux Falls, SD"'
+  - 'Needs source: pin "Milwaukee County, WI"'
+  - 'Needs source: pin "Mobile, AL"'
+  - 'Needs source: pin "Calgary, AB"'
+  - 'Needs source: pin "Edmonton, AB"'
+  - 'Needs source: pin "Dallas, TX"'
+  - 'Needs source: pin "Singapore"'
+  - 'Needs source: pin "Denver, CO"'
+  - 'Needs source: pin "New York City, NY"'
+  - 'Needs source: pin "Atlantic City, NJ"'
+  - 'Needs source: pin "Ocean County, NJ"'
+  - 'Needs source: pin "Belle Isle, Detroit, MI"'
+  - 'Needs source: pin "Huntington Park, CA"'
+  - 'Needs source: pin "Times Square, New York, NY"'
+  - 'Needs source: pin "Shenzhen, China"'
+  - 'Needs source: pin "Beijing, China"'
+  - 'Needs source: pin "Berkeley, CA"'
+  - 'Needs source: pin "Oceanside, CA"'
+  - 'Needs source: pin "Tucson, AZ"'

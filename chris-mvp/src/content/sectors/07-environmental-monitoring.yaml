@@ -1,0 +1,915 @@
+# Generated from docs/research/sectors/07-environmental-monitoring.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/07.mjs, then re-run. Do not invent facts.
+id: "07"
+slug: environmental-monitoring
+name: Environmental Monitoring
+short_name: Environment
+owner: Maryam
+status: partial
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/07-environmental-monitoring.md
+  drive_url: https://docs.google.com/document/d/1-y8_1V4efKtLMZxPOTpuhSndlJECMlOo6u3T2i-Bkmk/edit
+liable_to_change: EU AI Act high-risk dates, the IMO autonomous-ship rules, FAA BVLOS rule status, and each city's current programme
+one_liner: null
+overview:
+  summary: Most environmental monitoring is still done by fixed stations, satellites and human field crews.
+  points:
+    - "Embodied AI adds mobile sensing: drones, ground rovers, surface and underwater vehicles, and sensor-equipped vehicles that reach places stations cannot and fill gaps between them."
+    - Drones with air and thermal sensors, and unmanned boats for lakes, rivers and coasts, are in early commercial use.
+    - Wildfire detection and response, methane leak finding and river-trash interceptors are the most developed city-facing uses.
+    - Swarms, long-duration autonomous vessels and robots that sample soil and water without a human are mostly pilots or research.
+    - Data from low-cost mobile sensors is usually not regulatory-grade, so it supports screening and enforcement leads rather than official compliance decisions.
+  why_it_matters: "Cities are legally and politically accountable for air, water, heat, flood and fire risk, but have too few measurements at neighborhood level. Mobile robots can map pollution block by block, find illegal discharges, track floods and fires as they move, and enter places too dangerous for people (radiation, toxic plumes, flooded areas). They also raise new issues: surveillance of private land, data that can trigger enforcement or property-value effects, wildlife disturbance, airspace and waterway conflicts, and unequal coverage of neighborhoods."
+  core_shift: null
+players: []
+terms:
+  - term: UAS / UAV / drone
+    definition: "unmanned aircraft. Drone-in-a-box: a drone that lives in a weatherproof station and launches on its own."
+    sources: []
+  - term: USV / ASV
+    definition: "unmanned or autonomous surface vessel. AUV: autonomous underwater vehicle. Glider: a long-range underwater vehicle that moves by changing buoyancy."
+    sources: []
+  - term: Rover / UGV
+    definition: unmanned ground vehicle.
+    sources: []
+  - term: Interceptor
+    definition: a floating, solar-powered device that captures river debris.
+    sources: []
+  - term: Swarm
+    definition: many robots coordinating on one task.
+    sources: []
+  - term: Mobile sensing platform
+    definition: any vehicle (including buses and refuse trucks) that carries sensors as it moves.
+    sources: []
+  - term: PM2.5 / PM10
+    definition: particles smaller than 2.5 or 10 micrometers; key air-pollution measures.
+    sources: []
+  - term: NO2, O3, VOCs
+    definition: nitrogen dioxide, ozone, volatile organic compounds.
+    sources: []
+  - term: Low-cost sensor
+    definition: inexpensive sensor that is useful for mapping but less accurate than a regulatory instrument.
+    sources: []
+  - term: Reference monitor / FRM / FEM
+    definition: official, regulatory-grade equipment and approved methods.
+    sources: []
+  - term: Calibration and drift
+    definition: correcting a sensor against a known reference; drift is the gradual loss of accuracy.
+    sources: []
+  - term: OGI
+    definition: optical gas imaging; cameras that show invisible gas leaks.
+    sources: []
+  - term: Multispectral / hyperspectral / thermal
+    definition: imaging in many wavelengths used for vegetation, water quality and heat.
+    sources: []
+  - term: eDNA
+    definition: environmental DNA; traces of genetic material used to detect species in water or soil.
+    sources: []
+  - term: Bioacoustics
+    definition: monitoring wildlife by sound.
+    sources: []
+  - term: LiDAR
+    definition: laser scanning used for terrain, flood and canopy models.
+    sources: []
+  - term: VLOS / BVLOS
+    definition: visual line of sight / beyond visual line of sight; BVLOS is the key legal step for routine autonomous monitoring.
+    sources: []
+  - term: Remote ID
+    definition: "a broadcast 'digital license plate' for drones. Geofence: a software boundary that keeps robots out of an area."
+    sources: []
+  - term: AIS
+    definition: automatic identification system, a transponder used by ships and used on autonomous vessels.
+    sources: []
+  - term: Persistent autonomy
+    definition: robots that stay deployed for days or months.
+    sources: []
+  - term: Human-in-the-loop / on-the-loop
+    definition: a person approves decisions / monitors and can intervene.
+    sources: []
+  - term: Edge AI
+    definition: processing on the robot instead of in the cloud.
+    sources: []
+  - term: Sensor fusion
+    definition: combining data from several sensors, satellites and stations.
+    sources: []
+  - term: Digital twin
+    definition: a live digital model of a river basin, city or forest that is updated by sensor data.
+    sources: []
+  - term: Source apportionment
+    definition: working out which sources (traffic, industry, fires) cause the pollution.
+    sources: []
+  - term: Regulatory-grade vs screening-grade data
+    definition: whether data can be used for legal decisions or only for indication.
+    sources: []
+  - term: Environmental justice
+    definition: the principle that pollution burdens should not fall unfairly on certain communities.
+    sources: []
+  - term: Wildland-urban interface (WUI)
+    definition: where homes meet fire-prone vegetation.
+    sources: []
+  - term: NPDES
+    definition: US permit system for pollutant discharge into water.
+    sources: []
+  - term: Incidental data
+    definition: information captured by accident, such as people in an aerial image.
+    sources: []
+  - term: Citizen science
+    definition: public participation in data collection.
+    sources: []
+  - term: Dual use
+    definition: technology that can serve both civilian and hostile purposes.
+    sources: []
+  - term: Black swan
+    definition: a rare, severe event that is hard to predict.
+    sources: []
+types:
+  - id: t-air-quality-drones
+    name: Air-quality drones
+    zone: air
+    where: "Air: over industrial zones, ports, traffic corridors, plumes"
+    how: null
+    uses: Measure PM2.5, NO2, ozone, VOCs at different heights; locate emission sources
+    running_in: Chinese cities and provinces (enforcement and source tracing); South Korean cities (fine-dust studies, reported); research in Europe
+    city_response: null
+    progression: Autonomous plume-chasing, better miniaturised sensors, pairing with satellite and station data for source attribution
+    sources: []
+  - id: t-sensor-equipped-street-vehicles-and
+    name: Sensor-equipped street vehicles and ground robots
+    zone: sidewalk
+    where: Streets, sidewalks, parks
+    how: null
+    uses: Block-level pollution maps from vehicles (e.g., Google Street View cars with Aclima sensors); mobile labs
+    running_in: Oakland, Copenhagen and London (Breathe London); Delhi (mobile monitoring labs)
+    city_response: null
+    progression: Continuous mapping by buses, refuse trucks and delivery robots; automatic calibration against reference stations
+    sources: []
+  - id: t-methane-and-gas-leak-detection-robot
+    name: Methane and gas-leak detection robots and drones
+    zone: air
+    where: Gas facilities, landfills, pipelines, urban mains
+    how: null
+    uses: Optical gas imaging and laser sensing to find leaks
+    running_in: Los Angeles area (Aliso Canyon response context), US oil and gas and landfill sites
+    city_response: null
+    progression: Routine autonomous patrols, quantification of leak size, city-scale mapping of leaks
+    sources: []
+  - id: t-autonomous-surface-vessels-usvs
+    name: Autonomous surface vessels (USVs)
+    zone: water
+    where: Lakes, reservoirs, rivers, harbours, coastlines
+    how: null
+    uses: Water-quality sampling, algae blooms, depth and shoreline mapping, illegal-discharge tracing
+    running_in: Chinese city lakes and rivers; Singapore (research robots in reservoirs); Saildrone ocean missions
+    city_response: null
+    progression: Persistent solar-powered fleets, swarm sampling, automatic alerts to utilities
+    sources: []
+  - id: t-underwater-vehicles-auv-gliders-rov
+    name: Underwater vehicles (AUV, gliders, ROV)
+    zone: water
+    where: Coasts, harbours, estuaries, reservoirs
+    how: null
+    uses: Sediment, oxygen, salinity and contamination sampling; habitat survey
+    running_in: Port cities and research institutions worldwide
+    city_response: null
+    progression: Long-endurance gliders, networked fleets, real-time data to coastal managers
+    sources: []
+  - id: t-river-trash-interceptors-and-floatin
+    name: River-trash interceptors and floating collectors
+    zone: water
+    where: Rivers and stormwater channels at city outlets
+    how: null
+    uses: Collect and measure plastic and debris; produce data on litter flow
+    running_in: Jakarta, Bangkok, Kingston (Jamaica), Santo Domingo and Los Angeles (Ballona Creek)
+    city_response: null
+    progression: Smarter sorting and measurement, links to storm forecasts and municipal clean-up crews
+    sources: []
+  - id: t-wildfire-drones-and-ground-robots
+    name: Wildfire drones and ground robots
+    zone: air
+    where: Forests, wildland-urban interface, burn areas
+    how: null
+    uses: Fire detection and mapping at night and through smoke, hotspot and spot-fire detection, post-fire hazard checks
+    running_in: California agencies (CAL FIRE, county fire departments, AI-camera networks such as ALERTCalifornia); fire services across Australia and Europe
+    city_response: null
+    progression: Drone-in-a-box stations launching on alert, drone swarms for mapping, robots that scout structure fires and cut firebreaks
+    sources: []
+  - id: t-flood-and-storm-monitoring-drones-an
+    name: Flood and storm monitoring drones and boats
+    zone: air
+    where: Rivers, streets during floods, coastlines
+    how: null
+    uses: Water-extent mapping, rescue support, damage assessment, drain-blockage checks
+    running_in: Dutch water boards, Asian delta cities, US emergency management teams
+    city_response: null
+    progression: Automatic launch from rainfall forecasts, flood-depth estimation, support for evacuation routing
+    sources: []
+  - id: t-urban-heat-and-green-space-drones
+    name: Urban heat and green-space drones
+    zone: air
+    where: Rooftops, parks, neighbourhoods
+    how: null
+    uses: Thermal mapping of heat islands, tree canopy and vegetation health
+    running_in: Singapore and US cities with heat-action plans (reported pilots)
+    city_response: null
+    progression: Regular scans that guide tree planting and cooling programmes
+    sources: []
+  - id: t-soil-and-contaminated-site-rovers
+    name: Soil and contaminated-site rovers
+    zone: street
+    where: Brownfields, farmland near cities, landfills
+    how: null
+    uses: Sampling soil, mapping contamination without human exposure
+    running_in: Environmental consultancies and agencies; Fukushima region
+    city_response: null
+    progression: Fully autonomous sampling grids, real-time lab-grade sensors
+    sources: []
+  - id: t-radiation-and-hazardous-release-robo
+    name: Radiation and hazardous-release robots
+    zone: building
+    where: Nuclear sites, industrial accidents, chemical spills
+    how: null
+    uses: Map radiation and chemical hazards before people enter
+    running_in: Fukushima (Japan), Chernobyl exclusion zone, UK nuclear sites (e.g., Sellafield)
+    city_response: null
+    progression: More autonomy and teaming; city fire and hazmat teams carrying small robots
+    sources: []
+  - id: t-biodiversity-and-wildlife-drones-and
+    name: Biodiversity and wildlife drones and robots
+    zone: air
+    where: Parks, wetlands, coasts
+    how: null
+    uses: Count animals, track habitats, acoustic monitoring, detect invasive species
+    running_in: Park and wildlife agencies in many countries
+    city_response: null
+    progression: AI species recognition, long-duration solar craft, eDNA sampling robots
+    sources: []
+  - id: t-noise-monitoring-mobile-units
+    name: Noise-monitoring mobile units
+    zone: street
+    where: Streets, airports, construction
+    how: null
+    uses: Mobile noise measurement and complaint investigation
+    running_in: Cities with noise action plans
+    city_response: null
+    progression: Automated complaint response
+    sources: []
+risks:
+  - id: r07-l-crash-or-fly-away-over-people-roads
+    category: likely
+    title: Crash or fly-away over people, roads or crowds
+    applies_to: Drones (all)
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Public, motorists (children, crowds at events)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A pollution drone drops onto a busy road. Response: routes away from people, parachutes, flight-planning rules"
+    sources: []
+    type_ids:
+      - t-air-quality-drones
+      - t-methane-and-gas-leak-detection-robot
+      - t-wildfire-drones-and-ground-robots
+      - t-flood-and-storm-monitoring-drones-an
+      - t-urban-heat-and-green-space-drones
+      - t-biodiversity-and-wildlife-drones-and
+    all_types: false
+  - id: r07-l-privacy-and-surveillance-creep-senso
+    category: likely
+    title: "Privacy and surveillance creep: sensors and cameras on private land; data reused for policing or code enforcement"
+    applies_to: Drones and ground robots
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Residents of monitored areas, especially low-income or heavily policed neighbourhoods
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Pollution mapping data reveals activity at a specific home or small business and is used against them. Response: purpose limits, no-identification rules, public data policy, independent oversight"
+    sources: []
+    type_ids:
+      - t-air-quality-drones
+      - t-sensor-equipped-street-vehicles-and
+      - t-methane-and-gas-leak-detection-robot
+      - t-wildfire-drones-and-ground-robots
+      - t-flood-and-storm-monitoring-drones-an
+      - t-urban-heat-and-green-space-drones
+      - t-soil-and-contaminated-site-rovers
+      - t-biodiversity-and-wildlife-drones-and
+      - t-noise-monitoring-mobile-units
+    all_types: false
+  - id: r07-l-data-quality-poorly-calibrated-senso
+    category: likely
+    title: "Data quality: poorly calibrated sensors give false readings; AI turns noise into confident but wrong maps"
+    applies_to: Mobile sensors
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Communities that rely on the data to demand action (and those wrongly flagged)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A map labels a neighbourhood as clean because sensors drifted. Response: calibration against reference stations, uncertainty shown on maps, open methods"
+    sources: []
+    type_ids:
+      - t-air-quality-drones
+      - t-sensor-equipped-street-vehicles-and
+      - t-methane-and-gas-leak-detection-robot
+      - t-urban-heat-and-green-space-drones
+      - t-noise-monitoring-mobile-units
+    all_types: false
+  - id: r07-l-coverage-bias-robots-are-deployed-in
+    category: likely
+    title: "Coverage bias: robots are deployed in wealthier or easy-to-reach areas"
+    applies_to: Mobile sensors
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Poorer, peripheral and polluted communities (environmental justice areas)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Monitoring funds follow the data, so unmonitored areas get no action. Response: equity-weighted deployment plans"
+    sources: []
+    type_ids:
+      - t-air-quality-drones
+      - t-sensor-equipped-street-vehicles-and
+      - t-urban-heat-and-green-space-drones
+      - t-noise-monitoring-mobile-units
+    all_types: false
+  - id: r07-l-interference-with-firefighting-aircr
+    category: likely
+    title: Interference with firefighting aircraft or crews; drone collision with helicopter
+    applies_to: Wildfire drones and robots
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Pilots, firefighters, people being evacuated
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Hobby drones have repeatedly grounded firefighting aircraft in California; a monitoring drone could add to this. Response: automatic grounding on fire alert, shared airspace system, strict flight authorisation"
+    sources: []
+    type_ids:
+      - t-wildfire-drones-and-ground-robots
+    all_types: false
+  - id: r07-l-missed-or-false-detection-leading-to
+    category: likely
+    title: Missed or false detection leading to late response or wasted resources
+    applies_to: Wildfire drones
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Residents at the wildland edge (elderly, remote communities, people without cars)
+    most_vulnerable: []
+    worse_over_time: null
+    case: "The model ignores an early smoke signature at night. Response: human verification, multiple sensor types, publish error rates"
+    sources: []
+    type_ids:
+      - t-wildfire-drones-and-ground-robots
+    all_types: false
+  - id: r07-l-collision-with-boats-loss-of-vessel
+    category: likely
+    title: Collision with boats, loss of vessel, hazard to navigation
+    applies_to: Surface and underwater vessels
+    likelihood: low
+    likelihood_label: Low
+    severity: medium
+    severity_label: Medium
+    who_affected: Boaters, ports, fishers
+    most_vulnerable: []
+    worse_over_time: null
+    case: "An unlit autonomous vessel is struck in a harbour. Response: AIS transponders, lights, notices to mariners"
+    sources: []
+    type_ids:
+      - t-autonomous-surface-vessels-usvs
+      - t-underwater-vehicles-auv-gliders-rov
+      - t-flood-and-storm-monitoring-drones-an
+    all_types: false
+  - id: r07-l-harm-to-wildlife-or-habitats-disturb
+    category: likely
+    title: "Harm to wildlife or habitats: disturbance, entanglement, noise"
+    applies_to: Surface and underwater vessels
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Wildlife, protected areas, local fisheries
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Drones flush nesting birds; vessels disturb marine mammals. Response: wildlife-aware flight rules, seasonal restrictions, permits"
+    sources: []
+    type_ids:
+      - t-autonomous-surface-vessels-usvs
+      - t-underwater-vehicles-auv-gliders-rov
+    all_types: false
+  - id: r07-l-capture-or-harm-of-animals-overflow
+    category: likely
+    title: Capture or harm of animals; overflow in storms; moving trash rather than preventing it
+    applies_to: River-trash interceptors
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Wildlife, downstream communities
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A storm overwhelms a barrier and releases collected waste. Response: storm modes, maintenance schedules, upstream prevention policy"
+    sources: []
+    type_ids:
+      - t-river-trash-interceptors-and-floatin
+    all_types: false
+  - id: r07-b-ignition-or-sensor-failure-near-gas
+    category: black_swan
+    title: Ignition or sensor failure near gas; missed leak
+    applies_to: Methane and hazardous-gas robots
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Workers, neighbours, first responders
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A robot not rated for explosive atmospheres sparks at a leaking facility. Response: intrinsically safe equipment, certification, human oversight"
+    sources: []
+    type_ids:
+      - t-methane-and-gas-leak-detection-robot
+    all_types: false
+  - id: r07-l-robot-fails-inside-hazard-zone-and-b
+    category: likely
+    title: Robot fails inside hazard zone and blocks recovery; spreads contamination
+    applies_to: Radiation and hazard robots
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Response teams, nearby residents
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A robot sticks in a contaminated corridor. Response: recovery plans, decontamination, redundant units"
+    sources: []
+    type_ids:
+      - t-radiation-and-hazardous-release-robo
+      - t-soil-and-contaminated-site-rovers
+    all_types: false
+  - id: r07-b-hacked-or-spoofed-sensors-and-fleets
+    category: black_swan
+    title: "Hacked or spoofed sensors and fleets: false pollution or flood data, hijacked drones, or a bad update disabling the whole fleet in a crisis"
+    applies_to: Fleet-wide software and cyber
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Whole city, emergency managers, public trust
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Attackers inject fake flood readings that trigger evacuations, or a bad update grounds all drones during a wildfire. Response: signed updates, staged roll-outs, offline fallback crews, data-integrity checks"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r07-l-over-trust-automated-alerts-trigger
+    category: likely
+    title: "Over-trust: automated alerts trigger shutdowns, evacuations or fines with no human review"
+    applies_to: Decision automation
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Businesses and residents affected by automated action
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A model flags a factory for illegal emissions and an automatic penalty is issued in error. Response: human decision-maker, appeals process, evidence standards"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r07-b-drones-used-to-harass-spy-or-release
+    category: black_swan
+    title: Drones used to harass, spy, or release substances; environmental-monitoring data used to target land
+    applies_to: Misuse and dual use
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Residents, critical sites
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A monitoring drone is modified to carry a payload. Response: Remote ID, geofencing, counter-drone planning"
+    sources: []
+    type_ids:
+      - t-air-quality-drones
+      - t-methane-and-gas-leak-detection-robot
+      - t-wildfire-drones-and-ground-robots
+      - t-flood-and-storm-monitoring-drones-an
+      - t-urban-heat-and-green-space-drones
+      - t-biodiversity-and-wildlife-drones-and
+    all_types: false
+  - id: r07-b-robots-and-drones-crowd-airspace-and
+    category: black_swan
+    title: Robots and drones crowd airspace and waterways during disasters; networks fail when they are needed most
+    applies_to: Disasters and cascades
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: First responders, people awaiting rescue
+    most_vulnerable: []
+    worse_over_time: null
+    case: "During a flood, communication networks go down and autonomous monitoring stops, while hobby and media drones fill the sky. Response: disaster airspace plans, satellite links, rugged local autonomy"
+    sources: []
+    type_ids:
+      - t-wildfire-drones-and-ground-robots
+      - t-flood-and-storm-monitoring-drones-an
+      - t-air-quality-drones
+      - t-autonomous-surface-vessels-usvs
+    all_types: false
+  - id: r07-l-job-and-skill-loss-among-field-techn
+    category: likely
+    title: Job and skill loss among field technicians; dependence on vendors for data
+    applies_to: Workforce and expertise
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Field monitoring staff, small agencies
+    most_vulnerable: []
+    worse_over_time: null
+    case: "A city cancels field work, then loses data when a vendor leaves. Response: retraining, open data formats, contract terms for data ownership"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r07-l-extreme-heat-smoke-wind-and-ice-degr
+    category: likely
+    title: Extreme heat, smoke, wind and ice degrade sensors and batteries at the moments of greatest need
+    applies_to: Weather and climate
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Operators, emergency teams
+    most_vulnerable: []
+    worse_over_time: null
+    case: "Smoke blinds optical sensors in a wildfire. Response: multi-sensor design, weather limits, human backup"
+    sources: []
+    type_ids: []
+    all_types: true
+regulations:
+  rules:
+    - id: g-air-monitoring-and-standards-us-clean-ai
+      name: US Clean Air Act and EPA monitoring rules (40 CFR Part 58); EU Ambient Air Quality Directive (2008/50/EC, revised in 2024)
+      area: Air monitoring and standards
+      level: federal
+      level_label: Federal/EU with state or national environment agencies
+      status: in_force
+      covers: Official measurement methods, networks and limit values
+      falls_short: Rules favour fixed reference stations; mobile and low-cost sensor data is not regulatory-grade; no standard for drone-based measurement
+      sources: []
+    - id: g-water-us-clean-water-act-including-npdes
+      name: US Clean Water Act (including NPDES discharge permits) and Safe Drinking Water Act; EU Water Framework Directive
+      area: Water
+      level: federal
+      level_label: Federal/EU with states and utilities
+      status: in_force
+      covers: Water-quality standards and discharge permits
+      falls_short: Little guidance on using autonomous vessels or AI as evidence of violations
+      sources: []
+    - id: g-drone-aviation-us-faa-part-107-and-bvlos
+      name: US FAA Part 107 and BVLOS waivers; EU Regulations 2019/947 and 2019/945; UK CAA rules; China's UAV flight management rules (2024); Japan's Level 4 flights
+      area: Drone aviation
+      level: federal
+      level_label: National aviation authorities; cities limited to their own sites
+      status: in_force
+      covers: Pilot certification, flying zones, flights over people
+      falls_short: BVLOS and fleet operations still need case-by-case approval; emergency airspace coordination is weak
+      sources: []
+    - id: g-parks-wildlife-and-habitat-us-endangered
+      name: US Endangered Species Act and Marine Mammal Protection Act; National Park Service drone restrictions; EU Birds and Habitats Directives
+      area: Parks, wildlife and habitat
+      level: federal
+      level_label: Federal and state wildlife and park agencies
+      status: in_force
+      covers: Protection of species and protected land, bans on harassment
+      falls_short: Do not set out wildlife-aware flight or vessel standards for robots
+      sources: []
+    - id: g-maritime-and-waterways-colregs-collision
+      name: COLREGs (collision rules at sea); US Rivers and Harbors Act; UK Maritime Autonomous Surface Ship guidance; International Maritime Organization autonomous-ship rules (in development)
+      area: Maritime and waterways
+      level: international
+      level_label: National maritime authorities, port authorities, coast guards
+      status: in_force
+      covers: Navigation duties, lights, lookout requirements
+      falls_short: Written for crewed ships; unclear for small unmanned craft in city waterways
+      sources: []
+    - id: g-privacy-and-search-rules-us-fourth-amend
+      name: US Fourth Amendment case law (e.g., Kyllo v. United States on thermal imaging; Florida v. Riley on aerial observation); state drone-privacy laws; GDPR; China's Personal Information Protection Law and Data Security Law
+      area: Privacy and search rules
+      level: federal
+      level_label: State and federal courts; national data authorities
+      status: in_force
+      covers: Government sensing of private property and personal data
+      falls_short: Courts and laws did not anticipate persistent, high-resolution environmental scanning; rules differ widely
+      sources: []
+    - id: g-geospatial-and-data-law-china-s-surveyin
+      name: China's Surveying and Mapping Law; EU INSPIRE and Environmental Information Directive (2003/4/EC); US FOIA and state open-data laws
+      area: Geospatial and data law
+      level: city
+      level_label: National, with city open-data policies
+      status: in_force
+      covers: Who may collect and share map data; public access to environmental information
+      falls_short: Open-data duties can clash with security and privacy limits; mapping restrictions can limit citizen science
+      sources: []
+    - id: g-environmental-review-and-permits-us-nepa
+      name: US NEPA and state equivalents; local permits for work in rivers, parks and shorelines
+      area: Environmental review and permits
+      level: federal
+      level_label: Federal, state, city
+      status: in_force
+      covers: Review of projects with environmental impact
+      falls_short: Rarely applied to monitoring fleets, though they may disturb habitats
+      sources: []
+    - id: g-workplace-safety-osha-rules-including-ha
+      name: OSHA rules (including hazardous-atmosphere rules); EU Machinery Regulation (EU) 2023/1230; ATEX rules for explosive atmospheres
+      area: Workplace safety
+      level: federal
+      level_label: Federal/EU, national and state agencies
+      status: in_force
+      covers: Worker safety and equipment standards
+      falls_short: Do not address human-robot field teams or algorithm-set workloads
+      sources: []
+    - id: g-product-liability-and-insurance-state-pr
+      name: State product-liability law; EU Product Liability Directive (revised); drone insurance rules
+      area: Product liability and insurance
+      level: state
+      level_label: State / national
+      status: in_force
+      covers: Responsibility for harm from robots
+      falls_short: Unclear who is liable when AI misreads data and a decision causes harm
+      sources: []
+    - id: g-ai-and-cyber-eu-ai-act-may-classify-some
+      name: EU AI Act (may classify some systems as high-risk, e.g., safety components of critical infrastructure); NIS2; US sector rules and state AI laws
+      area: AI and cyber
+      level: federal
+      level_label: EU/national; federal and state in the US
+      status: in_force
+      covers: Risk management, transparency, human oversight, security
+      falls_short: Environmental monitoring is not clearly named; timelines for high-risk rules have been shifting
+      sources: []
+  gaps:
+    - Limits on surveillance, retention and secondary use of high-resolution environmental data.
+    - Wildlife and habitat standards for drones and vessels.
+    - Shared airspace and waterway rules during disasters.
+    - Liability and appeal rights when automated environmental alerts cause harm.
+    - Equity requirements for where monitoring is deployed.
+    - Cyber-integrity requirements for sensor networks that trigger public safety actions.
+case_studies:
+  - id: c-g07-jakarta-interceptor
+    title: A solar-powered river trash interceptor
+    place: Cengkareng Drain, Jakarta, Indonesia
+    kind: international
+    pittsburgh: false
+    pin_id: p-g07-jakarta-interceptor
+    fields:
+      - label: What happened
+        text: The Ocean Cleanup's first Interceptor, an automated solar-powered barge, collected floating plastic near the mouth of Jakarta's Cengkareng Drain from 2019.
+      - label: Response
+        text: Indonesia and the Netherlands endorsed further deployments. Independent reporters found it stalled after heavy rain in early 2020.
+      - label: When
+        text: "2019"
+    sources: &a1
+      - s-g07-jakarta-interceptor-1
+      - s-g07-jakarta-interceptor-2
+pins:
+  - id: p-beijing-china
+    place: Beijing, China
+    lat: 39.9
+    lng: 116.41
+    what: Drones used to find and trace air pollution sources for enforcement
+    response_type: National environment ministry directs enforcement; UAV rules and mapping law apply
+    tags: []
+    approx: true
+    sources: []
+  - id: p-hebei-china
+    place: Hebei, China
+    lat: 38.04
+    lng: 114.51
+    what: Drones used to find and trace air pollution sources for enforcement
+    response_type: National environment ministry directs enforcement; UAV rules and mapping law apply
+    tags: []
+    approx: true
+    sources: []
+  - id: p-shenzhen-china
+    place: Shenzhen, China
+    lat: 22.54
+    lng: 114.06
+    what: Drones and unmanned boats in city management and environmental work, supported by an active low-altitude economy programme
+    response_type: Shenzhen low-altitude economy regulations (2023); city actively promotes use
+    tags: []
+    approx: true
+    sources: []
+  - id: p-singapore
+    place: Singapore
+    lat: 1.35
+    lng: 103.82
+    what: PUB and university robots for water monitoring in reservoirs and waterways; drones for environmental and heat studies
+    response_type: Government-led trials, strict drone licensing, PDPA data rules
+    tags: []
+    approx: true
+    sources: []
+  - id: p-oakland-ca
+    place: Oakland, CA
+    lat: 37.8
+    lng: -122.27
+    what: Aclima sensors on Google Street View cars produced block-level air maps
+    response_type: Research partnership and public data release, not regulatory monitoring
+    tags: []
+    approx: true
+    sources: []
+  - id: p-london-uk
+    place: London, UK
+    lat: 51.51
+    lng: -0.13
+    what: Breathe London combined fixed sensors and mobile mapping
+    response_type: City-led network using low-cost sensors alongside official monitoring; mayoral air quality policy
+    tags: []
+    approx: true
+    sources: []
+  - id: p-copenhagen-denmark
+    place: Copenhagen, Denmark
+    lat: 55.68
+    lng: 12.57
+    what: Mobile air mapping as part of research partnerships
+    response_type: Used for planning and public information
+    tags: []
+    approx: true
+    sources: []
+  - id: p-delhi-india
+    place: Delhi, India
+    lat: 28.61
+    lng: 77.21
+    what: Mobile monitoring labs and research drones for pollution mapping
+    response_type: Used in source-apportionment studies and pollution action planning
+    tags: []
+    approx: true
+    sources: []
+  - id: p-california-statewide
+    place: California (statewide)
+    lat: 38.58
+    lng: -121.49
+    what: Drones and AI-camera networks for wildfire detection and mapping
+    response_type: State and county programmes; FAA rules; firefighting airspace restrictions
+    tags: []
+    approx: true
+    sources: []
+  - id: p-los-angeles-ca
+    place: Los Angeles, CA
+    lat: 34.05
+    lng: -118.24
+    what: Ballona Creek river-trash interceptor; methane-leak monitoring in the wider region
+    response_type: City and county public works with environmental agencies
+    tags: []
+    approx: true
+    sources: []
+  - id: p-jakarta-indonesia
+    place: Jakarta, Indonesia
+    lat: -6.21
+    lng: 106.85
+    what: Ocean Cleanup Interceptors in the city's rivers
+    response_type: Public-private pilot with municipal support
+    tags: []
+    approx: true
+    sources: []
+  - id: p-fukushima-daiichi-japan
+    place: Fukushima Daiichi, Japan
+    lat: 37.4211
+    lng: 141.0328
+    what: Robots for radiation mapping and decommissioning
+    response_type: National government and utility programme, long-running
+    tags: []
+    approx: false
+    sources: []
+  - id: p-netherlands-water-boards
+    place: Netherlands (water boards)
+    lat: 52.13
+    lng: 5.29
+    what: Drones and boats for flood and water-level monitoring
+    response_type: Regional water authority programmes under national and EU rules
+    tags: []
+    approx: true
+    sources: []
+  - id: p-g07-jakarta-interceptor
+    place: Cengkareng Drain, Jakarta, Indonesia
+    lat: -6.1027
+    lng: 106.7336
+    what: The Ocean Cleanup's first Interceptor, an automated solar-powered barge, collected floating plastic near the mouth of Jakarta's Cengkareng Drain from 2019.
+    response_type: Indonesia and the Netherlands endorsed further deployments. Independent reporters found it stalled after heavy rain in early 2020.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a1
+places:
+  - place: Beijing and Hebei, China
+    note: Drones used to find and trace air pollution sources for enforcement — National environment ministry directs enforcement; UAV rules and mapping law apply
+    sources: []
+  - place: Shenzhen, China
+    note: Drones and unmanned boats in city management and environmental work, supported by an active low-altitude economy programme — Shenzhen low-altitude economy regulations (2023); city actively promotes use
+    sources: []
+  - place: Singapore
+    note: PUB and university robots for water monitoring in reservoirs and waterways; drones for environmental and heat studies — Government-led trials, strict drone licensing, PDPA data rules
+    sources: []
+  - place: Oakland, USA
+    note: Aclima sensors on Google Street View cars produced block-level air maps — Research partnership and public data release, not regulatory monitoring
+    sources: []
+  - place: London, UK
+    note: Breathe London combined fixed sensors and mobile mapping — City-led network using low-cost sensors alongside official monitoring; mayoral air quality policy
+    sources: []
+  - place: Copenhagen, Denmark
+    note: Mobile air mapping as part of research partnerships — Used for planning and public information
+    sources: []
+  - place: Delhi, India
+    note: Mobile monitoring labs and research drones for pollution mapping — Used in source-apportionment studies and pollution action planning
+    sources: []
+  - place: California (CAL FIRE, county fire services, ALERTCalifornia)
+    note: Drones and AI-camera networks for wildfire detection and mapping — State and county programmes; FAA rules; firefighting airspace restrictions
+    sources: []
+  - place: Los Angeles, USA
+    note: Ballona Creek river-trash interceptor; methane-leak monitoring in the wider region — City and county public works with environmental agencies
+    sources: []
+  - place: Jakarta, Indonesia
+    note: Ocean Cleanup Interceptors in the city's rivers — Public-private pilot with municipal support
+    sources: []
+  - place: Fukushima, Japan
+    note: Robots for radiation mapping and decommissioning — National government and utility programme, long-running
+    sources: []
+  - place: Netherlands (water boards)
+    note: Drones and boats for flood and water-level monitoring — Regional water authority programmes under national and EU rules
+    sources: []
+scenarios: []
+war_games: []
+recommendation_candidate: null
+sources:
+  - id: s-g07-jakarta-interceptor-1
+    publisher: The Ocean Cleanup
+    title: Indonesia enters new agreement with the Netherlands and The Ocean Cleanup to reduce marine debris from rivers
+    url: https://theoceancleanup.com/press/press-releases/indonesia-enters-new-agreement-with-the-netherlands-and-the-ocean-cleanup-to-reduce-marine-debris-from-rivers/
+  - id: s-g07-jakarta-interceptor-2
+    publisher: Mongabay
+    title: This solar-powered device aims to clean 1,000 rivers. Will it work?
+    url: https://news.mongabay.com/2020/03/this-solar-powered-device-aims-to-clean-1000-rivers-will-it-work
+    published: 2020-03
+todos:
+  - 'Needs source: type "Air-quality drones"'
+  - 'Needs source: type "Sensor-equipped street vehicles and ground robots"'
+  - 'Needs source: type "Methane and gas-leak detection robots and drones"'
+  - 'Needs source: type "Autonomous surface vessels (USVs)"'
+  - 'Needs source: type "Underwater vehicles (AUV, gliders, ROV)"'
+  - 'Needs source: type "River-trash interceptors and floating collectors"'
+  - 'Needs source: type "Wildfire drones and ground robots"'
+  - 'Needs source: type "Flood and storm monitoring drones and boats"'
+  - 'Needs source: type "Urban heat and green-space drones"'
+  - 'Needs source: type "Soil and contaminated-site rovers"'
+  - 'Needs source: type "Radiation and hazardous-release robots"'
+  - 'Needs source: type "Biodiversity and wildlife drones and robots"'
+  - 'Needs source: type "Noise-monitoring mobile units"'
+  - 'Needs source: risk "Crash or fly-away over people, roads or crowds"'
+  - 'Needs source: risk "Privacy and surveillance creep: sensors and cameras on priva"'
+  - 'Needs source: risk "Data quality: poorly calibrated sensors give false readings;"'
+  - 'Needs source: risk "Coverage bias: robots are deployed in wealthier or easy-to-r"'
+  - 'Needs source: risk "Interference with firefighting aircraft or crews; drone coll"'
+  - 'Needs source: risk "Missed or false detection leading to late response or wasted"'
+  - 'Needs source: risk "Collision with boats, loss of vessel, hazard to navigation"'
+  - 'Needs source: risk "Harm to wildlife or habitats: disturbance, entanglement, noi"'
+  - 'Needs source: risk "Capture or harm of animals; overflow in storms; moving trash"'
+  - 'Needs source: risk "Ignition or sensor failure near gas; missed leak"'
+  - 'Needs source: risk "Robot fails inside hazard zone and blocks recovery; spreads "'
+  - 'Needs source: risk "Hacked or spoofed sensors and fleets: false pollution or flo"'
+  - 'Needs source: risk "Over-trust: automated alerts trigger shutdowns, evacuations "'
+  - 'Needs source: risk "Drones used to harass, spy, or release substances; environme"'
+  - 'Needs source: risk "Robots and drones crowd airspace and waterways during disast"'
+  - 'Needs source: risk "Job and skill loss among field technicians; dependence on ve"'
+  - 'Needs source: risk "Extreme heat, smoke, wind and ice degrade sensors and batter"'
+  - 'Needs source: rule "US Clean Air Act and EPA monitoring rules (40 CFR Part 58); "'
+  - 'Needs source: rule "US Clean Water Act (including NPDES discharge permits) and S"'
+  - 'Needs source: rule "US FAA Part 107 and BVLOS waivers; EU Regulations 2019/947 a"'
+  - 'Needs source: rule "US Endangered Species Act and Marine Mammal Protection Act; "'
+  - 'Needs source: rule "COLREGs (collision rules at sea); US Rivers and Harbors Act;"'
+  - 'Needs source: rule "US Fourth Amendment case law (e.g., Kyllo v. United States o"'
+  - "Needs source: rule \"China's Surveying and Mapping Law; EU INSPIRE and Environmen\""
+  - 'Needs source: rule "US NEPA and state equivalents; local permits for work in riv"'
+  - 'Needs source: rule "OSHA rules (including hazardous-atmosphere rules); EU Machin"'
+  - 'Needs source: rule "State product-liability law; EU Product Liability Directive "'
+  - 'Needs source: rule "EU AI Act (may classify some systems as high-risk, e.g., saf"'
+  - 'Needs source: pin "Beijing, China"'
+  - 'Needs source: pin "Hebei, China"'
+  - 'Needs source: pin "Shenzhen, China"'
+  - 'Needs source: pin "Singapore"'
+  - 'Needs source: pin "Oakland, CA"'
+  - 'Needs source: pin "London, UK"'
+  - 'Needs source: pin "Copenhagen, Denmark"'
+  - 'Needs source: pin "Delhi, India"'
+  - 'Needs source: pin "California (statewide)"'
+  - 'Needs source: pin "Los Angeles, CA"'
+  - 'Needs source: pin "Jakarta, Indonesia"'
+  - 'Needs source: pin "Fukushima Daiichi, Japan"'
+  - 'Needs source: pin "Netherlands (water boards)"'

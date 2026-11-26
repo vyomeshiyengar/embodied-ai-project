@@ -1,0 +1,77 @@
+---
+/**
+ * Demo sign-in dialog. NOT SECURITY: the credentials live in src/lib/site.ts and ship to every browser.
+ * Signing in unlocks Share, saving and MyEACP. Nothing personal is collected.
+ */
+---
+<dialog class="signin-dialog" data-signin-dialog aria-labelledby="signin-h">
+  <form data-signin-form data-astro-reload novalidate>
+    <h2 id="signin-h">Sign in</h2>
+    <label>Username
+      <input name="username" autocomplete="username" required />
+    </label>
+    <label>Password
+      <input name="password" type="password" autocomplete="current-password" required aria-describedby="signin-err" />
+    </label>
+    <p class="err" id="signin-err" role="alert" data-signin-error hidden>Username or password is incorrect.</p>
+    <div class="row">
+      <button type="submit" class="btn">Sign in</button>
+      <button type="button" class="btn secondary" data-signin-cancel>Continue as guest</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  import { navigate } from 'astro:transitions/client';
+  import { signIn } from '../lib/demo-auth';
+  let opener: HTMLElement | null = null;
+  const dlg = () => document.querySelector<HTMLDialogElement>('[data-signin-dialog]');
+
+  function openDialog(from: HTMLElement | null) {
+    const d = dlg();
+    if (!d || d.open) return;
+    opener = from;
+    d.querySelector<HTMLElement>('[data-signin-error]')!.hidden = true;
+    d.querySelector('form')?.reset();
+    d.showModal();
+    d.querySelector<HTMLInputElement>('input[name="username"]')?.focus();
+  }
+  window.addEventListener('eacp-signin-request', () => openDialog(document.activeElement as HTMLElement | null));
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const open = t.closest<HTMLElement>('[data-signin-open]');
+    const d = dlg();
+    if (open && d) { openDialog(open); return; }
+    if (t.closest('[data-signin-cancel]') && d) d.close();
+  });
+  document.addEventListener('submit', (e) => {
+    const form = (e.target as HTMLElement).closest<HTMLFormElement>('[data-signin-form]');
+    if (!form) return;
+    e.preventDefault();
+    const fd = new FormData(form);
+    const ok = signIn(String(fd.get('username') || ''), String(fd.get('password') || ''));
+    const err = form.querySelector<HTMLElement>('[data-signin-error]')!;
+    if (!ok) {
+      err.hidden = false;
+      form.querySelector<HTMLInputElement>('input[name="password"]')?.select();
+      return;
+    }
+    const after = opener?.dataset.afterSignin;
+    dlg()?.close();
+    if (after) navigate(after);
+  }, true);
+  document.addEventListener('close', (e) => {
+    if ((e.target as HTMLElement).matches?.('[data-signin-dialog]')) opener?.isConnected && opener.focus();
+  }, true);
+</script>
+
+<style>
+  .signin-dialog { border: 0; border-radius: var(--radius-md); padding: 0; width: min(92vw, 26rem); box-shadow: 0 20px 60px rgb(0 29 74 / 0.3); }
+  .signin-dialog::backdrop { background: rgb(0 29 74 / 0.45); }
+  form { padding: var(--sp-6); display: grid; gap: var(--sp-3); }
+  h2 { font-size: var(--fs-xl); margin: 0; }
+  label { display: grid; gap: 4px; font-weight: 600; font-size: var(--fs-sm); color: var(--c-ink); }
+  input { font: var(--fs-md) var(--font-sans); padding: 0.6rem 0.7rem; border: 1px solid #9aa9be; border-radius: var(--radius-sm); min-height: 44px; }
+  .err { color: #8a1c1c; font-size: var(--fs-sm); margin: 0; }
+  .row { display: flex; gap: var(--sp-2); margin-top: var(--sp-2); }
+</style>

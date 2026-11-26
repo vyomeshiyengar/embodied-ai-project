@@ -1,0 +1,47 @@
+{
+  "name": "embodied-ai-city-playbook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Embodied AI City Playbook: a guide that gives city staff a shared mental model of embodied AI across 10 city sectors.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "predev": "node scripts/copy-vendor.mjs",
+    "prebuild": "node scripts/copy-vendor.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:strict": "node scripts/copy-vendor.mjs && STRICT_SOURCES=1 astro build",
+    "preview": "astro preview",
+    "serve": "node scripts/serve.mjs 4321",
+    "check": "astro check",
+    "test": "playwright test --trace off",
+    "content:report": "node scripts/content-report.mjs",
+    "check:public": "node scripts/check-public.mjs",
+    "posters": "node scripts/render-posters.mjs",
+    "twins": "NODE_USE_ENV_PROXY=1 node scripts/build-twins.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "@fontsource-variable/work-sans": "^5.3.0",
+    "all-the-cities": "^3.1.0",
+    "astro": "^7.4.13",
+    "maplibre-gl": "^6.19.0",
+    "three": "^0.187.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.1",
+    "@mapbox/vector-tile": "^3.0.0",
+    "@playwright/test": "1.63",
+    "@types/three": "^0.187.0",
+    "@types/topojson-client": "^3.1.5",
+    "typescript": "^6.0.3"
+  }
+}

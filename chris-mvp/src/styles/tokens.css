@@ -1,0 +1,112 @@
+/*
+  Embodied AI City Playbook design tokens. The ONE place for colors, fonts, spacing, radii and motion.
+  Source: docs/design/design-tokens.md (JHU brand values, Nov 24, 2026).
+  GovEx-inspired, not strict. Values marked TODO-verify are not yet checked against
+  govex.jhu.edu (the site blocked automated review on Nov 24).
+  The Three.js scene reads the --scene-* and --c-* variables at runtime.
+*/
+:root {
+  /* Brand (JHU palette) */
+  --c-heritage: #002d72;      /* primary: headers, selected states, dark sections. 12.98:1 on white */
+  --c-medium: #0077d8;        /* interactive: links, focus, pins. 4.54:1 on white (AA body, just) */
+  --c-spirit: #68ace5;        /* fills and tints only; fails as text on white */
+  --c-gold: #f1c400;          /* highlight: "the thing going wrong", selected pin ring. Never text on white */
+  --c-gold-tint: #fdf4cc;     /* pale gold for the selected case panel. TODO-verify */
+
+  /* Neutrals */
+  --c-ink: #16181d;           /* headings */
+  --c-text: #4a484c;          /* body text, 9.04:1 on white */
+  --c-muted: #5d5b60;         /* secondary text, >= 6.5:1 on white */
+  --c-line: #d3dae4;          /* borders */
+  --c-surface: #ffffff;
+  --c-surface-alt: #eef2f7;   /* light gray-blue for map panels and the story backdrop. TODO-verify */
+  --c-link: #0062b8;          /* darker than Medium Blue so links pass AA on the gray-blue panels too (6.1:1 white, 5.4:1 gray-blue) */
+  --c-link-hover: var(--c-heritage);
+  --c-focus: var(--c-medium);
+
+  /* Meaning (always paired with text and an icon, never color alone) */
+  --c-likely: var(--c-medium);
+  --c-black-swan: var(--c-heritage);
+  --c-level-low: #8fb9e3;
+  --c-level-medium: #3d86cc;
+  --c-level-high: #002d72;
+  --c-pending: #7a5c00;       /* "Source pending" text, 6.2:1 on white */
+  --c-pending-bg: #fff6d6;
+
+  /* 3D scene */
+  --scene-bg: #dde4ee;
+  --scene-ground: #e9eef5;
+  --scene-road: #c3cedd;
+  --scene-building: #f4f7fb;
+  --scene-building-edge: #7d9cc6;
+  --scene-vehicle: #0077d8;
+  --scene-accent: #002d72;
+  --scene-alert: #f1c400;
+  --scene-green: #b9d7b0;
+
+  /* Typography (self-hosted, SIL OFL) */
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Work Sans Variable', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.625rem;
+  --fs-2xl: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
+  --fs-3xl: clamp(2.3rem, 1.6rem + 2.8vw, 3.5rem);
+  --lh-tight: 1.15;
+  --lh-body: 1.6;
+
+  /* Spacing (4px base) */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4.5rem;
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+  --border: 1px solid var(--c-line);
+  /* Overlays on the map or a 3D scene: alpha so the border blends with whatever is underneath */
+  --border-overlay: 1px solid rgb(0 29 74 / 0.14);
+  --shadow-panel: 0 1px 2px rgb(0 45 114 / 0.08), 0 6px 20px rgb(0 45 114 / 0.08);
+
+  /* Layout */
+  --w-text: 42rem;
+  --w-page: 76rem;
+  --header-h: 4rem;
+
+  /* Motion */
+  --dur-fast: 150ms;
+  --dur-med: 300ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Reduced motion: OS setting or the site toggle (html[data-motion="reduce"]). */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-med: 0ms; }
+}
+html[data-motion='reduce'] { --dur-fast: 0ms; --dur-med: 0ms; }
+
+/* Added Nov 25: transitions for the guided flow (clearly visible, never on scroll) */
+:root {
+  --dur-page: 440ms;
+  --dur-panel: 360ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --c-heritage-deep: #001d4a;
+  --c-overlay: rgb(0 29 74 / 0.62);   /* welcome scene dimmer (flat, no gradient) */
+  --c-shared: #7a4f00;                /* shared-by-city entries: text on white 7.4:1 */
+  --c-shared-bg: #fff4dd;
+  /* Selected and current states (tabs, chips, menu). Lighter than Heritage Blue; white text 4.54:1 */
+  --c-selected: var(--c-medium);
+  --c-selected-hover: var(--c-link);
+  --c-selected-badge: rgb(0 29 74 / 0.28);  /* count badges inside a selected tab keep white text readable */
+}
+@media (prefers-reduced-motion: reduce) { :root { --dur-page: 0ms; --dur-panel: 0ms; } }
+html[data-motion='reduce'] { --dur-page: 0ms; --dur-panel: 0ms; }
+html[data-motion='full'] { --dur-fast: 150ms; --dur-med: 300ms; --dur-page: 440ms; --dur-panel: 360ms; }

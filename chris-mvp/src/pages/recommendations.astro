@@ -1,0 +1,59 @@
+---
+/** Recommendations (draft mock-up): the sandbox frame, then each recommendation on click. */
+import Base from '../layouts/Base.astro';
+import { sectors } from '../lib/content';
+import { sectorHref } from '../lib/url';
+import { byConcern } from '../lib/rank';
+const get = (id: string) => sectors.find((s) => s.id === id)!;
+const recs = [
+  { id: '01', title: 'A shared fleet emergency protocol' },
+  { id: '02', title: 'A public safety robotics charter' },
+  { id: '10', title: 'A common robot procurement addendum' },
+].map((r) => ({ ...r, s: get(r.id), text: get(r.id).recommendation_candidate, swans: get(r.id).risks.filter((x) => x.category === 'black_swan').sort(byConcern).slice(0, 3) }));
+---
+<Base title="Recommendations (draft)">
+  <div class="container page">
+    <div class="page-intro"><h1>Recommendations</h1><span class="chip pending">Draft for team review</span></div>
+    <div class="frame" aria-label="How the recommendations fit together">
+      <div class="top">
+        <h2>A cross-city regulatory sandbox for physical AI</h2>
+        <p>Suggested by our GovEx partner (Nov 19, 2026): cities agree together on how companies deploy embodied AI across all of them.</p>
+      </div>
+      <div class="cats big under" role="tablist" aria-label="What the sandbox could agree on first" data-switch>
+        {recs.map((r, i) => <button role="tab" id={`tab-r${r.id}`} aria-controls={`panel-r${r.id}`} aria-selected={i === 0 ? 'true' : 'false'}>{r.title}</button>)}
+      </div>
+    </div>
+    {recs.map((r, i) => (
+      <section role="tabpanel" id={`panel-r${r.id}`} aria-labelledby={`tab-r${r.id}`} hidden={i !== 0} class="rec">
+        <div class="body">
+          <p class="from">From <a href={sectorHref(r.s.slug)}>{r.s.id} {r.s.name}</a></p>
+          <p class="text">{r.text}</p>
+        </div>
+        <div class="answers">
+          <h3>The black swans it answers</h3>
+          <ul>{r.swans.map((x) => <li><a href={sectorHref(r.s.slug, 'risks')}>{x.title}</a></li>)}</ul>
+          <dl><div><dt>Who acts first</dt><dd>To be decided by the team</dd></div><div><dt>First step and trigger</dt><dd>To be decided by the team</dd></div></dl>
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>
+<style>
+  .frame { background: var(--c-heritage); color: #fff; border-radius: var(--radius-md); padding: var(--sp-6); display: grid; gap: var(--sp-5); }
+  .frame h2 { color: #fff; font-size: var(--fs-xl); }
+  .frame p { margin: 0; color: #dbe6f5; max-width: 50rem; }
+  .under { background: rgb(255 255 255 / 0.12); }
+  .under [role='tab'] { color: #fff; }
+  .under::before { background: #fff; }
+  .under [role='tab'][aria-selected='true'] { color: var(--c-heritage); }
+  .rec { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 1fr); gap: var(--sp-6); margin-top: var(--sp-6); }
+  @media (max-width: 860px) { .rec { grid-template-columns: 1fr; } }
+  .from { font-size: var(--fs-sm); color: var(--c-muted); }
+  .text { font-size: var(--fs-lg); color: var(--c-ink); line-height: 1.55; }
+  .answers { background: var(--c-surface-alt); border-radius: var(--radius-md); padding: var(--sp-5); }
+  .answers h3 { font: 700 var(--fs-sm) var(--font-sans); }
+  .answers ul { padding-left: 1.1rem; font-size: var(--fs-sm); }
+  .answers dl { margin: 0; font-size: var(--fs-sm); display: grid; gap: var(--sp-2); }
+  .answers dt { font-weight: 700; color: var(--c-ink); }
+  .answers dd { margin: 0; color: var(--c-muted); font-style: italic; }
+</style>

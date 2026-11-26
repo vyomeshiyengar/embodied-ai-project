@@ -1,0 +1,108 @@
+---
+/** Step 1: Overview, and only the overview. Categories first, then Next. */
+import Base from '../../../layouts/Base.astro';
+import SectorFlow from '../../../components/SectorFlow.astro';
+import StepNav from '../../../components/StepNav.astro';
+import { sectors, type Sector } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+/** Split a point into its lead sentence and the rest. */
+const lead = (t: string) => {
+  const m = t.match(/^(.+?[.!?])\s+(.+)$/);
+  return m ? { head: m[1], rest: m[2] } : { head: t, rest: '' };
+};
+const points = s.overview.points.length ? s.overview.points : s.overview.summary && s.overview.summary.length > 160 ? s.overview.summary.split(/(?<=[.!?])\s+/) : [];
+
+// Who's involved: group the doc's "Key players" rows by keywords in their type. No new content.
+const GROUPS = [
+  { key: 'gov', label: 'Government', test: /federal|state|city|regional|government|agenc|ministr|municipal|county/i },
+  { key: 'research', label: 'Research', test: /research|lab|universit/i },
+  { key: 'community', label: 'Communities and labor', test: /civil society|labor|union|advoca|public/i },
+  { key: 'industry', label: 'Industry', test: /.*/ },
+];
+const grouped = GROUPS.map((g) => ({ ...g, rows: [] as Sector['players'] }));
+for (const p of s.players) grouped.find((g) => g.test.test(p.type))!.rows.push(p);
+const tabs = [
+  { id: 'today', label: 'Where it is today', show: points.length > 0 || !!s.overview.summary },
+  { id: 'why', label: 'Why it matters', show: !!s.overview.why_it_matters },
+  { id: 'shift', label: 'The core shift', show: !!s.overview.core_shift },
+  { id: 'who', label: "Who's involved", show: s.players.length > 0 },
+].filter((t) => t.show);
+const first = tabs[0]?.id;
+---
+<Base title={s.name} sector={s.slug} sectorPage="">
+  <SectorFlow sector={s} step="overview" title={s.name} />
+  <div class="container page">
+    {tabs.length > 0 && (
+      <div class="cats big" role="tablist" aria-label="Overview" data-switch>
+        {tabs.map((t) => <button role="tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={t.id === first ? 'true' : 'false'}>{t.label}</button>)}
+      </div>
+    )}
+
+    <div class="panels">
+      {tabs.some((t) => t.id === 'today') && (
+        <section role="tabpanel" id="panel-today" aria-labelledby="tab-today" hidden={first !== 'today'}>
+          {s.overview.points.length > 0 && s.overview.summary && <p class="stage-line"><span>Stage</span> {cap(s.overview.summary)}</p>}
+          <ul class="tiles">
+            {points.map((p) => {
+              const { head, rest } = lead(p);
+              return rest ? (
+                <li><details><summary>{head}</summary><p>{rest}</p></details></li>
+              ) : <li><div class="tile">{head}</div></li>;
+            })}
+          </ul>
+        </section>
+      )}
+      {s.overview.why_it_matters && (
+        <section role="tabpanel" id="panel-why" aria-labelledby="tab-why" hidden={first !== 'why'}>
+          <p class="big">{cap(s.overview.why_it_matters)}</p>
+        </section>
+      )}
+      {s.overview.core_shift && (
+        <section role="tabpanel" id="panel-shift" aria-labelledby="tab-shift" hidden={first !== 'shift'}>
+          <p class="big">{cap(s.overview.core_shift)}</p>
+        </section>
+      )}
+      {s.players.length > 0 && (
+        <section role="tabpanel" id="panel-who" aria-labelledby="tab-who" hidden={first !== 'who'}>
+          <div class="who">
+            {grouped.filter((g) => g.rows.length).map((g) => (
+              <div class:list={['grp', g.key]}>
+                <h2>{g.label}</h2>
+                <ul>{g.rows.map((r) => <li><strong>{r.type}</strong><span>{r.who}</span></li>)}</ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+    {!tabs.length && <p class="muted">The overview for this sector is still being written.</p>}
+  </div>
+  <StepNav sector={s} step="overview" />
+</Base>
+
+<style>
+  .panels { margin-top: var(--sp-5); min-height: 16rem; }
+  .stage-line { font-size: var(--fs-lg); color: var(--c-ink); }
+  .stage-line span { display: inline-block; font-size: var(--fs-xs); font-weight: 700; color: #fff; background: var(--c-heritage); border-radius: var(--radius-sm); padding: 0.15rem 0.5rem; margin-right: 0.4rem; vertical-align: middle; }
+  .tiles { list-style: none; padding: 0; display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
+  .tiles details, .tile { background: #fff; border: var(--border); border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-5); height: 100%; }
+  .tiles summary { cursor: pointer; font-weight: 700; color: var(--c-ink); list-style: none; display: flex; justify-content: space-between; gap: var(--sp-3); }
+  .tiles summary::-webkit-details-marker { display: none; }
+  .tiles summary::after { content: '+'; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center; background: var(--c-surface-alt); color: var(--c-heritage); font-weight: 700; }
+  .tiles details[open] summary::after { content: '\2212'; background: var(--c-heritage); color: #fff; }
+  .tiles details[open] { border-color: var(--c-heritage); }
+  .tiles details p { margin: var(--sp-3) 0 0; font-size: var(--fs-sm); animation: panel-in var(--dur-panel) var(--ease-out) both; }
+  .tile { font-weight: 600; color: var(--c-ink); }
+  .big { font-size: var(--fs-lg); line-height: 1.55; color: var(--c-ink); max-width: 46rem; }
+  .who { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .grp { border-radius: var(--radius-md); padding: var(--sp-4); background: var(--c-surface-alt); }
+  .grp.gov { background: #e3ecf8; }
+  .grp h2 { font-size: var(--fs-lg); }
+  .grp ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
+  .grp li { display: grid; gap: 2px; font-size: var(--fs-sm); background: #fff; border-radius: var(--radius-sm); padding: var(--sp-3); }
+</style>

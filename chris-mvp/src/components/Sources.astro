@@ -1,0 +1,29 @@
+---
+/** Source chips for one item: publisher + date links, or a "Source pending" tag. */
+import type { Sector } from '../lib/content';
+import { sourceMap } from '../lib/content';
+import { fmtDate } from '../lib/url';
+interface Props { ids?: string[]; sector: Sector; unconfirmed?: string[]; asOf?: string; compact?: boolean }
+const { ids = [], sector, unconfirmed = [], asOf, compact = false } = Astro.props;
+const map = sourceMap(sector);
+const list = ids.map((id) => map.get(id)).filter(Boolean);
+---
+<div class:list={['sources', { compact }]}>
+  {list.length ? (
+    <span class="lbl">Sources:</span>
+  ) : null}
+  {list.map((s) => (
+    <a class="src" href={s!.url} rel="noopener" target="_blank">{s!.publisher}{s!.published ? `, ${fmtDate(s!.published)}` : ''}<span class="visually-hidden"> (opens in a new tab): {s!.title}</span></a>
+  ))}
+  {!list.length && <span class="chip pending" title="We haven't linked a source for this yet. It is hidden in the tested version.">Source pending</span>}
+  {unconfirmed.length > 0 && <span class="chip pending" title={`Fact-check pending: ${unconfirmed.join('; ')}`}>Fact-check pending</span>}
+  <span class="asof">As of {fmtDate(asOf ?? sector.as_of)}</span>
+</div>
+<style>
+  .sources { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; font-size: var(--fs-xs); color: var(--c-muted); margin-top: var(--sp-3); }
+  .lbl { font-weight: 600; color: var(--c-muted); }
+  .src { color: var(--c-link); }
+  .src + .src::before { content: ''; }
+  .asof { margin-left: auto; white-space: nowrap; }
+  .compact .asof { margin-left: 0; }
+</style>

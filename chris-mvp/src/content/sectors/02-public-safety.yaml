@@ -1,0 +1,1155 @@
+# Generated from docs/research/sectors/02-public-safety-emergency-response.md by scripts/import-sector.mjs.
+# Curate sources in scripts/source-maps/02.mjs, then re-run. Do not invent facts.
+id: "02"
+slug: public-safety
+name: Public Safety & Emergency Response
+short_name: Public safety
+owner: Chris
+status: full
+as_of: 2026-11-23
+source_doc:
+  path: docs/research/sectors/02-public-safety-emergency-response.md
+  drive_url: https://docs.google.com/document/d/1aapitkXeKiX1hdyL_eoKe1-USt-rfz4gryXNgcEfS-Q/edit
+liable_to_change: FAA Part 108 (final rule under White House review, statutory deadline Dec 7, 2026), FCC Covered List exemptions for drones (current ones run through the end of 2026), the NYC "Asimov Act," and state rules on police drones.
+one_liner: a drone network turns a once-rare police tool into an always-on one, so the policy matters more than the hardware.
+overview:
+  summary: widespread for drones, early for ground robots, and growing fastest in autonomy.
+  points:
+    - 'Drones are already normal police and fire equipment. About 1,500 US law enforcement agencies have some drone program. The big shift is "Drone as First Responder" (DFR): drones parked in docks around the city that launch automatically on a 911 call and get there before officers. Chula Vista, CA started it in 2018.'
+    - DFR exploded after April 2025, when the FAA streamlined the waiver needed to fly beyond the pilot's line of sight. The FAA issued 976 such waivers from 2018 to April 2025, then more than that in the following ten months. By February 2026 over 1,000 public safety agencies held one.
+    - Ground robots are older but less common. Bomb squad robots have existed for decades. Robot dogs (Boston Dynamics Spot and cheaper Chinese models) and firefighting robots (LAFD's Thermite RS3) are spreading but still rare.
+    - Cities can now shoot back. Since the FY2026 defense bill (Dec 2025), trained state and local police can take down threatening drones. That authority was first used at the 2026 World Cup.
+    - War zones are the leading edge. Ukraine runs tens of thousands of ground robot missions a month, and its State Emergency Service now uses ground robots to reach rescue sites hit by "double-tap" strikes.
+  why_it_matters: this is the sector where the city itself is the operator, so the city owns the risk. The two hardest questions are civil liberties (drones and robots as permanent eyes in the sky and on the street) and use of force (whether a robot can ever hurt someone). It is also the sector most exposed to national security supply chain rules, since most public safety drones were made by DJI in China.
+  core_shift: a police helicopter was expensive, loud and rare. A drone network is cheap, quiet and always on. The same tool that finds a missing child in minutes can, with a policy change, watch a whole neighborhood all day.
+players:
+  - type: DFR and police drones
+    who: Skydio, Flock Safety (Aerodome), BRINC, Paladin, Axon (Dedrone, Sky-Hero), Skyfire, Motorola; DJI (Chinese, now restricted for new models)
+  - type: Ground robots (bomb, tactical, inspection)
+    who: Boston Dynamics (Spot), Ghost Robotics, Unitree and AgiBot (Chinese robot dogs), Teledyne FLIR, Remotec (Andros), Knightscope (security robots)
+  - type: Firefighting and rescue robots
+    who: Textron Howe & Howe (Thermite RS3), Shark Robotics (Colossus, used at Notre-Dame), Ukrainian makers (Termit, ZMIY)
+  - type: Counter-drone
+    who: Dedrone (Axon), DroneShield, Fortem, D-Fend; FBI National Counter-UAS Training Center
+  - type: Federal (US)
+    who: FAA (airspace, waivers, Part 108), FCC (Covered List bans foreign drones), DOJ and DHS (counter-drone rules), DoD (Blue UAS list of approved drones), FEMA grants
+  - type: State and local
+    who: Police and sheriff departments, fire departments, emergency management, state legislatures (drone privacy laws), city councils (surveillance technology ordinances)
+  - type: Civil society
+    who: ACLU, EFF (Atlas of Surveillance), Surveillance Technology Oversight Project (STOP), DRONERESPONDERS, Police Executive Research Forum
+  - type: International leading edge
+    who: Ukraine's State Emergency Service and Defense Ministry (Brave1), Singapore Police and SCDF, Dubai Police, Israel
+terms:
+  - term: DFR (Drone as First Responder)
+    definition: drones launched from docks to a 911 call, flown remotely, often with AI auto-routing.
+    sources: []
+  - term: Drone-in-a-box / dock
+    definition: a weatherproof station on a rooftop where the drone lives, charges and launches by itself.
+    sources: []
+  - term: VLOS / BVLOS
+    definition: visual line of sight (pilot can see it) vs. beyond visual line of sight. BVLOS is what makes DFR possible and needs FAA permission.
+    sources: []
+  - term: Part 107
+    definition: "the FAA's basic small drone rules. Part 91 public aircraft operations + COA/waiver: how government agencies fly beyond normal limits. Part 108: the pending rule for routine BVLOS flights."
+    sources: []
+  - term: Remote ID
+    definition: a broadcast "license plate" every drone must send so police can identify it.
+    sources: []
+  - term: Counter-UAS (C-UAS)
+    definition: "tools to detect, track and stop drones: radio detection, jamming, taking control of the drone, nets or kinetic takedown."
+    sources: []
+  - term: Blue UAS
+    definition: the Defense Department's list of approved, mostly US- or ally-made drones. Now the main exemption from the FCC ban on new foreign drones.
+    sources: []
+  - term: Covered List (FCC)
+    definition: list of equipment that can't get FCC approval, so new models can't be imported or sold. All new foreign-made drones were added in Dec 2025.
+    sources: []
+  - term: UGV (unmanned ground vehicle)
+    definition: any ground robot, from a bomb robot to a robot dog to a firefighting tank.
+    sources: []
+  - term: Quadruped / robot dog
+    definition: four-legged robot that climbs stairs and rubble. Used for scouting dangerous rooms.
+    sources: []
+  - term: Teleoperated vs. autonomous
+    definition: most public safety robots are still driven by a person. Autonomy is creeping in through auto-flight, auto-tracking and AI object detection.
+    sources: []
+  - term: Computer vision analytics
+    definition: AI that recognizes people, cars, license plates or weapons in drone video. This is where drones turn into surveillance systems.
+    sources: []
+  - term: Use-of-force policy
+    definition: rules on when police can use force. The open question is whether robots can ever be a "force option."
+    sources: []
+  - term: CCOPS / surveillance technology ordinance
+    definition: local laws (ACLU model) that make police get council approval and publish use policies before buying surveillance tech. California's AB 481 does this for "military equipment," including robots.
+    sources: []
+  - term: Double-tap strike
+    definition: attacking the same place twice to hit rescuers. The reason Ukraine sends robots in first.
+    sources: []
+types:
+  - id: t-dfr-drones-dock-based-bvlos
+    name: DFR drones (dock-based, BVLOS)
+    zone: air
+    where: Airspace over the whole city, launched from rooftops
+    how: null
+    uses: First look at 911 calls, searches for suspects and missing people, crash scenes, fires
+    running_in: Chula Vista (since 2018), LAPD (pilot since July 2025), Arlington TX, NYPD, Hayward, hundreds more
+    city_response: Faster response and fewer unnecessary dispatches; privacy lawsuits and records fights; some cities wrote flight policies
+    progression: Fully automated launch and routing; AI that flags weapons or crowds; Part 108 makes it routine
+    sources:
+      - s-eff-hundreds-of-dfr-programs-july-2026
+      - s-dronexl-faa-dfr-waiver-list
+      - s-techspot-dfr-waivers-surge
+      - s-kfi-lapd-dfr-deployments
+  - id: t-tactical-and-indoor-drones
+    name: Tactical and indoor drones
+    zone: air
+    where: Inside buildings, SWAT scenes
+    how: null
+    uses: Clear rooms before officers enter, talk to suspects, break windows
+    running_in: Many SWAT teams (BRINC, Skydio)
+    city_response: Fewer officers entering blind; questions about drones that can break glass or carry payloads
+    progression: Swarms, autonomous room mapping
+    sources: []
+  - id: t-event-and-overwatch-drones-tethered
+    name: Event and overwatch drones (tethered)
+    zone: air
+    where: Over parades, protests, stadiums
+    how: null
+    uses: Crowd monitoring, command view
+    running_in: Large events, World Cup 2026 host cities
+    city_response: Protest surveillance concerns; ACLU wants bans on crowd and protest monitoring
+    progression: Continuous coverage with tethered power
+    sources:
+      - s-ny1-ap-zero-tolerance-for-drones-at-worl
+      - s-csis-counter-drone-defense-and-the-world
+  - id: t-counter-drone-systems
+    name: Counter-drone systems
+    zone: air
+    where: Around stadiums, prisons, airports, critical sites
+    how: null
+    uses: Detect, track, take over or down hostile drones
+    running_in: World Cup 2026 host cities; Safer Skies Act trained about 60 state and local officers
+    city_response: New legal authority since Dec 2025; DOJ/DHS rule from July 2026; risk of interfering with legitimate drones
+    progression: Permanent city counter-drone units; AI detection networks
+    sources:
+      - s-route-fifty-ndaa-counter-drone-authority
+      - s-csis-counter-drone-defense-and-the-world
+      - s-bloomberg-government-doj-dhs-counter-dro
+  - id: t-bomb-disposal-eod-robots
+    name: Bomb disposal (EOD) robots
+    zone: street
+    where: Suspicious packages, standoffs
+    how: null
+    uses: Inspect and disarm explosives
+    running_in: Nearly every large police department
+    city_response: "Dallas 2016: police used one to kill a sniper with an explosive, the first US lethal robot use"
+    progression: Better manipulation arms, more autonomy
+    sources:
+      - s-fortune-sf-bans-killer-robots
+  - id: t-robot-dogs-quadrupeds
+    name: Robot dogs (quadrupeds)
+    zone: street
+    where: Barricaded houses, hazmat scenes, rubble
+    how: null
+    uses: Scout, deliver phones or supplies, open doors
+    running_in: NYPD (Digidog), Massachusetts State Police, Honolulu, San Bernardino County Fire (AgiBot D1 Pro, June 2026)
+    city_response: NYPD dropped Digidog in 2021 after backlash, brought it back in 2023; armed-robot bills followed
+    progression: Cheaper models, arms for manipulation, some autonomy; pressure to add weapons
+    sources:
+      - s-eweek-san-bernardino-county-fire-robot-d
+      - s-nbc-new-york-ny-and-ma-armed-robot-bills
+    unconfirmed:
+      - NYPD Digidog history (2021 drop, 2023 return)
+  - id: t-firefighting-robots
+    name: Firefighting robots
+    zone: building
+    where: Structure fires, warehouses, tunnels, wildfires
+    how: null
+    uses: Spray water at high volume where it's too dangerous for crews
+    running_in: LAFD Thermite RS3 (since Oct 2020, used in Jan 2025 wildfires), Paris (Notre-Dame, 2019)
+    city_response: Funded by donation in LA ($278K); keeps firefighters back from collapse zones
+    progression: Autonomous hose positioning, heat-mapping, EV battery fires
+    sources:
+      - s-lafd-thermite-rs3-debut
+  - id: t-search-and-rescue-robots
+    name: Search and rescue robots
+    zone: building
+    where: Collapsed buildings, floods, mines
+    how: null
+    uses: Find survivors, map voids
+    running_in: Urban search and rescue teams; Ukraine
+    city_response: Mostly research and specialized teams
+    progression: Snake and legged robots with AI victim detection
+    sources: []
+  - id: t-emergency-service-ground-robots-in-c
+    name: Emergency service ground robots in conflict zones
+    zone: street
+    where: Strike sites, mined areas
+    how: null
+    uses: Evacuation, demining, reaching sites under repeated attack
+    running_in: Ukraine's State Emergency Service (Termit 2.0, Nov 2026; robot dog for demining in Kyiv region)
+    city_response: Russia has targeted emergency crews 400+ times, killing at least 43
+    progression: Fast transfer of military robot designs to civilian rescue (dual use)
+    sources:
+      - s-kyiv-post-state-emergency-service-termit
+      - s-ukrainska-pravda-100-000-ground-robot-mi
+      - s-ukrinform-robot-dog-for-sappers-in-kyiv
+  - id: t-medical-and-aed-delivery-drones
+    name: Medical and AED delivery drones
+    zone: air
+    where: Airspace to homes and remote areas
+    how: null
+    uses: Defibrillators, blood, medicines
+    running_in: Sweden (Everdrone AED pilots)
+    city_response: Faster cardiac arrest response in trials
+    progression: Integrated with 911 dispatch
+    sources: []
+  - id: t-autonomous-security-robots-for-polic
+    name: Autonomous security robots for police
+    zone: park
+    where: Transit stations, parks, parking lots
+    how: null
+    uses: Patrol, record video, call button
+    running_in: NYPD Knightscope K5 (Times Square subway, 2023, ended); Huntington Park, CA
+    city_response: NYPD pilot needed officer escorts and was dropped
+    progression: See Smart Buildings doc
+    sources:
+      - s-engadget-nypd-ends-k5-trial
+risks:
+  - id: r02-l-mission-creep-into-routine-surveilla
+    category: likely
+    title: Mission creep into routine surveillance
+    likelihood: high
+    likelihood_label: High
+    severity: high
+    severity_label: High
+    who_affected: All residents
+    most_vulnerable:
+      - Black and Latino neighborhoods with heavy policing, protesters, immigrants, unhoused people
+    worse_over_time: More docks, AI analytics, plate readers linked to drones, cheaper flights
+    case: ACLU of Northern California sued Sonoma County (June 2025) alleging warrantless drone surveillance, with nearly half of flights tied to code violations like unpermitted construction and $3M+ in fines. Baltimore's secret aerial surveillance program was ruled unconstitutional and ended by 2021
+    sources:
+      - s-dronexl-sonoma-county-aclu-lawsuit
+      - s-investigatetv-wcax-police-drone-programs
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-event-and-overwatch-drones-tethered
+      - t-robot-dogs-quadrupeds
+      - t-autonomous-security-robots-for-polic
+    all_types: false
+  - id: r02-l-lack-of-transparency-over-footage
+    category: likely
+    title: Lack of transparency over footage
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Press, residents, people filmed
+    most_vulnerable: []
+    worse_over_time: Huge video volume; vendor cloud storage
+    case: Chula Vista refused to release drone video; a local paper won access in court (Aug 2025)
+    sources:
+      - s-investigatetv-wcax-police-drone-programs
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-event-and-overwatch-drones-tethered
+      - t-robot-dogs-quadrupeds
+      - t-autonomous-security-robots-for-polic
+    all_types: false
+  - id: r02-l-drone-crashes-or-interference-with-m
+    category: likely
+    title: Drone crashes or interference with manned aircraft
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: People below
+    most_vulnerable:
+      - aircrews, firefighters
+    worse_over_time: More drones in disaster airspace
+    case: "Palisades fire (Jan 9, 2025): a hobbyist drone punched a hole in a Super Scooper firefighting plane, grounding one of only two in the fight for days. Pilot pleaded guilty and paid about $65K"
+    sources:
+      - s-us-attorney-cdca-super-scooper-drone-ple
+      - s-abc7-super-scooper-details
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-event-and-overwatch-drones-tethered
+      - t-counter-drone-systems
+      - t-medical-and-aed-delivery-drones
+    all_types: false
+  - id: r02-l-supply-chain-disruption-foreign-dron
+    category: likely
+    title: Supply chain disruption (foreign drone bans)
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: Police, fire and SAR teams, that can't afford replacements
+    most_vulnerable:
+      - small and rural agencies
+    worse_over_time: FCC exemptions expiring; possible retroactive bans
+    case: Over 80% of state and local public safety agencies relied on DJI. FCC added all new foreign drones to the Covered List Dec 22, 2025. Existing drones still fly; Blue UAS exemptions extended in July 2026. Florida forced agencies to ground Chinese drones in 2023
+    sources:
+      - s-dronexl-fcc-bans-foreign-drones
+      - s-simpson-thacher-fcc-covered-list-excepti
+      - s-fcc-july-21-2026-announcement
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-event-and-overwatch-drones-tethered
+      - t-medical-and-aed-delivery-drones
+    all_types: false
+  - id: r02-l-robot-use-of-force-creep
+    category: likely
+    title: Robot use-of-force creep
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: Very high
+    who_affected: null
+    most_vulnerable:
+      - People in crisis, suspects, bystanders
+    worse_over_time: Cheaper armed-capable robots; pressure after officer deaths
+    case: Dallas 2016 bomb robot. SF approved lethal robots 8-3 (Nov 29, 2022) and reversed a week later after protests. Oakland dropped a shotgun-robot idea. NYC "Asimov Act" introduced Apr 30, 2026
+    sources:
+      - s-fortune-sf-bans-killer-robots
+      - s-cbs-sf-10-1-vote
+      - s-nyc-council-int-871-2026
+    unconfirmed:
+      - Dallas 2016 bomb robot use
+    type_ids:
+      - t-bomb-disposal-eod-robots
+      - t-robot-dogs-quadrupeds
+      - t-autonomous-security-robots-for-polic
+      - t-tactical-and-indoor-drones
+    all_types: false
+  - id: r02-l-over-trust-in-ai-detection-false-mat
+    category: likely
+    title: Over-trust in AI detection (false matches, missed threats)
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: officers relying on it
+    most_vulnerable:
+      - People misidentified
+    worse_over_time: AI weapon and face detection added to drones
+    case: Known pattern from face recognition wrongful arrests; DFR vendors now add AI tracking
+    sources:
+      - s-dronexl-sonoma-county-aclu-lawsuit
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-event-and-overwatch-drones-tethered
+      - t-counter-drone-systems
+      - t-autonomous-security-robots-for-polic
+    all_types: false
+  - id: r02-l-community-trust-collapse
+    category: likely
+    title: Community trust collapse
+    likelihood: medium
+    likelihood_label: Medium
+    severity: medium
+    severity_label: Medium
+    who_affected: Police legitimacy
+    most_vulnerable:
+      - communities with low trust
+    worse_over_time: Programs launched without public process
+    case: NYPD's K5 robot needed escorts and was pulled after months
+    sources:
+      - s-engadget-nypd-ends-k5-trial
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-bomb-disposal-eod-robots
+      - t-robot-dogs-quadrupeds
+      - t-autonomous-security-robots-for-polic
+    all_types: false
+  - id: r02-l-small-agency-capacity-gap
+    category: likely
+    title: Small-agency capacity gap
+    likelihood: high
+    likelihood_label: High
+    severity: medium
+    severity_label: Medium
+    who_affected: volunteer fire departments
+    most_vulnerable:
+      - Small and rural towns
+    worse_over_time: Costs of compliance, cyber and replacement fleets
+    case: "Volunteer fire departments and nonprofit SAR teams usually don't qualify for the public aircraft waiver. Paul): small cities have no budget for security staff"
+    sources: []
+    type_ids: []
+    all_types: true
+  - id: r02-b-hostile-drone-attack-on-a-crowd-or-c
+    category: black_swan
+    title: Hostile drone attack on a crowd or critical site
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: Very high
+    who_affected: Stadiums, events, power and water plants, prisons
+    most_vulnerable: []
+    worse_over_time: Ukraine war tactics spreading; cheap FPV drones
+    case: NYPD Commissioner Tisch called drones the threat that "keeps me up at night" before the World Cup. Federal agencies issued a counter-drone rule after incidents near World Cup events
+    sources:
+      - s-csis-counter-drone-defense-and-the-world
+      - s-bloomberg-government-doj-dhs-counter-dro
+      - s-ny1-ap-zero-tolerance-for-drones-at-worl
+    type_ids:
+      - t-counter-drone-systems
+      - t-event-and-overwatch-drones-tethered
+      - t-dfr-drones-dock-based-bvlos
+    all_types: false
+  - id: r02-b-hijacked-or-compromised-public-safet
+    category: black_swan
+    title: Hijacked or compromised public safety fleet
+    detail: drones or robots used against the city, or video leaked
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Officers, residents, investigations
+    most_vulnerable: []
+    worse_over_time: Cloud-connected fleets; foreign firmware
+    case: Researchers showed Unitree robot dogs (used by some agencies) can be taken over wirelessly and spread the hack to nearby robots (Sept 2025)
+    sources:
+      - s-ieee-spectrum-unitree-robot-exploit
+    type_ids: []
+    all_types: true
+  - id: r02-b-mass-grounding-during-a-disaster-bad
+    category: black_swan
+    title: Mass grounding during a disaster
+    detail: bad update, GPS jamming, regulatory order
+    likelihood: low
+    likelihood_label: Low
+    severity: high
+    severity_label: High
+    who_affected: Disaster victims, responders
+    most_vulnerable: []
+    worse_over_time: Single-vendor fleets; GPS spoofing tools
+    case: "No full case yet. Ingredients exist: FCC could restrict older foreign drones; GPS jamming is common in Ukraine and the Middle East"
+    sources:
+      - s-dronexl-fcc-bans-foreign-drones
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-medical-and-aed-delivery-drones
+      - t-search-and-rescue-robots
+      - t-firefighting-robots
+      - t-event-and-overwatch-drones-tethered
+    all_types: false
+  - id: r02-b-lethal-robot-incident-gone-wrong-wro
+    category: black_swan
+    title: Lethal robot incident gone wrong
+    detail: wrong target, bystander killed
+    likelihood: low
+    likelihood_label: Very low
+    severity: high
+    severity_label: Very high
+    who_affected: Bystanders, the department, all future programs
+    most_vulnerable: []
+    worse_over_time: Weaponized robots in policing
+    case: None in the US yet. Dallas 2016 shows it can be done in hours with no written policy
+    sources:
+      - s-fortune-sf-bans-killer-robots
+    type_ids:
+      - t-bomb-disposal-eod-robots
+      - t-robot-dogs-quadrupeds
+      - t-autonomous-security-robots-for-polic
+    all_types: false
+  - id: r02-b-responder-airspace-gridlock-police-f
+    category: black_swan
+    title: Responder airspace gridlock
+    detail: police, fire, media, hobby and delivery drones over one emergency
+    likelihood: medium
+    likelihood_label: Medium
+    severity: high
+    severity_label: High
+    who_affected: Firefighting aircraft, rescuers
+    most_vulnerable: []
+    worse_over_time: Part 108 delivery drones plus DFR plus hobbyists
+    case: Palisades fire collision (2025) with only one stray drone
+    sources:
+      - s-us-attorney-cdca-super-scooper-drone-ple
+    type_ids:
+      - t-dfr-drones-dock-based-bvlos
+      - t-tactical-and-indoor-drones
+      - t-event-and-overwatch-drones-tethered
+      - t-counter-drone-systems
+      - t-medical-and-aed-delivery-drones
+    all_types: false
+  - id: r02-b-attacks-on-rescuers-with-drones-robo
+    category: black_swan
+    title: Attacks on rescuers with drones, robots sent in their place
+    likelihood: high
+    likelihood_label: Low in US, High in war zones
+    severity: high
+    severity_label: Very high
+    who_affected: Firefighters, EMS
+    most_vulnerable: []
+    worse_over_time: Spread of conflict tactics
+    case: "Ukraine: 400+ attacks on emergency crews; State Emergency Service now sends ground robots first"
+    sources:
+      - s-kyiv-post-state-emergency-service-termit
+      - s-ukrainska-pravda-100-000-ground-robot-mi
+    type_ids:
+      - t-search-and-rescue-robots
+      - t-firefighting-robots
+      - t-emergency-service-ground-robots-in-c
+      - t-counter-drone-systems
+    all_types: false
+regulations:
+  rules:
+    - id: g-faa-part-107-and-part-91-public-aircraft
+      name: FAA Part 107 and Part 91 public aircraft waivers (streamlined 91.113 waiver since Apr 2025)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Lets agencies fly beyond line of sight for DFR with a request by email using templates
+      falls_short: Safety only, nothing on privacy; volunteer fire and nonprofit SAR often don't qualify
+      sources:
+        - s-dronexl-faa-dfr-waiver-list
+        - s-techspot-dfr-waivers-surge
+    - id: g-faa-part-108-bvlos-pending
+      name: FAA Part 108 (BVLOS), pending
+      level: federal
+      level_label: Federal
+      status: pending
+      covers: Routine BVLOS for drone operations, cybersecurity duties, TSA checks for some staff
+      falls_short: Under White House review since July 10, 2026; not in effect; more drones in the same low airspace as DFR
+      sources:
+        - s-uav-coach-part-108-status-nov-2026
+    - id: g-remote-id
+      name: Remote ID
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Drones broadcast ID and location
+      falls_short: Bad actors can disable it; police need receivers
+      sources: []
+    - id: g-safer-skies-act-fy2026-ndaa-doj-dhs-inte
+      name: Safer Skies Act (FY2026 NDAA) + DOJ/DHS interim rule (July 1, 2026)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: First legal authority for trained state and local police to detect and take down threatening drones
+      falls_short: Authority came before full rules; few trained officers; risk of disrupting lawful drones and comms
+      sources:
+        - s-route-fifty-ndaa-counter-drone-authority
+        - s-bloomberg-government-doj-dhs-counter-dro
+    - id: g-fcc-covered-list-dec-22-2025
+      name: FCC Covered List (Dec 22, 2025)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Bans new foreign-made drone models and components; existing ones still usable; Blue UAS exemptions
+      falls_short: Agencies face higher costs and fewer models; possible future retroactive limits; DJI appealing in the 9th Circuit
+      sources:
+        - s-dronexl-fcc-bans-foreign-drones
+        - s-simpson-thacher-fcc-covered-list-excepti
+        - s-fcc-july-21-2026-announcement
+    - id: g-american-security-drone-act-2023
+      name: American Security Drone Act (2023)
+      level: federal
+      level_label: Federal
+      status: in_force
+      covers: Limits federal purchase and federal funding of drones from covered foreign companies
+      falls_short: Pushes grant-funded local agencies off Chinese drones; no privacy content
+      sources: []
+    - id: g-fourth-amendment-case-law-e-g-leaders-of
+      name: Fourth Amendment case law (e.g., Leaders of a Beautiful Struggle v. Baltimore, 4th Cir. 2021)
+      level: federal
+      level_label: Federal courts
+      status: in_force
+      covers: Persistent aerial surveillance of a city can be an unconstitutional search
+      falls_short: Few rulings on DFR; standards vary by circuit
+      sources: []
+    - id: g-state-drone-surveillance-laws-e-g-florid
+      name: State drone surveillance laws (e.g., Florida's Freedom from Unwarranted Surveillance Act; Texas Gov't Code ch. 423)
+      level: state
+      level_label: State
+      status: in_force
+      covers: When police need warrants, allowed exceptions, image rules
+      falls_short: Patchwork; many exceptions; written before DFR
+      sources: []
+    - id: g-state-bans-on-government-use-of-chinese
+      name: State bans on government use of Chinese drones (e.g., Florida 2023)
+      level: state
+      level_label: State
+      status: in_force
+      covers: Approved-manufacturer lists
+      falls_short: Forced costly fleet replacements
+      sources: []
+      unconfirmed:
+        - Florida's 2023 ban on government use of Chinese drones
+    - id: g-california-ab-481-military-equipment-use
+      name: California AB 481 (military equipment use policies)
+      level: city
+      level_label: State, applied locally
+      status: in_force
+      covers: Police must get council approval and publish policies for robots and similar equipment
+      falls_short: Led to SF's 2022 lethal-robot fight; only CA
+      sources:
+        - s-fortune-sf-bans-killer-robots
+    - id: g-local-surveillance-ordinances-ccops-mode
+      name: Local surveillance ordinances (CCOPS model; NYC POST Act 2020; Oakland, Seattle)
+      level: city
+      level_label: City
+      status: in_force
+      covers: Impact reports, use policies, annual reporting before using surveillance tech
+      falls_short: Only some cities; enforcement weak; disclosure is not control
+      sources: []
+    - id: g-armed-robot-bills-nyc-int-871-2026-asimo
+      name: 'Armed robot bills: NYC Int. 871-2026 "Asimov Act"; NY State A399; Massachusetts bill (passed House)'
+      level: city
+      level_label: City / State, pending
+      status: pending
+      covers: Ban robots armed with weapons or used to cause injury
+      falls_short: Not law yet in most places; NY state bill doesn't cover police
+      sources:
+        - s-nyc-council-int-871-2026
+        - s-nbc-new-york-ny-and-ma-armed-robot-bills
+    - id: g-public-records-laws
+      name: Public records laws
+      level: state
+      level_label: State
+      status: in_force
+      covers: Access to drone video and policies
+      falls_short: Agencies resist; costly litigation (Chula Vista)
+      sources:
+        - s-investigatetv-wcax-police-drone-programs
+    - id: g-use-of-force-law-and-policy
+      name: Use-of-force law and policy
+      level: state
+      level_label: State and department
+      status: in_force
+      covers: When force is allowed
+      falls_short: Almost none address robots directly
+      sources: []
+  gaps:
+    - A national standard for DFR flight purposes, data retention and AI analytics (privacy is left to each city).
+    - Any clear rule on whether robots may use force, outside a few cities' policies.
+    - Airspace coordination when police, fire, media, delivery and hobby drones converge on one emergency.
+    - Cyber and firmware standards for public safety robots, beyond country-of-origin bans.
+    - Funding for small agencies to replace banned fleets and build counter-drone capacity.
+    - Independent audits of how often DFR flights lead to arrests, help, or nothing.
+case_studies:
+  - id: c-chula-vista-ca-the-first-dfr-program
+    title: The first drone-as-first-responder program
+    place: Chula Vista, CA
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What was deployed, where
+        text: drones launched from rooftops to 911 calls across the city, starting in 2018, the first program of its kind.
+      - label: What happened (good)
+        text: faster eyes on scenes, better information before officers arrive, some calls resolved without sending officers. It became the national model.
+      - label: What happened (bad)
+        text: the department refused to release drone video; a local newspaper sued and won access in August 2025.
+      - label: Lessons
+        text: Write the flight and retention policy before launch, and plan for public records requests from day one.
+    sources:
+      - s-investigatetv-wcax-police-drone-programs
+      - s-eff-hundreds-of-dfr-programs-july-2026
+    pin_id: p-chula-vista-ca
+  - id: c-san-francisco-and-dallas-robots-and-leth
+    title: robots and lethal force
+    place: San Francisco and Dallas
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What
+        text: in Dallas (2016) police strapped explosives to a bomb robot to kill a sniper who had killed five officers. In San Francisco (Nov 29, 2022) supervisors approved a policy, required under California's AB 481, allowing robots as a deadly force option in extreme cases.
+      - label: What happened
+        text: national backlash. A week later SF supervisors reversed and explicitly banned lethal robot use; a later vote was 10-1. SFPD said it had never used the option in 11 years. Oakland dropped a plan to arm robots with shotguns.
+      - label: What changed
+        text: it set the template for bans now pending in NYC (Asimov Act, 2026) and state bills. Boston Dynamics backs bans on weaponizing robots.
+      - label: Lessons
+        text: decide the force question in public before a crisis, not during one. The Dallas decision was made in hours with no policy.
+    sources:
+      - s-fortune-sf-bans-killer-robots
+      - s-cbs-sf-10-1-vote
+    pin_id: p-san-francisco-ca
+  - id: c-la-palisades-fire-a-single-drone-grounds
+    title: a single drone grounds a firefighting plane
+    place: LA Palisades fire
+    kind: black_swan
+    pittsburgh: false
+    fields:
+      - label: What
+        text: on Jan 9, 2025 a hobbyist launched a drone from a Santa Monica parking garage to film the fire, lost sight of it, and it hit a Quebec-owned Super Scooper.
+      - label: Impact
+        text: a hole in the wing; the plane, one of two Super Scoopers on the fire, was out for several days during one of the most destructive fires in California history.
+      - label: Response
+        text: federal charges, guilty plea, about $65K restitution.
+      - label: Lessons
+        text: as airspace fills with DFR, delivery and hobby drones, disasters need enforced temporary flight restrictions, detection, and now counter-drone authority. Cities should plan airspace management into emergency plans.
+    sources:
+      - s-us-attorney-cdca-super-scooper-drone-ple
+      - s-abc7-super-scooper-details
+    pin_id: p-los-angeles-ca
+  - id: c-world-cup-2026-cities-get-counter-drone
+    title: cities get counter-drone authority
+    place: World Cup 2026
+    kind: case
+    pittsburgh: false
+    fields:
+      - label: What
+        text: until December 2025, no state or local officer could legally take down a drone. The Safer Skies Act in the FY2026 defense bill changed that for trained officers protecting events and facilities.
+      - label: What happened
+        text: the FBI trained officers from host cities; about 60 state and local officers had authority for the tournament; DOJ and DHS issued an interim rule effective July 1, 2026 after incidents near events. Stadiums ran "zero tolerance" for drones.
+      - label: Lessons
+        text: authority arrived faster than the rulebook. Cities now have to decide who in their department holds this power, how it's logged, and how to avoid knocking out lawful drones or communications.
+    sources:
+      - s-route-fifty-ndaa-counter-drone-authority
+      - s-csis-counter-drone-defense-and-the-world
+      - s-bloomberg-government-doj-dhs-counter-dro
+      - s-ny1-ap-zero-tolerance-for-drones-at-worl
+    pin_id: p-kansas-city-mo
+  - id: c-ukraine-robots-sent-in-first-to-protect
+    title: robots sent in first to protect rescuers
+    place: Ukraine
+    kind: international
+    pittsburgh: false
+    fields:
+      - label: What
+        text: Ukraine's military ran more than 100,000 ground robot missions by August 2026, mostly logistics and evacuation. Its State Emergency Service received a Termit 2.0 ground robot in November 2026, and a Kyiv region unit uses a robot dog for demining.
+      - label: Why
+        text: Russian forces have attacked emergency crews more than 400 times since the full-scale invasion, killing at least 43, often with "double-tap" strikes.
+      - label: Lessons
+        text: the same robots move between military and civilian rescue roles. US cities are unlikely to face strikes, but the model (robot goes first into an unstable or hazardous scene) applies to building collapses, chemical spills and active shooter scenes.
+    sources:
+      - s-kyiv-post-state-emergency-service-termit
+      - s-ukrainska-pravda-100-000-ground-robot-mi
+      - s-ukrinform-robot-dog-for-sappers-in-kyiv
+    pin_id: p-kyiv-region-ukraine
+  - id: c-g02-singapore-xavier
+    title: Patrol robot trial watches for "undesirable behaviour"
+    place: Toa Payoh Central, Singapore
+    kind: international
+    pittsburgh: false
+    pin_id: p-g02-singapore-xavier
+    fields:
+      - label: What happened
+        text: For three weeks from Sept 5, 2021, the government's ground robot Xavier patrolled Toa Payoh Central to spot smoking in banned areas, illegal hawking and badly parked bicycles, with officers able to speak through it remotely.
+      - label: Response
+        text: Five agencies ran the trial. The government said the robot would not be used for enforcement during the trial.
+      - label: When
+        text: 2021-09
+    sources: &a1
+      - s-g02-singapore-xavier-1
+  - id: c-g02-bogota-police-drones
+    title: Police drone patrols linked to the city's command centre
+    place: Bogotá, Colombia
+    kind: international
+    pittsburgh: false
+    pin_id: p-g02-bogota-police-drones
+    fields:
+      - label: What happened
+        text: Bogotá's metropolitan police fly drones over the city centre and other areas, linked to the C4 command centre and street cameras, mainly against street drug sales. Police reported more than 100 arrests after aerial patrols by August 2024.
+      - label: Response
+        text: The city bought the first five drones in 2019 and added more in 2023. Public sources found say little about privacy rules.
+      - label: When
+        text: 2024-08
+    sources: &a2
+      - s-g02-bogota-police-drones-1
+      - s-g02-bogota-police-drones-2
+  - id: c-g02-kyiv-sesu-robot-dog
+    title: Robot dog and drones for bomb disposal and demining
+    place: Kyiv region, Ukraine
+    kind: international
+    pittsburgh: false
+    pin_id: p-g02-kyiv-sesu-robot-dog
+    fields:
+      - label: What happened
+        text: Ukraine's State Emergency Service uses mechanized demining machines, robotic systems and drones, and a rapid response unit in the Kyiv region planned to use a robot dog to deal with explosive devices remotely.
+      - label: Response
+        text: Equipment came largely from EU and UNDP support, with Ukrainian companies testing new remote demining systems.
+      - label: When
+        text: "2024"
+    sources: &a3
+      - s-g02-kyiv-sesu-robot-dog-1
+      - s-g02-kyiv-sesu-robot-dog-2
+  - id: c-g02-massachusetts-state-police-spot
+    title: State police bomb squad tests a robot dog
+    place: Massachusetts, US
+    kind: case
+    pittsburgh: false
+    pin_id: p-g02-massachusetts-state-police-spot
+    fields:
+      - label: What happened
+        text: The Massachusetts State Police bomb squad tested Boston Dynamics' Spot as a mobile observation device for suspected bombs and dangerous scenes.
+      - label: Response
+        text: A state bill proposed in 2023 would ban weapons on robots; its status was not confirmed.
+      - label: When
+        text: "2019"
+    sources: &a4
+      - s-g02-massachusetts-state-police-spot-1
+      - s-g02-massachusetts-state-police-spot-2
+pins:
+  - id: p-chula-vista-ca
+    place: Chula Vista, CA
+    lat: 32.64
+    lng: -117.08
+    what: First DFR program (2018); records lawsuit over video
+    response_type: Pilot to permanent program; court-ordered transparency
+    tags:
+      - Drones
+      - Privacy
+    sources:
+      - s-investigatetv-wcax-police-drone-programs
+  - id: p-los-angeles-ca
+    place: Los Angeles, CA
+    lat: 34.05
+    lng: -118.24
+    what: LAPD DFR pilot (July 2025); LAFD firefighting robot; Palisades drone collision
+    response_type: Pilot; federal prosecution of drone pilot
+    tags:
+      - Drones
+      - Fire
+      - Black swan
+    sources:
+      - s-kfi-lapd-dfr-deployments
+      - s-lafd-thermite-rs3-debut
+      - s-us-attorney-cdca-super-scooper-drone-ple
+  - id: p-sonoma-county-ca
+    place: Sonoma County, CA
+    lat: 38.44
+    lng: -122.71
+    what: ACLU lawsuit over code-enforcement drone flights
+    response_type: Litigation
+    tags:
+      - Privacy
+    sources:
+      - s-dronexl-sonoma-county-aclu-lawsuit
+  - id: p-san-francisco-ca
+    place: San Francisco, CA
+    lat: 37.77
+    lng: -122.42
+    what: Lethal robot policy approved then reversed (2022)
+    response_type: Council ban
+    tags:
+      - Use of force
+    sources:
+      - s-fortune-sf-bans-killer-robots
+      - s-cbs-sf-10-1-vote
+  - id: p-dallas-tx
+    place: Dallas, TX
+    lat: 32.78
+    lng: -96.8
+    what: 2016 bomb robot used to kill a sniper
+    response_type: No policy at the time
+    tags:
+      - Use of force
+    sources:
+      - s-fortune-sf-bans-killer-robots
+  - id: p-arlington-tx
+    place: Arlington, TX
+    lat: 32.74
+    lng: -97.11
+    what: DFR with 1.5-mile radius
+    response_type: FAA waiver
+    tags:
+      - Drones
+    sources: []
+  - id: p-new-york-ny
+    place: New York, NY
+    lat: 40.71
+    lng: -74.01
+    what: NYPD drones, Digidog, K5 robot pilot; Asimov Act; World Cup counter-drone
+    response_type: Proposed armed robot ban; POST Act disclosure
+    tags:
+      - Robots
+      - Use of force
+      - Counter-drone
+    sources:
+      - s-nyc-council-int-871-2026
+      - s-engadget-nypd-ends-k5-trial
+      - s-ny1-ap-zero-tolerance-for-drones-at-worl
+  - id: p-baltimore-md
+    place: Baltimore, MD
+    lat: 39.29
+    lng: -76.61
+    what: Aerial surveillance program struck down
+    response_type: Court ruling
+    tags:
+      - Privacy
+    sources: []
+  - id: p-kansas-city-mo
+    place: Kansas City, MO
+    lat: 39.1
+    lng: -94.58
+    what: World Cup host; first local counter-drone authority push
+    response_type: Federal deputization and training
+    tags:
+      - Counter-drone
+    sources:
+      - s-csis-counter-drone-defense-and-the-world
+  - id: p-san-bernardino-county-ca
+    place: San Bernardino County, CA
+    lat: 34.11
+    lng: -117.29
+    what: Fire department robot dog (2026)
+    response_type: Procurement
+    tags:
+      - Robots
+      - Fire
+    sources:
+      - s-eweek-san-bernardino-county-fire-robot-d
+  - id: p-kyiv-region-ukraine
+    place: Kyiv region, Ukraine
+    lat: 50.45
+    lng: 30.52
+    what: Emergency service ground robots and robot dog for demining
+    response_type: Wartime adoption
+    tags:
+      - Rescue
+      - International
+    sources:
+      - s-ukrinform-robot-dog-for-sappers-in-kyiv
+      - s-kyiv-post-state-emergency-service-termit
+  - id: p-paris-france
+    place: Paris, France
+    lat: 48.85
+    lng: 2.35
+    what: Colossus robot at Notre-Dame fire (2019)
+    response_type: Fire brigade use
+    tags:
+      - Fire
+      - International
+    sources: []
+  - id: p-g02-singapore-xavier
+    place: Toa Payoh Central, Singapore
+    lat: 1.3324
+    lng: 103.8478
+    what: For three weeks from Sept 5, 2021, the government's ground robot Xavier patrolled Toa Payoh Central to spot smoking in banned areas, illegal hawking and badly parked bicycles, with officers able to speak through it remotely.
+    response_type: Five agencies ran the trial. The government said the robot would not be used for enforcement during the trial.
+    tags:
+      - global-cases
+    approx: false
+    sources: *a1
+  - id: p-g02-bogota-police-drones
+    place: Bogotá, Colombia
+    lat: 4.5981
+    lng: -74.076
+    what: Bogotá's metropolitan police fly drones over the city centre and other areas, linked to the C4 command centre and street cameras, mainly against street drug sales. Police reported more than 100 arrests after aerial patrols by August 2024.
+    response_type: The city bought the first five drones in 2019 and added more in 2023. Public sources found say little about privacy rules.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a2
+  - id: p-g02-kyiv-sesu-robot-dog
+    place: Kyiv region, Ukraine
+    lat: 50.4501
+    lng: 30.5234
+    what: Ukraine's State Emergency Service uses mechanized demining machines, robotic systems and drones, and a rapid response unit in the Kyiv region planned to use a robot dog to deal with explosive devices remotely.
+    response_type: Equipment came largely from EU and UNDP support, with Ukrainian companies testing new remote demining systems.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a3
+  - id: p-g02-massachusetts-state-police-spot
+    place: Massachusetts, US
+    lat: 42.3601
+    lng: -71.0589
+    what: The Massachusetts State Police bomb squad tested Boston Dynamics' Spot as a mobile observation device for suspected bombs and dangerous scenes.
+    response_type: A state bill proposed in 2023 would ban weapons on robots; its status was not confirmed.
+    tags:
+      - global-cases
+    approx: true
+    sources: *a4
+places: []
+scenarios:
+  - horizon: 1
+    label: 1 year (2027)
+    best: Part 108 published; DFR programs adopt public flight logs and short retention as the norm
+    worst: A DFR drone falls on a crowd or a video leak exposes a domestic violence victim's home
+    surprise: FCC restricts older foreign drones; half of small agencies are grounded
+    city_action: Pass a drone use and retention policy through council; publish flight logs; inventory fleet country of origin and plan replacements
+  - horizon: 5
+    label: 5 years (2031)
+    best: Robot-first entry into hazardous scenes cuts firefighter and officer injuries; AED drones save lives
+    worst: Always-on AI drone coverage of poor neighborhoods; trust collapses; lawsuits
+    surprise: A hostile drone attack at a US event changes airspace rules overnight
+    city_action: Adopt a surveillance technology ordinance; ban armed robots by policy; build a regional counter-drone and airspace plan
+  - horizon: 10
+    label: 10 years (2036)
+    best: Shared regional drone networks serve police, fire, EMS and public works under one public governance board
+    worst: Armed autonomous robots normalized after a high-profile police death
+    surprise: Federal government takes over drone policing standards and preempts local limits
+    city_action: Write the force question into law now; create community oversight with real power; pool resources with nearby towns
+war_games:
+  - id: w-wildfire-with-dfr-news-delivery-and-hobb
+    title: wildfire with DFR, news, delivery and hobby drones in the same sky
+  - id: w-a-vendor-update-or-gps-jamming-grounds-e
+    title: a vendor update or GPS jamming grounds every DFR drone during a mass shooting search
+  - id: w-a-council-debate-on-arming-a-robot-after
+    title: a council debate on arming a robot after an officer is killed.
+recommendation_candidate: 'a shared "public safety robotics charter" cities adopt together: no weapons on robots, published flight logs, short default retention, AI analytics only with council approval, and a mutual-aid airspace plan for disasters. Joining cities could pool counter-drone capacity and replacement drone purchasing.'
+sources:
+  - id: s-eff-hundreds-of-dfr-programs-july-2026
+    publisher: EFF
+    title: hundreds of DFR programs (July 2026)
+    url: https://www.eff.org/deeplinks/2026/07/hundreds-drone-first-responder-programs-could-soon-be-launched-across-country
+    published: 2026-07
+  - id: s-dronexl-faa-dfr-waiver-list
+    publisher: DroneXL
+    title: FAA DFR waiver list
+    url: https://dronexl.co/2026/08/07/faa-dfr-waiver-list-1000-agencies/
+    published: 2026-08-07
+  - id: s-techspot-dfr-waivers-surge
+    publisher: TechSpot
+    title: DFR waivers surge
+    url: https://techspot.com/news/113228-first-responder-drones-spreading-rapidly-across-us-privacy.html
+  - id: s-kfi-lapd-dfr-deployments
+    publisher: KFI
+    title: LAPD DFR deployments
+    url: https://kfiam640.iheart.com/content/2026-04-28-lapd-expands-drone-use-with-over-3500-deployments-in-2025/
+    published: 2026-04-28
+  - id: s-investigatetv-wcax-police-drone-programs
+    publisher: InvestigateTV / WCAX
+    title: police drone programs and Chula Vista records case
+    url: https://www.wcax.com/2026/02/06/police-drone-programs-expand-first-responder-tool-raising-privacy-concerns-some/
+    published: 2026-02-06
+  - id: s-dronexl-sonoma-county-aclu-lawsuit
+    publisher: DroneXL
+    title: Sonoma County ACLU lawsuit
+    url: https://dronexl.co/2025/10/11/ai-powered-police-drones-reach-1500-us-departments
+    published: 2025-10-11
+  - id: s-uav-coach-part-108-status-nov-2026
+    publisher: UAV Coach
+    title: Part 108 status (Nov 2026)
+    url: https://uavcoach.com/faa-utm-flights-part-108-update/
+  - id: s-route-fifty-ndaa-counter-drone-authority
+    publisher: Route Fifty
+    title: NDAA counter-drone authority
+    url: https://www.route-fifty.com/digital-government/2026/01/defense-law-includes-expanded-counter-drone-authority/410542
+    published: 2026-01
+  - id: s-csis-counter-drone-defense-and-the-world
+    publisher: CSIS
+    title: counter-drone defense and the World Cup
+    url: https://www.csis.org/analysis/playbook-or-rental-us-counter-drone-defense-and-2026-world-cup
+  - id: s-bloomberg-government-doj-dhs-counter-dro
+    publisher: Bloomberg Government
+    title: DOJ/DHS counter-drone rule
+    url: https://news.bloomberglaw.com/bloomberg-government-news/dhs-doj-issue-counter-drone-rule-as-world-cup-spotlights-danger
+  - id: s-ny1-ap-zero-tolerance-for-drones-at-worl
+    publisher: NY1/AP
+    title: zero tolerance for drones at World Cup
+    url: https://ny1.com/nyc/all-boroughs/ap-top-news/2026/06/10/at-world-cup-stadiums-there-will-be-zero-tolerance-for-drones-because-of-the-threat-they-pose
+    published: 2026-06-10
+  - id: s-dronexl-fcc-bans-foreign-drones
+    publisher: DroneXL
+    title: FCC bans foreign drones
+    url: https://dronexl.co/2025/12/22/fcc-bans-all-foreign-and-dji-drones/
+    published: 2025-12-22
+  - id: s-simpson-thacher-fcc-covered-list-excepti
+    publisher: Simpson Thacher
+    title: FCC Covered List exceptions
+    url: https://www.stblaw.com/the-federal-communications-commission-bans-foreign-made-drones-and-drone-components-with-exceptions-for-those-on-the-blue-uas-list-and-qualifying-domestic-end-products/
+  - id: s-fcc-july-21-2026-announcement
+    publisher: FCC
+    title: July 21, 2026 announcement
+    url: https://docs.fcc.gov/public/attachments/DOC-423277A1.pdf
+  - id: s-us-attorney-cdca-super-scooper-drone-ple
+    publisher: US Attorney CDCA
+    title: Super Scooper drone plea
+    url: https://www.justice.gov/usao-cdca/pr/culver-city-man-agrees-plead-guilty-recklessly-crashing-drone-super-scooper
+  - id: s-abc7-super-scooper-details
+    publisher: ABC7
+    title: Super Scooper details
+    url: https://abc13.com/post/palisades-fire-peter-tripp-akemann-agrees-plead-guilty-crashing-drone-super-scooper/15851641/
+  - id: s-nyc-council-int-871-2026
+    publisher: NYC Council Int. 871-2026
+    title: NYC Council Int. 871-2026
+    url: https://intro.nyc/0871-2026
+  - id: s-nbc-new-york-ny-and-ma-armed-robot-bills
+    publisher: NBC New York
+    title: NY and MA armed robot bills
+    url: https://www.nbcnewyork.com/investigations/should-ny-ban-robots-from-carrying-flamethrowers-and-firearms/6505741/
+  - id: s-fortune-sf-bans-killer-robots
+    publisher: Fortune
+    title: SF bans killer robots
+    url: https://fortune.com/2022/12/07/san-francisco-bans-killer-robots-week-after-authorizing-deadly-force/
+    published: 2022-12-07
+  - id: s-cbs-sf-10-1-vote
+    publisher: CBS SF
+    title: 10-1 vote
+    url: https://www.cbsnews.com/sanfrancisco/news/san-francisco-supes-overwhelmingly-oppose-sfpd-use-of-deadly-force-with-robots-in-latest-vote/
+  - id: s-lafd-thermite-rs3-debut
+    publisher: LAFD
+    title: Thermite RS3 debut
+    url: https://lafd.org/news/lafd-debuts-rs3-first-robotic-firefighting-vehicle-united-states
+  - id: s-eweek-san-bernardino-county-fire-robot-d
+    publisher: eWeek
+    title: San Bernardino County Fire robot dog
+    url: https://www.eweek.com/de/news/california-fire-department-robot-dog/
+  - id: s-engadget-nypd-ends-k5-trial
+    publisher: Engadget
+    title: NYPD ends K5 trial
+    url: https://www.engadget.com/nyc-ends-trial-run-of-times-square-subways-security-robot-105528275.html
+  - id: s-kyiv-post-state-emergency-service-termit
+    publisher: Kyiv Post
+    title: State Emergency Service Termit robot
+    url: https://www.kyivpost.com/post/89160
+  - id: s-ukrainska-pravda-100-000-ground-robot-mi
+    publisher: Ukrainska Pravda
+    title: 100,000 ground robot missions
+    url: https://www.pravda.com.ua/eng/news/2026/08/24/8050106/
+    published: 2026-08-24
+  - id: s-ukrinform-robot-dog-for-sappers-in-kyiv
+    publisher: Ukrinform
+    title: robot dog for sappers in Kyiv region
+    url: https://www.ukrinform.net/rubric-ato/4029516-cuttingedge-robotic-dog-to-assist-sappers-in-kyiv-region.html
+  - id: s-ieee-spectrum-unitree-robot-exploit
+    publisher: IEEE Spectrum
+    title: Unitree robot exploit
+    url: https://spectrum.ieee.org/unitree-robot-exploit
+  - id: s-g02-singapore-xavier-1
+    publisher: HTX (Home Team Science and Technology Agency)
+    title: HTX ground robot on trial at Toa Payoh Central to support public officers in enhancing public health and safety
+    url: https://www.htx.gov.sg/news/media-release-htx-ground-robot-on-trial-at-toa-payoh-central-to-support-public-officers-in-enhancing-public-health-and-safety
+    published: 2021-09
+  - id: s-g02-bogota-police-drones-1
+    publisher: Alcaldía de Bogotá
+    title: Cinco drones de última tecnología ayudarán a cuidar la vida en Bogotá
+    url: https://bogota.gov.co/asi-vamos/drones-de-ultima-tecnologia-refuerzan-seguridad-de-bogota
+  - id: s-g02-bogota-police-drones-2
+    publisher: El Tiempo
+    title: La estrategia de patrullaje aéreo con drones de la Policía de Bogotá
+    url: https://www.eltiempo.com/bogota/la-estrategia-de-patrullaje-aereo-con-drones-con-la-que-la-policia-de-bogota-ha-logrado-mas-de-160-capturas-3423126
+  - id: s-g02-kyiv-sesu-robot-dog-1
+    publisher: Ministry of Internal Affairs of Ukraine
+    title: The State Emergency Service operates 19 mechanized demining machines, robotic complexes and drones
+    url: https://mvs.gov.ua/en/news/u-dsns-praciuiut-19-masin-mexanizovanogo-rozminuvannia-robotizovani-kompleksi-i-droni
+    published: 2023-11
+  - id: s-g02-kyiv-sesu-robot-dog-2
+    publisher: Ukrinform
+    title: Cutting-edge robotic dog to assist sappers in Kyiv region
+    url: https://ukrinform.net/rubric-ato/4029516-cuttingedge-robotic-dog-to-assist-sappers-in-kyiv-region.html
+  - id: s-g02-massachusetts-state-police-spot-1
+    publisher: Police Magazine
+    title: Massachusetts State Police briefly tested robot dog
+    url: https://www.policemag.com/news/massachusetts-state-police-briefly-tested-robot-dog
+  - id: s-g02-massachusetts-state-police-spot-2
+    publisher: Northeastern University
+    title: Mass. bill proposed to ban sales and operation of weaponized robots
+    url: https://cssh.northeastern.edu/mass-bill-proposed-to-ban-sales-and-operation-of-weaponized-robots/
+    published: "2023"
+todos:
+  - Removed interview-based text in risk case; find a public source if it should stay.
+  - 'Needs source: type "Tactical and indoor drones"'
+  - 'Needs source: type "Search and rescue robots"'
+  - 'Needs source: type "Medical and AED delivery drones"'
+  - 'Needs source: risk "Small-agency capacity gap"'
+  - 'Needs source: rule "Remote ID"'
+  - 'Needs source: rule "American Security Drone Act (2023)"'
+  - 'Needs source: rule "Fourth Amendment case law (e.g., Leaders of a Beautiful Stru"'
+  - "Needs source: rule \"State drone surveillance laws (e.g., Florida's Freedom from \""
+  - 'Needs source: rule "State bans on government use of Chinese drones (e.g., Florid"'
+  - 'Needs source: rule "Local surveillance ordinances (CCOPS model; NYC POST Act 202"'
+  - 'Needs source: rule "Use-of-force law and policy"'
+  - 'Needs source: pin "Arlington, TX"'
+  - 'Needs source: pin "Baltimore, MD"'
+  - 'Needs source: pin "Paris, France"'

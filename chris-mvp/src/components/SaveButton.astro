@@ -1,0 +1,16 @@
+---
+/** Save an item to MyEACP (browser only). Handled by src/scripts/save-buttons.ts. */
+interface Props { kind: 'risk' | 'type' | 'rule' | 'place'; id: string; title: string; href: string; sector?: string }
+const { kind, id, title, href, sector } = Astro.props;
+---
+<button type="button" class="save" data-save data-save-key={`${kind}:${id}`} data-save-kind={kind} data-save-title={title} data-save-href={href} data-save-sector={sector} aria-pressed="false">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h8v12l-4-3-4 3z" /></svg>
+  <span data-save-label>Save to MyEACP</span>
+</button>
+<style>
+  .save { display: inline-flex; align-items: center; gap: 0.4rem; font: 600 var(--fs-xs) var(--font-sans); color: var(--c-heritage); background: #fff; border: 1.5px solid var(--c-line); border-radius: var(--radius-pill); padding: 0 0.8rem; min-height: 34px; cursor: pointer; transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
+  .save:hover { border-color: var(--c-heritage); }
+  .save svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+  .save[aria-pressed='true'] { background: var(--c-selected); color: #fff; border-color: var(--c-selected); }
+  .save[aria-pressed='true'] svg { fill: var(--c-gold); stroke: var(--c-gold); }
+</style>

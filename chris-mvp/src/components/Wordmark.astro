@@ -1,0 +1,25 @@
+---
+/** The EACP wordmark: type only, no symbol. The full name is always in the accessible name.
+ *  `intro` plays a short entrance on Welcome (letters rise, then the gold rule draws). */
+import { SITE_NAME, SITE_SHORT } from '../lib/site';
+interface Props { size?: 'header' | 'hero'; tone?: 'dark' | 'light'; intro?: boolean }
+const { size = 'header', tone = 'dark', intro = false } = Astro.props;
+---
+<span class:list={['wordmark', size, tone, { intro }]}><span aria-hidden="true">{SITE_SHORT.split('').map((c, i) => <span class="l" style={`--k:${i}`}>{c}</span>)}</span><span class="visually-hidden">{SITE_NAME}</span></span>
+<style>
+  .wordmark { display: inline-flex; flex-direction: column; align-items: stretch; font-family: var(--font-serif); font-weight: 700; line-height: 1; letter-spacing: 0.06em; }
+  .wordmark > span[aria-hidden]::after { content: ''; display: block; height: 0.11em; margin-top: 0.12em; background: var(--c-gold); border-radius: 1px; transform-origin: left center; }
+  .l { display: inline-block; }
+  .dark { color: var(--c-heritage); }
+  .light { color: #fff; }
+  .header { font-size: 1.55rem; }
+  .hero { font-size: clamp(4.2rem, 2.5rem + 9vw, 9rem); letter-spacing: 0.08em; }
+  .intro .l { animation: wm-rise 640ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(120ms + var(--k) * 80ms); }
+  .intro > span[aria-hidden]::after { animation: wm-rule 720ms cubic-bezier(0.16, 1, 0.3, 1) 520ms both; }
+  @keyframes wm-rise { from { opacity: 0; transform: translateY(0.12em); } to { opacity: 1; transform: none; } }
+  @keyframes wm-rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html:not([data-motion='full'])) .intro .l, :global(html:not([data-motion='full'])) .intro > span[aria-hidden]::after { animation: none; }
+  }
+  :global(html[data-motion='reduce']) .intro .l, :global(html[data-motion='reduce']) .intro > span[aria-hidden]::after { animation: none; }
+</style>
