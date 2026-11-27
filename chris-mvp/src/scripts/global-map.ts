@@ -106,6 +106,34 @@ export function mountGlobalMap(root: HTMLElement): () => void {
       markers.set(key, new Marker({ element: node }).setLngLat(coords).addTo(map));
     }
     for (const [k, m] of markers) if (!seen.has(k)) { m.remove(); markers.delete(k); }
+    spread();
+  }
+
+  /** Move markers apart on screen so no two buttons overlap (each keeps a clear tap target).
+   *  A marker that would overlap one already placed moves to the nearest free spot on a spiral around it. */
+  function spread() {
+    const GAP = 4;
+    const placed: { x: number; y: number; w: number; h: number }[] = [];
+    // Free when the two boxes (plus a small gap) don't intersect.
+    const free = (x: number, y: number, w: number, h: number) =>
+      placed.every((q) => Math.abs(q.x - x) >= (q.w + w) / 2 + GAP || Math.abs(q.y - y) >= (q.h + h) / 2 + GAP);
+    for (const [, m] of [...markers].sort(([a], [b]) => a.localeCompare(b))) {
+      const elm = m.getElement();
+      const w = elm.offsetWidth, h = elm.offsetHeight;
+      const p = map.project(m.getLngLat());
+      let x = p.x, y = p.y;
+      const step = Math.max(w, h) * 0.5;
+      search: for (let ring = 1; !free(x, y, w, h) && ring <= 60; ring++) {
+        const steps = 6 * ring;
+        for (let k = 0; k < steps; k++) {
+          const a = (2 * Math.PI * k) / steps;
+          const cx = p.x + Math.cos(a) * ring * step, cy = p.y + Math.sin(a) * ring * step;
+          if (free(cx, cy, w, h)) { x = cx; y = cy; break search; }
+        }
+      }
+      placed.push({ x, y, w, h });
+      m.setOffset([x - p.x, y - p.y]);
+    }
   }
 
   function refresh(fit = false) {

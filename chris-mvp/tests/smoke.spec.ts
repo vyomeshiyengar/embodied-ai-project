@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { routes } from './routes';
+import { routes, mapSettled } from './routes';
 
 for (const route of routes().filter((r) => !/\/(cases|story|types)\/$/.test(r) && r !== '/explore/')) {
   test(`loads and passes axe: ${route}`, async ({ page }) => {
@@ -14,6 +14,8 @@ for (const route of routes().filter((r) => !/\/(cases|story|types)\/$/.test(r) &
     expect(errors).toEqual([]);
     // Check the settled page: entrance animations (the Welcome intro fades in) can catch colours mid-fade on slow CI.
     await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running' || a.effect?.getComputedTiming().iterations === Infinity), undefined, { timeout: 10_000 });
+    // Maps: check once the camera has settled and the markers are placed, as a person would see them.
+    if (await page.locator('[data-gmap]').count()) await mapSettled(page);
     const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     const serious = axe.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
     expect(serious.map((v) => `${v.id}: ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);

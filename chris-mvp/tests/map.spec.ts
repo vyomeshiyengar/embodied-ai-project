@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { mapSettled } from './routes';
 
 const ready = (page: Page) => page.waitForFunction(() => {
   const g = (window as unknown as { __gmap?: { map: { getSource: (id: string) => unknown } } }).__gmap;
@@ -36,4 +37,22 @@ test('global cases outside the US are on the map with sources and a review tag',
   await page.goto('/map/?place=01-p-g01-wuhan-apollo-go', { waitUntil: 'load' });
   await ready(page);
   await expect(page.locator('[data-drawer] .pmedia figcaption')).toContainText('CC BY 4.0', { timeout: 15_000 });
+});
+
+test('map markers never overlap, so each keeps a clear tap target', async ({ page }) => {
+  for (const url of ['/sectors/parks-public-space/map/', '/sectors/autonomous-mobility/map/', '/sectors/environmental-monitoring/map/', '/map/']) {
+    await page.goto(url, { waitUntil: 'load' });
+    await ready(page);
+    await mapSettled(page);
+    const overlaps = await page.$$eval('.maplibregl-marker.pin, .maplibregl-marker.cluster', (els) => {
+      const rs = els.map((e) => ({ l: (e as HTMLElement).getAttribute('aria-label'), r: e.getBoundingClientRect() }));
+      const out: string[] = [];
+      for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) {
+        const a = rs[i].r, b = rs[j].r;
+        if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) out.push(`${rs[i].l} / ${rs[j].l}`);
+      }
+      return out;
+    });
+    expect(overlaps, url).toEqual([]);
+  }
 });

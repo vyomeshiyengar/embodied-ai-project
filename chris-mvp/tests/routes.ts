@@ -14,3 +14,13 @@ export function routes(): string[] {
   walk(dist);
   return out.map((r) => r.replace(/^\/\/?/, '/')).sort();
 }
+
+/** Waits until a map has its markers and the camera has stopped moving (fly-ins can take a while on CI). */
+export async function mapSettled(page: import('@playwright/test').Page) {
+  await page.waitForFunction(() => {
+    const g = (window as unknown as { __gmap?: { map: { getSource: (id: string) => unknown; isMoving: () => boolean; loaded: () => boolean } } }).__gmap;
+    return !!g?.map.getSource('pts') && !g.map.isMoving() && document.querySelectorAll('.pin, .cluster').length > 0;
+  }, undefined, { timeout: 40_000 });
+  // Markers are placed and spread on the frame after the last move.
+  await page.waitForTimeout(200);
+}
