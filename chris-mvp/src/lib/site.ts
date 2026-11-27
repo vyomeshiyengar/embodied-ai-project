@@ -10,8 +10,3 @@ export const SITE_DESCRIPTION =
 /** Risk category labels (fixed project vocabulary: likely | black_swan). */
 export const RISK_LABEL = { likely: 'Likely', black_swan: 'Black swan' } as const;
 
-/**
- * DEMO SIGN-IN, NOT SECURITY. These credentials ship to every visitor's browser.
- * Sign-in is optional: guests browse everything; signing in unlocks Share, saving and MyEACP.
- */
-export const DEMO_LOGIN = { username: 'demo', password: 'demo' } as const;

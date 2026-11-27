@@ -451,6 +451,37 @@ regulations:
       covers: Dedicated drone corridors, landing sites, operator training
       falls_short: "A comparison point: cities plan the airspace as infrastructure rather than reacting to it"
       sources: []
+    - id: g-gr05-korea-robots-act
+      name: Intelligent Robots Act amendment (outdoor mobile robots)
+      level: international
+      level_label: South Korea
+      status: in_force
+      covers: Since November 17, 2023, outdoor mobile robots up to 500 kg and 15 km/h that pass safety certification can be treated as pedestrians and use sidewalks; operators must carry insurance.
+      falls_short: National certification and insurance; the sources do not describe a role for cities in routes or sidewalk capacity.
+      sources:
+        - s-gr05-korea-robots-act-1
+      review: pending
+    - id: g-gr05-japan-delivery-robots
+      name: Road Traffic Act notification system for delivery robots
+      level: international
+      level_label: Japan
+      status: in_force
+      covers: From April 1, 2023, small low-speed delivery robots may use sidewalks at up to 6 km/h after the operator files a notification; robots must show they are remotely operated and carry an emergency stop button.
+      falls_short: A notification, not a permit, so local authorities get limited say over where robots run.
+      sources:
+        - s-gr05-japan-delivery-robots-1
+      review: pending
+    - id: g-gr05-eu-u-space
+      name: EU U-space Regulation 2021/664
+      level: international
+      level_label: European Union
+      status: in_force
+      covers: Since January 26, 2023, member states can designate U-space airspace where certified service providers manage drone traffic, including network identification of drones. The basis for routine delivery drone flights in European cities.
+      falls_short: U-space airspace must be designated by each country; the sources describe a gradual rollout with some services not available from day one.
+      sources:
+        - s-gr05-eu-u-space-1
+        - s-gr05-eu-u-space-2
+      review: pending
   gaps:
     - "Incident reporting: no US rule requires sidewalk-robot operators to report collisions or near-misses publicly."
     - "Stop-and-identify duty: nothing requires a robot to stop after contact and display who operates it."
@@ -745,6 +776,24 @@ sources:
     title: Japan rolls out delivery robots
     url: https://taipeitimes.com/News/biz/archives/2023/02/09/2003793995
     published: 2023-02-09
+  - id: s-gr05-korea-robots-act-1
+    publisher: Korea JoongAng Daily
+    title: Robots can now legally roam Korea's sidewalks
+    url: https://www.koreajoongangdaily.com/business/robots-can-now-legally-roam-koreas-sidewalks/11561458
+    published: 2023-11-17
+  - id: s-gr05-japan-delivery-robots-1
+    publisher: National Police Agency of Japan
+    title: Automated Driving
+    url: https://www.npa.go.jp/english/bureau/traffic/selfdriving.html
+  - id: s-gr05-eu-u-space-1
+    publisher: European Commission
+    title: "Drones: Commission adopts new rules and conditions for safe, secure and green drone operations"
+    url: https://transport.ec.europa.eu/news-events/news/drones-commission-adopts-new-rules-and-conditions-safe-secure-and-green-drone-operations-2021-04-22_en
+    published: 2021-04-22
+  - id: s-gr05-eu-u-space-2
+    publisher: EUR-Lex
+    title: Commission Implementing Regulation (EU) 2021/664
+    url: https://eur-lex.europa.eu/eli/reg/2021/664/oj/eng
 todos:
   - 'Needs source: type "Sidewalk delivery robots"'
   - 'Needs source: type "Faster hybrid delivery robots"'

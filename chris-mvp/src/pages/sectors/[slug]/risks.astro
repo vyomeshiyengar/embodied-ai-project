@@ -1,13 +1,14 @@
 ---
-/** Step 4: Risks. Choose Likely, Black swan or Looking ahead; narrow by technology; then pick a risk. */
+/**
+ * Risks. Choose Likely, Black swan or Looking ahead; narrow by technology; then pick a risk from the cards
+ * across the top. The selected risk reads full width below, with Previous and Next.
+ */
 import Base from '../../../layouts/Base.astro';
 import SectorFlow from '../../../components/SectorFlow.astro';
 import StepNav from '../../../components/StepNav.astro';
 import Level from '../../../components/Level.astro';
 import Sources from '../../../components/Sources.astro';
-import SaveButton from '../../../components/SaveButton.astro';
 import { sectors, type Sector, type Risk } from '../../../lib/content';
-import { sectorHref } from '../../../lib/url';
 import { byConcern } from '../../../lib/rank';
 
 export function getStaticPaths() {
@@ -46,32 +47,33 @@ const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 :
         <p class="visually-hidden" aria-live="polite" data-tf-status></p>
       </div>
     )}
+    {groups.length > 0 && <p class="legend small muted" aria-hidden="true"><span class="mb"><i class="on"></i><i class="on"></i><i></i></span> likelihood <span class="mb sev"><i class="on"></i><i class="on"></i><i></i></span> severity</p>}
 
     {groups.map((g) => {
       return (
         <section role="tabpanel" id={`panel-${g.key}`} aria-labelledby={`tab-${g.key}`} hidden={g.key !== first} class="rp">
+          <div class="cats cards" role="tablist" aria-label={`${g.label} risks`} data-switch data-fade>
+            {g.risks.map((r, i) => (
+              <button role="tab" id={`tab-${r.id}`} aria-controls={`panel-${r.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-types={r.all_types ? '*' : r.type_ids.join(' ')}>
+                <span class="rt">{r.title}</span>
+                <span class="mini" aria-hidden="true" title={`Likelihood ${r.likelihood ?? 'not rated'}, severity ${r.severity ?? 'not rated'}`}>
+                  <span class="mb">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.likelihood) }}></i>)}</span>
+                  <span class="mb sev">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.severity) }}></i>)}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+          <p class="empty small muted" data-empty hidden>No {g.label.toLowerCase()} risks for this technology.</p>
           <div class="layout">
-            <div class="left">
-              <div class="cats vert" role="tablist" aria-orientation="vertical" aria-label={`${g.label} risks`} data-switch>
-                {g.risks.map((r, i) => (
-                  <button role="tab" id={`tab-${r.id}`} aria-controls={`panel-${r.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-types={r.all_types ? '*' : r.type_ids.join(' ')}>
-                    <span class="rt">{r.title}</span>
-                    <span class="mini" aria-hidden="true" title={`Likelihood ${r.likelihood ?? 'not rated'}, severity ${r.severity ?? 'not rated'}`}>
-                      <span class="mb">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.likelihood) }}></i>)}</span>
-                      <span class="mb sev">{[1, 2, 3].map((k) => <i class:list={{ on: k <= bars(r.severity) }}></i>)}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <p class="empty small muted" data-empty hidden>No {g.label.toLowerCase()} risks for this technology.</p>
-              <p class="legend small muted" aria-hidden="true"><span class="mb"><i class="on"></i><i class="on"></i><i></i></span> likelihood <span class="mb sev"><i class="on"></i><i class="on"></i><i></i></span> severity</p>
-            </div>
             <div class="right">
               {g.risks.map((r, i) => (
                 <article role="tabpanel" id={`panel-${r.id}`} aria-labelledby={`tab-${r.id}`} hidden={i !== 0} class="detail">
                   <div class="dhead">
                     <h2 class="h3">{r.title}</h2>
-                    <SaveButton kind="risk" id={r.id} title={r.title} href={`${sectorHref(s.slug, 'risks')}#${r.id}`} sector={s.id} />
+                    <span class="pn">
+                      <button type="button" class="btn secondary small" data-risk-step="-1">Previous</button>
+                      <button type="button" class="btn secondary small" data-risk-step="1">Next</button>
+                    </span>
                   </div>
                   {r.detail && <p class="small muted">{r.detail}</p>}
                   <div class="levels">
@@ -138,7 +140,7 @@ const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 :
     const apply = (tech: string) => {
       chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.tech === tech)));
       let total = 0;
-      document.querySelectorAll<HTMLElement>('.rp .cats.vert').forEach((list) => {
+      document.querySelectorAll<HTMLElement>('.rp .cats.cards').forEach((list) => {
         const tabs = [...list.querySelectorAll<HTMLElement>('[role="tab"]')];
         let shown = 0;
         for (const t of tabs) {
@@ -154,7 +156,7 @@ const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 :
         const count = document.querySelector<HTMLElement>(`[data-group-count="${key}"]`);
         if (count) count.textContent = String(shown);
         panel.querySelector<HTMLElement>('[data-empty]')!.hidden = shown > 0;
-        panel.querySelector<HTMLElement>('.right')!.hidden = shown === 0;
+        panel.querySelector<HTMLElement>('.layout')!.hidden = shown === 0;
         list.hidden = shown === 0;
         const sel = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
         const first = tabs.find((t) => !t.hidden);
@@ -178,19 +180,41 @@ const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 :
     if (want && chips.some((c) => c.dataset.tech === want)) apply(want);
   }
 
-  document.addEventListener('astro:page-load', initTechFilter);
+  // Previous / Next between the visible risks of the open group.
+  function initRiskSteps() {
+    document.querySelectorAll<HTMLButtonElement>('[data-risk-step]').forEach((b) => {
+      if (b.dataset.ready) return;
+      b.dataset.ready = '1';
+      b.addEventListener('click', () => {
+        const list = b.closest('.rp')!.querySelector<HTMLElement>('.cats.cards')!;
+        const tabs = [...list.querySelectorAll<HTMLElement>('[role="tab"]')].filter((t) => !t.hidden);
+        const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+        const next = tabs[(i + Number(b.dataset.riskStep) + tabs.length) % tabs.length];
+        if (next) { select(next, true); next.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => { initTechFilter(); initRiskSteps(); });
 </script>
 
 <style>
   .rp { margin-top: var(--sp-5); }
-  .layout { display: grid; grid-template-columns: minmax(16rem, 1fr) minmax(0, 1.6fr); gap: var(--sp-6); align-items: start; }
-  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
-  .vert { flex-direction: column; align-items: stretch; width: 100%; border-radius: var(--radius-md); }
-  .vert::before { border-radius: var(--radius-sm); }
-  .vert [role='tab'] { border-radius: var(--radius-sm); justify-content: space-between; text-align: left; min-height: 44px; gap: var(--sp-3); }
-  .vert [role='tab'][hidden] { display: none; }
-  .vert [role='tab'].in { animation: panel-in var(--dur-panel) var(--ease-out) both; }
-  .rt { flex: 1; }
+  .layout { margin-top: var(--sp-4); }
+  .layout[hidden] { display: none; }
+  /* Risk cards across the top: wrap on wide screens, scroll sideways on narrow ones. */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 6px; width: 100%; background: none; padding: 0; border-radius: 0; }
+  .cards::before { display: none; }
+  .cards [role='tab'] { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: var(--sp-2); text-align: left; min-height: 4.6rem; padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); background: var(--c-surface-alt); color: var(--c-ink); border: 1.5px solid transparent; font-size: var(--fs-sm); line-height: 1.3; }
+  .cards [role='tab']:hover { border-color: var(--c-medium); }
+  .cards [role='tab'][aria-selected='true'] { background: var(--c-selected); color: #fff; }
+  .cards [role='tab'][hidden] { display: none; }
+  .cards [role='tab'].in { animation: panel-in var(--dur-panel) var(--ease-out) both; }
+  @media (max-width: 700px) {
+    .cards { display: flex; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; }
+    .cards [role='tab'] { flex: 0 0 13rem; scroll-snap-align: start; }
+  }
+  .rt { font-weight: 600; }
   .mini { display: inline-flex; gap: 6px; flex: none; }
   .mb { display: inline-flex; gap: 2px; align-items: flex-end; vertical-align: middle; }
   .mb i { width: 4px; border-radius: 1px; background: rgb(0 45 114 / 0.18); }
@@ -200,8 +224,11 @@ const bars = (l: Risk['likelihood']) => (l === 'high' ? 3 : l === 'medium' ? 2 :
   [aria-selected='true'] .mb i { background: rgb(255 255 255 / 0.3); }
   [aria-selected='true'] .mb i.on { background: #fff; }
   [aria-selected='true'] .mb.sev i.on { background: var(--c-gold); }
-  .legend { margin-top: var(--sp-3); display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+  .legend { margin: var(--sp-3) 0 0; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
   .legend .sev { margin-left: var(--sp-2); }
+  .detail { max-width: 62rem; }
+  .pn { display: inline-flex; gap: var(--sp-2); }
+  .btn.small { min-height: 36px; padding: 0 0.9rem; font-size: var(--fs-sm); }
   .empty { padding: var(--sp-4); background: var(--c-surface-alt); border-radius: var(--radius-md); }
   .techfilter { margin-top: var(--sp-5); padding: var(--sp-4); border: var(--border); border-radius: var(--radius-md); background: #fff; }
   .tf-label { margin: 0 0 var(--sp-2); font-weight: 700; color: var(--c-ink); font-size: var(--fs-sm); }

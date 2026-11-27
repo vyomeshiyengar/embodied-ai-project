@@ -20,15 +20,18 @@
     "test": "playwright test --trace off",
     "content:report": "node scripts/content-report.mjs",
     "check:public": "node scripts/check-public.mjs",
-    "posters": "node scripts/render-posters.mjs",
-    "twins": "NODE_USE_ENV_PROXY=1 node scripts/build-twins.mjs"
+    "posters": "node scripts/render-posters.mjs"
   },
   "dependencies": {
+    "@astrojs/react": "^7.1.9",
     "@fontsource-variable/source-serif-4": "^5.3.1",
     "@fontsource-variable/work-sans": "^5.3.0",
-    "all-the-cities": "^3.1.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "astro": "^7.4.13",
     "maplibre-gl": "^6.19.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "three": "^0.187.0",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2",
@@ -38,8 +41,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@axe-core/playwright": "^4.14.1",
-    "@mapbox/vector-tile": "^3.0.0",
     "@playwright/test": "1.63",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
     "@types/three": "^0.187.0",
     "@types/topojson-client": "^3.1.5",
     "typescript": "^6.0.3"

@@ -2,6 +2,7 @@
 /** Glossary: pick a sector, or search every term. */
 import Base from '../layouts/Base.astro';
 import { sectors } from '../lib/content';
+import { termAnchor } from '../lib/glossary';
 const withTerms = sectors.filter((s) => s.terms.length);
 ---
 <Base title="Glossary">
@@ -15,7 +16,7 @@ const withTerms = sectors.filter((s) => s.terms.length);
     </div>
     {withTerms.map((s, i) => (
       <section role="tabpanel" id={`panel-g${s.id}`} aria-labelledby={`tab-g${s.id}`} hidden={i !== 0}>
-        <dl class="terms">{s.terms.map((t) => <div><dt>{t.term}</dt><dd>{t.definition}</dd></div>)}</dl>
+        <dl class="terms">{s.terms.map((t) => <div id={termAnchor(s.id, t.term)}><dt>{t.term}</dt><dd>{t.definition}</dd></div>)}</dl>
       </section>
     ))}
     <section class="results" data-gresults hidden aria-live="polite">

@@ -1,164 +1,23 @@
 ---
-/**
- * Step 2: In the city. A 3D twin of a real, busy neighborhood in one of ten sample cities, with this
- * sector's technologies working in it. Replaces "See it in action" and "Types".
- * Every technology scene is illustrative and labeled so; research cases documented in the city are
- * shown at their real location with sources. Runtime in src/scripts/twin-page.ts.
- */
-import Base from '../../../layouts/Base.astro';
-import SectorFlow from '../../../components/SectorFlow.astro';
-import StepNav from '../../../components/StepNav.astro';
-import Sources from '../../../components/Sources.astro';
-import SaveButton from '../../../components/SaveButton.astro';
-import { sectors, type Sector, type TypeItem } from '../../../lib/content';
-import { mapPoints } from '../../../lib/map-points';
-import { sectorHref, href, fmtDate } from '../../../lib/url';
-import { modelFor } from '../../../scenes/twin/model-map';
-import twinCities from '../../../data/twin-cities.json';
-
+/** Moved: "See it in action", "Types" and "In the city" are now part of the Overview. Keeps #<type id> links working. */
+import { sectors, type Sector } from '../../../lib/content';
+import { sectorHref } from '../../../lib/url';
 export function getStaticPaths() {
   return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 const { s } = Astro.props as { s: Sector };
-const cities = twinCities.cities;
-const FIELDS: [keyof TypeItem, string][] = [['where', 'Where it operates'], ['how', 'How it works'], ['uses', 'Main uses'], ['running_in', 'Where it runs today'], ['city_response', 'How cities responded'], ['progression', 'Where it is heading']];
-const ZONE_LABEL: Record<string, string> = { street: 'Streets', sidewalk: 'Sidewalks', air: 'Air', building: 'Buildings', park: 'Parks', water: 'Water' };
-const riskCount = (id: string) => s.risks.filter((r) => r.all_types || r.type_ids.includes(id)).length;
-const zones = [...new Set(s.types.map((t) => t.zone))];
-const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
-const points = mapPoints().filter((p) => p.sectorId === s.id).map((p) => ({ ...p, caseTitle: p.caseTitle ? cap(p.caseTitle) : undefined }));
-const payload = {
-  sector: s.id,
-  cities: cities.map((c) => ({ id: c.id, name: c.name, area: c.area, lat: c.lat, lng: c.lng, half: c.half })),
-  types: s.types.map((t) => ({ id: t.id, name: t.name, zone: t.zone, kind: modelFor(t.name) })),
-  cases: points.map((p) => ({ id: p.id, lat: p.lat, lng: p.lng, title: p.caseTitle || p.place })),
-};
+const to = sectorHref(s.slug);
 ---
-<Base title={`In the city: ${s.name}`} sector={s.slug} sectorPage="city">
-  <SectorFlow sector={s} step="city" title="In the city" />
-  <div class="container page twinpage" data-twin-page>
-    <div class="citybar" role="group" aria-label="Sample city" data-fade>
-      {cities.map((c, i) => <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-city={c.id}>{c.name}</button>)}
-    </div>
-
-    <div class="layout">
-      <div class="stage" data-stage>
-        <canvas data-twin-canvas aria-hidden="true"></canvas>
-        <div class="pins" data-pins aria-label="Use cases in this neighborhood"></div>
-        <div class="filters" role="group" aria-label="Show" data-fade>
-          <button type="button" aria-pressed="true" data-filter="">All</button>
-          <button type="button" aria-pressed="false" data-filter="documented">Documented here</button>
-          {zones.map((z) => <button type="button" aria-pressed="false" data-filter={`zone:${z}`}>{ZONE_LABEL[z]}</button>)}
-        </div>
-        <button type="button" class="homebtn" data-home hidden>Back to the city</button>
-        <p class="where" data-where></p>
-        <p class="status" data-status aria-live="polite">Loading the neighborhood</p>
-        <p class="credit">Map data © OpenStreetMap contributors, © OpenMapTiles. Technology scenes are illustrative.</p>
-      </div>
-
-      <aside class="panel" data-panel aria-live="polite">
-        <div class="intro" data-panel-intro>
-          <h2 class="h3" data-city-title></h2>
-          <p class="small muted" data-city-sub></p>
-          <ol class="uclist" data-uclist></ol>
-        </div>
-
-        {s.types.map((t) => (
-          <article class="uc" data-uc={t.id} hidden>
-            <p class="badge illus">Illustrative scene</p>
-            <div class="dhead">
-              <h2 class="h3">{t.name}</h2>
-              <SaveButton kind="type" id={t.id} title={t.name} href={`${sectorHref(s.slug, 'city')}#${t.id}`} sector={s.id} />
-            </div>
-            <dl class="facts">{FIELDS.filter(([k]) => t[k]).map(([k, label]) => <div><dt>{label}</dt><dd>{t[k] as string}</dd></div>)}</dl>
-            {riskCount(t.id) > 0 && <p class="risklink"><a href={`${sectorHref(s.slug, 'risks')}?tech=${encodeURIComponent(t.id)}`}>{riskCount(t.id)} risks for this technology</a></p>}
-            <Sources ids={t.sources} sector={s} unconfirmed={t.unconfirmed} />
-          </article>
-        ))}
-
-        {points.map((p) => (
-          <article class="uc" data-uc={p.id} hidden>
-            <p class="badge doc">Documented case</p>
-            <h2 class="h3">{p.caseTitle || p.place}</h2>
-            <p class="small muted">{p.place}{p.approx ? ', approximate location' : ''}</p>
-            <p>{p.what}</p>
-            {p.response && <p class="small"><strong>Response:</strong> {p.response}</p>}
-            <div class="srcs">
-              {p.sources.length ? <span class="lbl">Sources:</span> : <span class="chip pending">Source pending</span>}
-              {p.sources.map((x) => <a href={x.url} target="_blank" rel="noopener">{x.publisher}{x.published ? `, ${fmtDate(x.published)}` : ''}</a>)}
-              <span class="asof">As of {fmtDate(p.asOf)}</span>
-            </div>
-            <p class="risklink"><a href={href(`/map/?place=${encodeURIComponent(p.id)}`)}>Open on the global map</a></p>
-          </article>
-        ))}
-
-        <div class="ucnav" data-ucnav hidden>
-          <button type="button" class="btn secondary small" data-prev>Previous</button>
-          <button type="button" class="btn secondary small" data-next>Next</button>
-        </div>
-      </aside>
-    </div>
-  </div>
-  <script type="application/json" data-twin-data set:html={JSON.stringify(payload)} />
-  <StepNav sector={s} step="city" />
-</Base>
-
-<script>
-  import { mountTwinPage } from '../../../scripts/twin-page';
-  let cleanup: (() => void) | undefined;
-  document.addEventListener('astro:page-load', () => {
-    cleanup?.();
-    const root = document.querySelector<HTMLElement>('[data-twin-page]');
-    cleanup = root ? mountTwinPage(root) : undefined;
-  });
-  document.addEventListener('astro:before-swap', () => { cleanup?.(); cleanup = undefined; });
-</script>
-
-<style>
-  .twinpage { padding-top: var(--sp-4); }
-  .citybar { display: flex; gap: 6px; overflow-x: auto; padding: 4px; background: var(--c-surface-alt); border-radius: var(--radius-pill); width: fit-content; max-width: 100%; margin-bottom: var(--sp-3); }
-  .citybar button, .filters button { flex: none; font: 600 var(--fs-sm) var(--font-sans); color: var(--c-ink); background: transparent; border: 0; border-radius: var(--radius-pill); padding: 0.45rem 0.95rem; min-height: 38px; cursor: pointer; transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
-  .citybar button[aria-pressed='true'], .filters button[aria-pressed='true'] { background: var(--c-selected); color: #fff; }
-  .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem); gap: var(--sp-4); align-items: start; }
-  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
-  .stage { position: relative; height: min(74dvh, 760px); min-height: 460px; border-radius: var(--radius-md); overflow: hidden; background: #dfe8f2; border: var(--border-overlay); }
-  canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-  .pins { position: absolute; inset: 0; pointer-events: none; }
-  .pins :global(.pin) { position: absolute; left: 0; top: 0; pointer-events: auto; transform: translate(-50%, -100%); display: inline-flex; align-items: center; gap: 0; font: 600 var(--fs-xs) var(--font-sans); color: var(--c-ink); background: rgb(255 255 255 / 0.95); border: var(--border-overlay); border-radius: var(--radius-pill); padding: 3px; min-height: 26px; min-width: 26px; cursor: pointer; box-shadow: 0 2px 8px rgb(0 29 74 / 0.18); white-space: nowrap; transition: opacity var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease); }
-  .pins :global(.pin .dot) { width: 18px; height: 18px; border-radius: 50%; background: var(--c-selected); border: 2px solid #fff; flex: none; }
-  .pins :global(.pin.doc .dot) { background: var(--c-gold); border-color: var(--c-heritage); border-radius: 4px; }
-  .pins :global(.pin .lab) { max-width: 0; overflow: hidden; transition: max-width var(--dur-med) var(--ease-out); }
-  .pins :global(.pin:hover .lab), .pins :global(.pin:focus-visible .lab), .pins :global(.pin.on .lab), .pins :global(.pin.lit .lab) { max-width: 16rem; padding: 0 0.5rem 0 0.4rem; }
-  .pins :global(.pin:hover), .pins :global(.pin:focus-visible), .pins :global(.pin.on) { z-index: 2; }
-  .pins :global(.pin.on) { background: var(--c-selected); color: #fff; }
-  .pins :global(.pin.dim) { opacity: 0.35; }
-  .pins :global(.pin[hidden]) { display: none; }
-  .filters { position: absolute; left: 0.75rem; top: 0.75rem; display: flex; gap: 4px; padding: 4px; background: rgb(255 255 255 / 0.95); border: var(--border-overlay); border-radius: var(--radius-pill); box-shadow: var(--shadow-panel); max-width: calc(100% - 1.5rem); overflow-x: auto; }
-  .filters button { font-size: var(--fs-xs); min-height: 32px; padding: 0.3rem 0.75rem; }
-  .homebtn { position: absolute; right: 0.75rem; top: 0.75rem; font: 600 var(--fs-xs) var(--font-sans); color: #fff; background: var(--c-heritage); border: 0; border-radius: var(--radius-pill); padding: 0 0.9rem; min-height: 36px; cursor: pointer; }
-  .homebtn[hidden] { display: none; }
-  .where { position: absolute; left: 0.75rem; bottom: 0.6rem; margin: 0; font: 700 var(--fs-lg) var(--font-serif); color: var(--c-ink); text-shadow: 0 1px 0 rgb(255 255 255 / 0.8); }
-  .status { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; font-size: var(--fs-sm); background: #fff; border: var(--border-overlay); border-radius: var(--radius-pill); padding: 0.4rem 0.9rem; }
-  .status[hidden] { display: none; }
-  .credit { position: absolute; right: 0.6rem; bottom: 0.5rem; margin: 0; font-size: 0.7rem; color: var(--c-muted); background: rgb(255 255 255 / 0.85); border-radius: 4px; padding: 0.1rem 0.4rem; }
-  .panel { background: #fff; border: var(--border); border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-5); max-height: min(74dvh, 760px); overflow: auto; }
-  .panel .h3 { font-size: var(--fs-xl); margin: 0 0 var(--sp-2); }
-  .uclist { list-style: none; margin: var(--sp-3) 0 0; padding: 0; display: grid; gap: 4px; }
-  .uclist :global(button) { width: 100%; text-align: left; display: flex; gap: 0.5rem; align-items: center; font: 600 var(--fs-sm) var(--font-sans); color: var(--c-ink); background: var(--c-surface-alt); border: 0; border-radius: calc(var(--radius-md) - 4px); padding: 0.5rem 0.7rem; min-height: 40px; cursor: pointer; }
-  .uclist :global(button:hover) { background: #e3ecf8; }
-  .uclist :global(.t) { margin-left: auto; font-size: 0.7rem; font-weight: 700; color: var(--c-muted); }
-  .uclist :global(.k) { width: 12px; height: 12px; border-radius: 50%; background: var(--c-selected); flex: none; }
-  .uclist :global(.k.doc) { background: var(--c-gold); border-radius: 3px; }
-  .badge { display: inline-block; font-size: var(--fs-xs); font-weight: 700; border-radius: var(--radius-pill); padding: 0.15rem 0.6rem; margin: 0 0 var(--sp-2); }
-  .badge.illus { background: #e8f1fb; color: var(--c-heritage); }
-  .badge.doc { background: var(--c-gold-tint); color: #4d3a00; }
-  .dhead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--sp-2); flex-wrap: wrap; }
-  .risklink { font-weight: 600; margin: var(--sp-3) 0 0; }
-  .srcs { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; font-size: var(--fs-xs); color: var(--c-muted); margin-top: var(--sp-3); }
-  .srcs .lbl { font-weight: 600; }
-  .srcs .asof { margin-left: auto; }
-  .ucnav { display: flex; justify-content: space-between; gap: var(--sp-2); margin-top: var(--sp-4); border-top: var(--border); padding-top: var(--sp-3); }
-  .ucnav[hidden] { display: none; }
-  .uc[hidden], .intro[hidden] { display: none; }
-  .uc.enter { animation: panel-in var(--dur-panel) var(--ease-out) both; }
-</style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>Moved to the Overview</title>
+    <script is:inline define:vars={{ to }}>location.replace(to + location.hash);</script>
+  </head>
+  <body>
+    <main><h1>This page moved</h1><p><a href={to}>Open {s.name} in the city</a>.</p></main>
+  </body>
+</html>

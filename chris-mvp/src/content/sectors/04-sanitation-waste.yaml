@@ -52,7 +52,17 @@ types:
     sources: []
 risks: []
 regulations:
-  rules: []
+  rules:
+    - id: g-gr04-eu-machinery
+      name: EU Machinery Regulation 2023/1230
+      level: international
+      level_label: European Union
+      status: pending
+      covers: Replaces the Machinery Directive and is written to cover new technologies such as autonomous mobile machinery, including robots like autonomous sweepers and refuse machines. Applies from January 20, 2027.
+      falls_short: A product-safety rule for manufacturers; it does not say where or how cities may let such machines operate.
+      sources:
+        - s-gr04-eu-machinery-1
+      review: pending
   gaps: []
 case_studies:
   - id: c-g04-helsinki-zenrobotics
@@ -277,6 +287,10 @@ sources:
     publisher: Recycling Today
     title: Stadler, Remeo and ZenRobotics sorting plant in Finland
     url: https://www.recyclingtoday.com/news/finland-recycling-stadler-remeo-zenrobotics-sorting
+  - id: s-gr04-eu-machinery-1
+    publisher: European Agency for Safety and Health at Work
+    title: Regulation (EU) 2023/1230 on machinery
+    url: https://osha.europa.eu/en/legislation/directive/regulation-20231230eu-machinery
 todos:
   - Overview summary missing.
   - City table (places) cites a Gemini prompt in the doc. Replace with original articles before showing in strict mode.

@@ -1,0 +1,225 @@
+{
+ "id": "parks",
+ "number": "08",
+ "types": {
+  "layout": "landscape",
+  "ground": [
+   36,
+   28
+  ],
+  "zones": [
+   {
+    "id": "sports-fields",
+    "name": "Sports fields",
+    "setting": "field",
+    "area": {
+     "x": -12,
+     "z": 8,
+     "w": 9,
+     "d": 7
+    }
+   },
+   {
+    "id": "lawns",
+    "name": "Lawns & sports fields",
+    "setting": "park",
+    "area": {
+     "x": -3.5,
+     "z": 5,
+     "w": 6,
+     "d": 5
+    }
+   },
+   {
+    "id": "golf",
+    "name": "Public golf courses",
+    "setting": "golf",
+    "area": {
+     "x": 12,
+     "z": 7.5,
+     "w": 10,
+     "d": 7
+    }
+   },
+   {
+    "id": "canopy",
+    "name": "Tree canopy",
+    "setting": "forest",
+    "area": {
+     "x": -11,
+     "z": -9,
+     "w": 11,
+     "d": 8
+    }
+   },
+   {
+    "id": "plazas",
+    "name": "Plazas, paths & squares",
+    "setting": "plaza",
+    "area": {
+     "x": 0,
+     "z": -1.5,
+     "w": 7,
+     "d": 6,
+     "shape": "ellipse"
+    }
+   },
+   {
+    "id": "patrol",
+    "name": "Paths, parking lots, plazas",
+    "setting": "parking",
+    "area": {
+     "x": 2.5,
+     "z": 9.5,
+     "w": 6,
+     "d": 4
+    }
+   },
+   {
+    "id": "visitor",
+    "name": "Visitor centers & walkways",
+    "setting": "visitor-center",
+    "area": {
+     "x": -1,
+     "z": -9,
+     "w": 7,
+     "d": 5
+    }
+   },
+   {
+    "id": "beaches",
+    "name": "Beaches & shorelines",
+    "setting": "beach",
+    "area": {
+     "x": 11,
+     "z": -2,
+     "w": 10,
+     "d": 2.6
+    }
+   },
+   {
+    "id": "water",
+    "name": "Lakes, rivers, harbors",
+    "setting": "water",
+    "area": {
+     "x": 11.5,
+     "z": -8,
+     "w": 11,
+     "d": 9,
+     "shape": "ellipse"
+    }
+   },
+   {
+    "id": "air-beach",
+    "name": "Airspace over beaches & water",
+    "setting": "air",
+    "area": {
+     "x": 8,
+     "z": -5,
+     "w": 4,
+     "d": 3
+    }
+   },
+   {
+    "id": "air-parks",
+    "name": "Airspace over parks",
+    "setting": "air",
+    "area": {
+     "x": -3,
+     "z": 1.5,
+     "w": 4,
+     "d": 3
+    }
+   },
+   {
+    "id": "trails",
+    "name": "Trails & sidewalks through parks",
+    "setting": "trail",
+    "area": {
+     "x": -12,
+     "z": -1,
+     "w": 9,
+     "d": 5
+    }
+   },
+   {
+    "id": "back-end",
+    "name": "Whole park (back end)",
+    "setting": "network",
+    "area": {
+     "x": 4.5,
+     "z": 4,
+     "w": 4,
+     "d": 3.5
+    }
+   }
+  ],
+  "items": [
+   {
+    "id": "line-painting",
+    "zoneId": "sports-fields",
+    "model": "line-painter"
+   },
+   {
+    "id": "autonomous-mowers",
+    "zoneId": "lawns",
+    "model": "mower"
+   },
+   {
+    "id": "rough-mowers",
+    "zoneId": "golf",
+    "model": "mower"
+   },
+   {
+    "id": "tree-drones",
+    "zoneId": "canopy",
+    "model": "drone"
+   },
+   {
+    "id": "cleaning-robots",
+    "zoneId": "plazas",
+    "model": "cleaning-robot"
+   },
+   {
+    "id": "patrol-robots",
+    "zoneId": "patrol",
+    "model": "patrol-robot"
+   },
+   {
+    "id": "visitor-humanoids",
+    "zoneId": "visitor",
+    "model": "humanoid"
+   },
+   {
+    "id": "sand-sifting",
+    "zoneId": "beaches",
+    "model": "sand-rover"
+   },
+   {
+    "id": "waterway-boats",
+    "zoneId": "water",
+    "model": "boat"
+   },
+   {
+    "id": "lifesaving-drones",
+    "zoneId": "air-beach",
+    "model": "drone"
+   },
+   {
+    "id": "monitoring-drones",
+    "zoneId": "air-parks",
+    "model": "drone"
+   },
+   {
+    "id": "mobility-robots",
+    "zoneId": "trails",
+    "model": "quadruped"
+   },
+   {
+    "id": "sensor-ops",
+    "zoneId": "back-end",
+    "model": "sensor-pole"
+   }
+  ]
+ }
+}

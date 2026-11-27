@@ -1,0 +1,14 @@
+/* Vyomesh's 3D world, in EACP tokens (src/styles/tokens.css). */
+.world-wrap { position: relative; height: 560px; border-radius: var(--radius-md); overflow: hidden; border: var(--border); background: linear-gradient(#f4f6fa, #e6ebf3); }
+@media (max-width: 700px) { .world-wrap { height: 420px; } }
+.world-hint { position: absolute; left: 12px; bottom: 10px; margin: 0; font-size: var(--fs-xs); color: var(--c-muted); background: rgb(255 255 255 / 0.88); padding: 4px 10px; border-radius: var(--radius-sm); pointer-events: none; }
+.world-hint.static { left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); }
+.world-reset { position: absolute; right: 12px; top: 12px; border: var(--border); background: #fff; color: var(--c-ink); border-radius: var(--radius-pill); padding: 0.35rem 0.9rem; font: 600 var(--fs-sm) var(--font-sans); cursor: pointer; }
+.world-reset:hover { border-color: var(--c-selected); color: var(--c-selected); }
+.zone-tag { width: max-content; max-width: 140px; text-align: center; line-height: 1.25; font: 600 11px/1.25 var(--font-sans); color: var(--c-heritage); background: rgb(255 255 255 / 0.94); border: 1px solid var(--c-line); padding: 3px 8px; border-radius: 6px; user-select: none; cursor: pointer; box-shadow: 0 1px 3px rgb(0 45 114 / 0.12); transition: background-color 0.12s, color 0.12s, border-color 0.12s; }
+.zone-tag:hover { border-color: var(--c-selected); }
+.zone-tag:focus-visible { outline: 2px solid var(--c-selected); outline-offset: 2px; }
+.zone-tag.active, .zone-tag.active:hover { background: var(--c-selected); color: #fff; border-color: var(--c-selected); border-style: solid; }
+.zone-tag.dark { color: #fff; background: rgb(0 45 114 / 0.9); border-color: transparent; }
+.zone-tag.air { background: rgb(232 241 251 / 0.95); border-style: dashed; border-color: var(--c-spirit); }
+.item-tip { white-space: nowrap; font: 600 12px var(--font-sans); color: #fff; background: var(--c-heritage); padding: 5px 9px; border-radius: 7px; pointer-events: none; transform: translateY(-6px); }

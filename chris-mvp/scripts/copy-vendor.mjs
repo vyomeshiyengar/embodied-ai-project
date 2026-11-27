@@ -20,11 +20,3 @@ for (const f of geo.features) { f.geometry.coordinates = round(f.geometry.coordi
 fs.writeFileSync(path.join(out, 'countries-110m.geojson'), JSON.stringify(geo));
 console.log('vendor: maplibre worker + offline world outline written to public/vendor/');
 
-// World city list for the Share and MyEACP place search: GeoNames data (CC BY 4.0) via the
-// all-the-cities package (MIT). Cities of 15,000+ people, as [name, country, US state, lat, lng, population].
-const cities = require('all-the-cities')
-  .filter((c) => c.population >= 15000)
-  .sort((a, b) => b.population - a.population)
-  .map((c) => [c.name, c.country, c.country === 'US' ? c.adminCode : '', Math.round(c.loc.coordinates[1] * 1000) / 1000, Math.round(c.loc.coordinates[0] * 1000) / 1000, c.population]);
-fs.writeFileSync(path.join(out, 'cities.json'), JSON.stringify(cities));
-console.log(`vendor: ${cities.length} cities written to public/vendor/cities.json`);

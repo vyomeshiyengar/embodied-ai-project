@@ -467,6 +467,26 @@ regulations:
       covers: Injury claims against cities and vendors
       falls_short: Municipal immunity caps; unclear who pays when a leased robot injures a visitor
       sources: []
+    - id: g-gr08-eu-machinery
+      name: EU Machinery Regulation 2023/1230
+      level: international
+      level_label: European Union
+      status: pending
+      covers: Covers autonomous mobile machinery such as robotic mowers and cleaning robots used in parks. Applies from January 20, 2027.
+      falls_short: Sets product safety for manufacturers; park rules on where machines may run stay with local authorities.
+      sources:
+        - s-gr08-eu-machinery-1
+      review: pending
+    - id: g-gr08-eu-u-space
+      name: EU U-space Regulation 2021/664
+      level: international
+      level_label: European Union
+      status: in_force
+      covers: Lets countries designate airspace where drone traffic is managed by certified providers, relevant to monitoring, lifesaving and inspection drones over parks and beaches. In force since January 26, 2023.
+      falls_short: Depends on each country designating U-space airspace.
+      sources:
+        - s-gr08-eu-u-space-1
+      review: pending
   gaps:
     - "Rules for the city's own drones over parks: NPS restricts drones in national parks, but most city parks have no equivalent for city-operated or DFR drones."
     - "Pre-deployment wildlife testing: there's no requirement to test mowers, drones or ground robots against wildlife before use."
@@ -723,6 +743,14 @@ sources:
     title: NParks and SNDGG trial SPOT robot for safe distancing operations at Bishan-Ang Mo Kio Park
     url: https://www.tech.gov.sg/media/media-releases/spot-robot-trial-for-safe-distancing-operations
     published: 2020-05-08
+  - id: s-gr08-eu-machinery-1
+    publisher: European Agency for Safety and Health at Work
+    title: Regulation (EU) 2023/1230 on machinery
+    url: https://osha.europa.eu/en/legislation/directive/regulation-20231230eu-machinery
+  - id: s-gr08-eu-u-space-1
+    publisher: EUR-Lex
+    title: Commission Implementing Regulation (EU) 2021/664
+    url: https://eur-lex.europa.eu/eli/reg/2021/664/oj/eng
 todos:
   - Place "US national parks" has no map location.
   - 'Needs source: type "Line-painting robots"'

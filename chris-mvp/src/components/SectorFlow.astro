@@ -1,5 +1,5 @@
 ---
-/** Top of every sector page: where you are, the six-step bar, and one small "as of" popover. */
+/** Top of every sector page: where you are, the step bar, and one small "as of" popover. */
 import type { Sector } from '../lib/content';
 import { sectors, unsourcedCount, STRICT, STATUS_LABEL } from '../lib/content';
 import { stepsFor, type StepKey } from '../lib/flow';
@@ -9,8 +9,8 @@ const { sector: s, step, title } = Astro.props;
 const steps = stepsFor(s);
 const idx = steps.findIndex((x) => x.key === step);
 const pending = STRICT ? 0 : unsourcedCount(s);
-// Switching sector keeps you on the same step (the 3D story exists for one sector only).
-const keep = step === 'overview' || step === 'map' ? '' : step;
+// Switching sector keeps you on the same step.
+const keep = step === 'overview' ? '' : step;
 ---
 <div class="flow-head">
   <div class="container">

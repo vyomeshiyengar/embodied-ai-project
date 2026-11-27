@@ -1,0 +1,136 @@
+{
+ "id": "autonomous-mobility",
+ "number": "01",
+ "types": {
+  "layout": "landscape",
+  "ground": [
+   36,
+   28
+  ],
+  "theme": "city",
+  "roads": [
+   {
+    "from": [
+     -18,
+     2.8
+    ],
+    "to": [
+     18,
+     2.8
+    ],
+    "width": 2.2
+   },
+   {
+    "from": [
+     -2,
+     -8
+    ],
+    "to": [
+     -2,
+     14
+    ],
+    "width": 2.2
+   }
+  ],
+  "zones": [
+   {
+    "id": "city-streets",
+    "name": "City streets & curb pickup",
+    "setting": "street",
+    "area": {
+     "x": -10,
+     "z": -2,
+     "w": 14,
+     "d": 4
+    }
+   },
+   {
+    "id": "airport",
+    "name": "Defined urban zones & airports",
+    "setting": "airport",
+    "area": {
+     "x": 9,
+     "z": -2.5,
+     "w": 14,
+     "d": 6
+    }
+   },
+   {
+    "id": "highway",
+    "name": "Interstates & transfer yards",
+    "setting": "highway",
+    "area": {
+     "x": 0,
+     "z": -10.5,
+     "w": 36,
+     "d": 5
+    }
+   },
+   {
+    "id": "transit",
+    "name": "Downtown transit corridors",
+    "setting": "transit-corridor",
+    "area": {
+     "x": -10,
+     "z": 8,
+     "w": 14,
+     "d": 6
+    }
+   },
+   {
+    "id": "residential",
+    "name": "Residential & commercial streets",
+    "setting": "residential-street",
+    "area": {
+     "x": 4.5,
+     "z": 8,
+     "w": 10,
+     "d": 6
+    }
+   },
+   {
+    "id": "remote-ops",
+    "name": "Remote operations centers",
+    "setting": "office",
+    "area": {
+     "x": 14,
+     "z": 8,
+     "w": 6,
+     "d": 6
+    }
+   }
+  ],
+  "items": [
+   {
+    "id": "robotaxis",
+    "zoneId": "city-streets",
+    "model": "robotaxi"
+   },
+   {
+    "id": "purpose-built",
+    "zoneId": "airport",
+    "model": "pod"
+   },
+   {
+    "id": "driverless-trucks",
+    "zoneId": "highway",
+    "model": "truck"
+   },
+   {
+    "id": "transit-shuttles",
+    "zoneId": "transit",
+    "model": "shuttle"
+   },
+   {
+    "id": "low-speed-delivery",
+    "zoneId": "residential",
+    "model": "delivery-van"
+   },
+   {
+    "id": "remote-operations",
+    "zoneId": "remote-ops",
+    "model": "control-desk"
+   }
+  ]
+ }
+}

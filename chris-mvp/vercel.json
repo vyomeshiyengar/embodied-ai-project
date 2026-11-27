@@ -53,12 +53,12 @@
   "redirects": [
     {
       "source": "/sectors/:slug/cases",
-      "destination": "/map/?sector=:slug",
+      "destination": "/sectors/:slug/map/",
       "permanent": false
     },
     {
       "source": "/sectors/:slug/cases/",
-      "destination": "/map/?sector=:slug",
+      "destination": "/sectors/:slug/map/",
       "permanent": false
     },
     {

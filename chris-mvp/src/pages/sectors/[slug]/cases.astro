@@ -1,12 +1,12 @@
 ---
-/** Case studies now live on the global map. This page only redirects there (vercel.json also redirects). */
+/** Case studies now live on the sector's map step. This page only redirects there (vercel.json also redirects). */
 import { sectors, type Sector } from '../../../lib/content';
-import { href } from '../../../lib/url';
+import { sectorHref } from '../../../lib/url';
 export function getStaticPaths() {
   return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 const { s } = Astro.props as { s: Sector };
-const to = href(`/map/?sector=${s.id}`);
+const to = sectorHref(s.slug, 'map');
 ---
 <!doctype html>
 <html lang="en">
