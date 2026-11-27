@@ -36,6 +36,8 @@ test('overview: sectors without a hand-made scene get the tile world', async ({ 
   await page.locator('[data-world]').scrollIntoViewIfNeeded();
   await expect(page.locator('[data-world] canvas')).toBeVisible({ timeout: 30_000 });
   await expect(page.locator('[data-world]')).toHaveAttribute('data-selected', 't-robot-dogs-quadrupeds');
+  // Every place gets its numbered label, including the first one.
+  await expect(page.locator('[data-world] .zone-tag').first()).toHaveText(/^1\. /, { timeout: 15_000 });
 });
 
 test('team version: no sign-in, Share, MyEACP or saving anywhere', async ({ page, request }) => {

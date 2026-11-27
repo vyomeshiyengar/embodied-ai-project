@@ -1,6 +1,7 @@
 /** One zone "district" in the diorama: a slab plus scenery that depends on its setting. */
 import { Html, RoundedBox } from '@react-three/drei';
 import type { ZoneSetting } from './schema';
+import { useMounted } from './useMounted';
 
 export const TILE = 5;
 const H = 0.3;
@@ -300,13 +301,14 @@ export default function ZoneTile({
   active?: boolean;
   onClick?: () => void;
 }) {
+  const mounted = useMounted();
   return (
     <group position={position}>
       <RoundedBox args={[TILE, H, TILE]} radius={0.08} position={[0, 0, 0]} receiveShadow>
         <meshStandardMaterial color={TILE_COLOR[setting]} roughness={0.9} />
       </RoundedBox>
       <Scenery setting={setting} />
-      <Html position={[0, H / 2, TILE / 2 + 0.05]} center zIndexRange={[10, 0]}>
+      {mounted && <Html position={[0, H / 2, TILE / 2 + 0.05]} center zIndexRange={[10, 0]}>
         <button
           type="button"
           className={'zone-tag' + (setting === 'network' ? ' dark' : '') + (active ? ' active' : '')}
@@ -317,7 +319,7 @@ export default function ZoneTile({
         >
           {number}. {name}
         </button>
-      </Html>
+      </Html>}
     </group>
   );
 }

@@ -6,6 +6,7 @@
 import { Html } from '@react-three/drei';
 import type { Road, Zone, ZoneArea as Area, ZoneSetting } from './schema';
 import { Anim } from './models';
+import { useMounted } from './useMounted';
 
 const GROUND = '#b9d99c';
 const PATH = '#e3d6b8';
@@ -635,6 +636,8 @@ export default function Landscape({
 export function AreaLabel({ zone, number, active, onClick }: { zone: Zone; number: number; active?: boolean; onClick?: () => void }) {
   const a = zone.area!;
   const air = zone.setting === 'air';
+  const mounted = useMounted();
+  if (!mounted) return null;
   return (
     <Html
       position={
