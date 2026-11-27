@@ -1,13 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import { sectors, STRICT } from '../lib/content';
-import { fmtDate } from '../lib/url';
+import { fmtDate, href } from '../lib/url';
 import { SITE_NAME } from '../lib/site';
 const tabs = [
   { id: 'who', label: 'Who made it' },
   { id: 'facts', label: 'How facts are sourced' },
   { id: 'ai', label: 'Use of AI' },
-  { id: 'demo', label: 'Demo sign-in and sharing' },
   { id: 'open', label: 'Open source and access' },
 ];
 ---
@@ -28,18 +27,14 @@ const tabs = [
           <li>Map locations marked "approximate" are city centers, or a state or national capital for statewide and national entries.</li>
           <li>Likelihood and severity are the research team's judgment for a city with active deployments over the next few years, not statistical estimates.</li>
         </ul>
-        <p>Cases tagged "Pending team review" were found through web research by Claude Code to cover more places outside the US. Each has its sources; the sector owners have not checked them yet.</p>
+        <p>Cases, rules and toolkit tools tagged "Pending team review" were found through web research by Claude Code to cover more places outside the US and what cities already do. Each has its sources; the team has not checked them yet.</p>
         <p class="small muted">This build: {STRICT ? 'strict mode (unsourced items hidden)' : 'draft mode (unsourced items shown and labeled)'}. Research snapshots: {sectors.map((s) => `${s.id} ${fmtDate(s.as_of)}`).join('; ')}.</p>
       </section>
       <section role="tabpanel" id="panel-ai" aria-labelledby="tab-ai" hidden>
-        <p>Following our course's AI policy, we cite AI use. Claude (Anthropic) helped draft parts of the sector research, which the team checked and linked to sources. Claude Code helped write this site's code, convert the research documents into structured data, and build the illustrative 3D scenes. The 3D scenes are schematic, not engineering models.</p>
-      </section>
-      <section role="tabpanel" id="panel-demo" aria-labelledby="tab-demo" hidden>
-        <p>Sign-in is optional and uses one shared demo account (demo / demo). It is not secure and collects no personal information. It unlocks Share, saving and MyEACP.</p>
-        <p>Your profile, posts, saved items and city lists are saved in your browser only. Other visitors see a post only if you send them its share link. Posts say which city and department added them, never a person's name, and are always labeled "unverified" and kept apart from the sourced research.</p>
+        <p>Following our course's AI policy, we cite AI use. Claude (Anthropic) helped draft parts of the sector research, which the team checked and linked to sources. Claude Code helped write this site's code, convert the research documents into structured data, and adapt the illustrative 3D world. The 3D scenes are schematic, not engineering models.</p>
       </section>
       <section role="tabpanel" id="panel-open" aria-labelledby="tab-open" hidden>
-        <p>The code is released under the Apache License 2.0. Map data from OpenStreetMap contributors, served by OpenFreeMap; offline outlines from Natural Earth. City search uses GeoNames data (CC BY 4.0). The 3D city twins use OpenStreetMap data (ODbL) via OpenMapTiles; the idea for the model catalog comes from Vyomesh Iyengar's MVP. Maps drawn with MapLibre GL. Fonts are Source Serif 4 and Work Sans (SIL Open Font License).</p>
+        <p>The code is released under the Apache License 2.0. Map data from OpenStreetMap contributors, served by OpenFreeMap; offline outlines from Natural Earth. The low-poly 3D world on each Overview is Vyomesh Iyengar's design from his MVP (vyomesh-mvp in this repository), adapted to this site. Maps drawn with MapLibre GL. Fonts are Source Serif 4 and Work Sans (SIL Open Font License).</p>
         <p>We aim for WCAG 2.2 AA. Every diagram works from the keyboard, the 3D story has a text version, and the "Reduce motion" switch in the header turns off animation and page slides.</p>
       </section>
     </div>

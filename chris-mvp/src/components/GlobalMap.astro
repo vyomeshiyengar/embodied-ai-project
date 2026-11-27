@@ -1,29 +1,32 @@
 ---
 /**
- * The global map: every use case from the research, plus demo "shared by a city" entries.
+ * The global map: every use case from the research.
  * Everything starts from the map: hover a pin for a preview, click it for the full story.
  * Logic in src/scripts/global-map.ts. Basemap: OpenFreeMap (OpenStreetMap data), with an offline
  * Natural Earth fallback if tiles can't load.
  */
 import { sectors } from '../lib/content';
 import { mapPoints } from '../lib/map-points';
-import { catalog } from '../lib/catalog';
-import { href } from '../lib/url';
-import '../styles/posts.css';
+interface Props {
+  /** Sector id to show (locks the map to it). */
+  sector?: string;
+  /** Inside a sector's "On the map" step: no title or sector chips, a fixed height, no URL changes. */
+  embedded?: boolean;
+}
+const { sector, embedded = false } = Astro.props;
 const points = mapPoints();
 const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
 ---
-<div class="gmap" data-gmap>
+<div class:list={['gmap', { embedded }]} data-gmap data-sector={sector} data-embedded={embedded ? '' : undefined}>
   <div class="mapbox" data-map role="region" aria-label="Map of places using embodied AI. Use the list of places below the filters to move by keyboard."></div>
 
   <div class="topbar">
-    <h1>Global map</h1>
-    <div class="chips" role="group" aria-label="Show sector" data-fade>
+    {!embedded && <h1>Global map</h1>}
+    <div class="chips" role="group" aria-label="Show sector" data-fade hidden={embedded}>
       <button type="button" aria-pressed="true" data-sector="">All sectors</button>
       {withPins.map((s) => <button type="button" aria-pressed="false" data-sector={s.id} data-slug={s.slug}>{s.id} {s.short_name}</button>)}
     </div>
-    <div class="chips small" role="group" aria-label="More filters">
-      <button type="button" aria-pressed="true" data-toggle="shared">Shared by cities</button>
+    <div class="chips small">
       <span class="count" aria-live="polite" data-count></span>
     </div>
     <details class="sr-places">
@@ -36,12 +39,7 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
     <li><span class="sym research"></span> Case from the research</li>
     <li><span class="sym swan"></span> Black swan case</li>
     <li><span class="sym approx"></span> Approximate location</li>
-    <li><span class="sym shared"></span> Added by a city, unverified</li>
   </ul>
-
-  <div class="sharebar">
-    <a class="share-btn" href={href('/share/')} data-share-link>Share a use case</a>
-  </div>
 
   <aside class="drawer" data-drawer hidden aria-labelledby="drawer-h" tabindex="-1">
     <button type="button" class="close" data-drawer-close aria-label="Close details">Close</button>
@@ -51,7 +49,6 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   <div class="hovercard" data-hover hidden></div>
   <p class="status" data-map-status hidden></p>
   <script type="application/json" data-points set:html={JSON.stringify(points)} />
-  <script type="application/json" data-catalog set:html={JSON.stringify(catalog())} />
 </div>
 
 <script>
@@ -67,6 +64,7 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
 
 <style>
   .gmap { position: relative; height: calc(100vh - var(--header-h)); height: calc(100dvh - var(--header-h)); min-height: 520px; overflow: hidden; background: #cfe3f5; }
+  .gmap.embedded { height: 70vh; height: 70dvh; min-height: 460px; border-radius: var(--radius-md); }
   .mapbox { position: absolute; inset: 0; }
   .topbar { position: absolute; z-index: 5; left: 1rem; top: 1rem; right: 1rem; max-width: 62rem; display: grid; gap: var(--sp-2); pointer-events: none; }
   .topbar > * { pointer-events: auto; }
@@ -75,7 +73,6 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   .chips button { flex: none; font: 600 var(--fs-sm) var(--font-sans); color: var(--c-ink); background: transparent; border: 0; border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; min-height: 38px; cursor: pointer; transition: background-color var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out); }
   .chips button[aria-pressed='true'] { background: var(--c-selected); color: #fff; }
   .chips.small button { font-size: var(--fs-xs); min-height: 32px; }
-  .chips button[data-toggle='shared'][aria-pressed='true'] { background: var(--c-shared); }
   .count { align-self: center; font-size: var(--fs-xs); color: var(--c-muted); padding: 0 0.6rem; white-space: nowrap; }
   .sr-places { border: var(--border-overlay); width: fit-content; background: #fff; border-radius: var(--radius-sm); box-shadow: var(--shadow-panel); font-size: var(--fs-xs); }
   .sr-places summary { cursor: pointer; padding: 0.35rem 0.75rem; color: var(--c-muted); }
@@ -88,15 +85,11 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   .sym.research { border-radius: 50%; background: var(--c-medium); }
   .sym.swan { background: var(--c-heritage); transform: rotate(45deg) scale(0.8); outline: 2px solid var(--c-gold); outline-offset: -2px; }
   .sym.approx { border-radius: 50%; background: #fff; border: 2px dashed var(--c-medium); }
-  .sym.shared { background: #fff; border: 3px solid var(--c-shared); border-radius: 2px; }
-  .sharebar { position: absolute; z-index: 5; right: 1rem; top: 1rem; }
-  .share-btn { display: inline-flex; align-items: center; text-decoration: none; font: 700 var(--fs-sm) var(--font-sans); border-radius: var(--radius-pill); padding: 0 1.1rem; min-height: 44px; cursor: pointer; box-shadow: var(--shadow-panel); }
-  .share-btn { background: var(--c-shared); color: #fff; border: 0; }
-  .share-btn:hover { background: #5c3b00; color: #fff; }
   .drawer :global(.post) { border: 0; padding: 0; }
   .drawer :global(.save) { margin-top: var(--sp-3); }
   .drawer { border: var(--border-overlay); position: absolute; z-index: 8; right: 1rem; top: 4.5rem; bottom: 2rem; width: min(26rem, calc(100% - 2rem)); overflow: auto; background: #fff; border-radius: var(--radius-md); box-shadow: 0 16px 48px rgb(0 29 74 / 0.25); padding: var(--sp-5); animation: drawer-in var(--dur-panel) var(--ease-out) both; }
   .drawer[hidden] { display: none; }
+  .chips[hidden] { display: none; }
   @keyframes drawer-in { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
   .close { float: right; font: 600 var(--fs-xs) var(--font-sans); background: var(--c-surface-alt); border: 0; border-radius: var(--radius-pill); padding: 0.4rem 0.8rem; min-height: 32px; cursor: pointer; }
   .drawer :global(h2) { font-size: var(--fs-xl); margin: 0 0 var(--sp-2); }
@@ -104,7 +97,6 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   .drawer :global(.tag) { font-size: var(--fs-xs); font-weight: 700; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); background: var(--c-surface-alt); color: var(--c-ink); }
   .drawer :global(.tag.swan) { background: var(--c-heritage); color: #fff; }
   .drawer :global(.tag.warn) { background: var(--c-pending-bg); color: var(--c-pending); }
-  .drawer :global(.tag.shared) { background: var(--c-shared-bg); color: var(--c-shared); }
   .drawer :global(dl) { margin: 0 0 var(--sp-3); display: grid; gap: var(--sp-3); font-size: var(--fs-sm); }
   .drawer :global(dt) { font-weight: 700; color: var(--c-ink); }
   .drawer :global(dd) { margin: 2px 0 0; }
@@ -122,7 +114,6 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   .gmap :global(.pin) { width: 22px; height: 22px; padding: 0; border: 3px solid #fff; background: var(--c-medium); border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgb(0 29 74 / 0.4); transition: transform var(--dur-med) var(--ease-out); }
   .gmap :global(.pin.approx) { border: 2.5px dashed var(--c-medium); background: #fff; }
   .gmap :global(.pin.swan) { background: var(--c-heritage); border-color: var(--c-gold); border-radius: 3px; transform: rotate(45deg); }
-  .gmap :global(.pin.shared) { background: #fff; border: 4px solid var(--c-shared); border-radius: 3px; }
   .gmap :global(.pin:hover), .gmap :global(.pin:focus-visible), .gmap :global(.pin.on) { transform: scale(1.35); }
   .gmap :global(.pin.swan:hover), .gmap :global(.pin.swan:focus-visible), .gmap :global(.pin.swan.on) { transform: rotate(45deg) scale(1.35); }
   .gmap :global(.cluster) { min-width: 38px; height: 38px; padding: 0 8px; border-radius: 19px; border: 3px solid #fff; background: var(--c-heritage); color: #fff; font: 700 var(--fs-sm) var(--font-sans); cursor: pointer; box-shadow: 0 2px 8px rgb(0 29 74 / 0.35); }
@@ -130,9 +121,7 @@ const withPins = sectors.filter((s) => points.some((p) => p.sectorId === s.id));
   @media (max-width: 760px) {
     .gmap { height: calc(100dvh - 7.5rem); }
     .legend { display: none; }
-    .sharebar { top: auto; bottom: 2.2rem; right: auto; left: 0.75rem; }
-    .share-btn { font-size: var(--fs-xs); min-height: 40px; }
-    h1 { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+        h1 { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
     .topbar { left: 0.5rem; right: 0.5rem; top: 0.5rem; }
     .drawer { top: auto; left: 0.5rem; right: 0.5rem; bottom: 0.5rem; width: auto; max-height: 70%; }
   }

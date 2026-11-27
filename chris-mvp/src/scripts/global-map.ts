@@ -5,31 +5,26 @@
  */
 import { Marker, LngLatBounds, type GeoJSONSource } from 'maplibre-gl';
 import type { MapPoint } from '../lib/map-points';
-import type { Catalog } from '../lib/catalog';
-import { ws, CHANGE_EVENT, POST_KINDS, type Post } from '../lib/workspace-store';
-import { getSession, requestSignIn } from '../lib/demo-auth';
-import { createMap, reducedMotion as reduced, el, fmtDate as fmt, base } from './map-core';
-import { renderPost, addedBy } from './post-card';
+import { createMap, reducedMotion as reduced, el, fmtDate as fmt } from './map-core';
 
-type Item = { kind: 'research'; p: MapPoint } | { kind: 'shared'; e: Post };
+type Item = { kind: 'research'; p: MapPoint };
 
 export function mountGlobalMap(root: HTMLElement): () => void {
   const points: MapPoint[] = JSON.parse(root.querySelector('[data-points]')!.textContent || '[]');
-  const sectorNames = new Map(points.map((p) => [p.sectorId, p.sector]));
   const q = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
   const drawer = q<HTMLElement>('[data-drawer]');
   const drawerBody = q<HTMLElement>('[data-drawer-body]');
   const hover = q<HTMLElement>('[data-hover]');
-  const catalog: Catalog = JSON.parse(root.querySelector('[data-catalog]')!.textContent || '{"sectors":[]}');
   const status = q<HTMLElement>('[data-map-status]');
   const countEl = q<HTMLElement>('[data-count]');
   const srList = q<HTMLElement>('[data-sr-list]');
 
   // ---- filter state (kept in the URL so step 6 can link here pre-filtered) ----
   const params = new URLSearchParams(location.search);
-  const want = params.get('sector') || '';
+  const embedded = root.hasAttribute('data-embedded');
+  const want = root.dataset.sector || params.get('sector') || '';
   const chip = [...root.querySelectorAll<HTMLButtonElement>('[data-sector]')].find((b) => b.dataset.sector === want || (want && b.dataset.slug === want));
-  const state = { sector: chip?.dataset.sector || '', shared: true };
+  const state = { sector: chip?.dataset.sector || '' };
 
   let items: Item[] = [];
   const byId = new Map<string, Item>();
@@ -55,19 +50,11 @@ export function mountGlobalMap(root: HTMLElement): () => void {
       items.push(it);
       byId.set(p.id, it);
     }
-    if (state.shared) {
-      for (const e of ws.posts()) {
-        if (state.sector && e.sectorId !== state.sector) continue;
-        const it: Item = { kind: 'shared', e };
-        items.push(it);
-        byId.set(e.id, it);
-      }
-    }
   }
   const geo = () => ({
     type: 'FeatureCollection' as const,
     features: items.map((it) => {
-      const [id, lng, lat] = it.kind === 'research' ? [it.p.id, it.p.lng, it.p.lat] : [it.e.id, it.e.lng, it.e.lat];
+      const [id, lng, lat] = [it.p.id, it.p.lng, it.p.lat];
       return { type: 'Feature' as const, properties: { id }, geometry: { type: 'Point' as const, coordinates: [lng, lat] } };
     }),
   });
@@ -80,7 +67,7 @@ export function mountGlobalMap(root: HTMLElement): () => void {
     refresh(true);
   }
 
-  function nameOf(it: Item) { return it.kind === 'research' ? it.p.place : it.e.place; }
+  function nameOf(it: Item) { return it.p.place; }
 
   function syncMarkers() {
     if (!map.getSource('pts')) return;
@@ -105,11 +92,10 @@ export function mountGlobalMap(root: HTMLElement): () => void {
       } else {
         const it = byId.get(String(props.id));
         if (!it) continue;
-        const cls = it.kind === 'shared' ? 'shared' : it.p.blackSwan ? 'swan' : it.p.approx ? 'approx' : 'research';
+        const cls = it.p.blackSwan ? 'swan' : it.p.approx ? 'approx' : 'research';
         node = el('button', `pin ${cls}`);
         node.type = 'button';
-        const sec = it.kind === 'research' ? it.p.sectorShort : sectorNames.get(it.e.sectorId) || '';
-        node.setAttribute('aria-label', `${nameOf(it)}, ${sec}${it.kind === 'shared' ? ', shared by a city, unverified' : ''}`);
+        node.setAttribute('aria-label', `${nameOf(it)}, ${it.p.sectorShort}`);
         node.addEventListener('mouseenter', () => showHover(it, node));
         node.addEventListener('focus', () => showHover(it, node));
         node.addEventListener('mouseleave', hideHover);
@@ -120,6 +106,34 @@ export function mountGlobalMap(root: HTMLElement): () => void {
       markers.set(key, new Marker({ element: node }).setLngLat(coords).addTo(map));
     }
     for (const [k, m] of markers) if (!seen.has(k)) { m.remove(); markers.delete(k); }
+    spread();
+  }
+
+  /** Move markers apart on screen so no two buttons overlap (each keeps a clear tap target).
+   *  A marker that would overlap one already placed moves to the nearest free spot on a spiral around it. */
+  function spread() {
+    const GAP = 4;
+    const placed: { x: number; y: number; w: number; h: number }[] = [];
+    // Free when the two boxes (plus a small gap) don't intersect.
+    const free = (x: number, y: number, w: number, h: number) =>
+      placed.every((q) => Math.abs(q.x - x) >= (q.w + w) / 2 + GAP || Math.abs(q.y - y) >= (q.h + h) / 2 + GAP);
+    for (const [, m] of [...markers].sort(([a], [b]) => a.localeCompare(b))) {
+      const elm = m.getElement();
+      const w = elm.offsetWidth, h = elm.offsetHeight;
+      const p = map.project(m.getLngLat());
+      let x = p.x, y = p.y;
+      const step = Math.max(w, h) * 0.5;
+      search: for (let ring = 1; !free(x, y, w, h) && ring <= 60; ring++) {
+        const steps = 6 * ring;
+        for (let k = 0; k < steps; k++) {
+          const a = (2 * Math.PI * k) / steps;
+          const cx = p.x + Math.cos(a) * ring * step, cy = p.y + Math.sin(a) * ring * step;
+          if (free(cx, cy, w, h)) { x = cx; y = cy; break search; }
+        }
+      }
+      placed.push({ x, y, w, h });
+      m.setOffset([x - p.x, y - p.y]);
+    }
   }
 
   function refresh(fit = false) {
@@ -131,15 +145,15 @@ export function mountGlobalMap(root: HTMLElement): () => void {
     // Keyboard and screen-reader path: the same places as a list.
     srList.replaceChildren(...items.map((it) => {
       const li = el('li');
-      const b = el('button', undefined, `${nameOf(it)}${it.kind === 'shared' ? ' (shared, unverified)' : ''}`);
+      const b = el('button', undefined, nameOf(it));
       b.type = 'button';
-      b.addEventListener('click', () => open(it.kind === 'research' ? it.p.id : it.e.id, true));
+      b.addEventListener('click', () => open(it.p.id, true));
       li.append(b);
       return li;
     }));
     if (fit && items.length && state.sector) {
       const bb = new LngLatBounds();
-      items.forEach((it) => bb.extend(it.kind === 'research' ? [it.p.lng, it.p.lat] : [it.e.lng, it.e.lat]));
+      items.forEach((it) => bb.extend([it.p.lng, it.p.lat]));
       map.fitBounds(bb, { padding: { top: 170, bottom: 60, left: 60, right: 60 }, maxZoom: 6, duration: reduced() ? 0 : 900 });
     } else if (fit && !state.sector) {
       map.easeTo({ center: [-40, 30], zoom: 1.6, duration: reduced() ? 0 : 900 });
@@ -151,11 +165,7 @@ export function mountGlobalMap(root: HTMLElement): () => void {
     const r = node.getBoundingClientRect();
     const rr = root.getBoundingClientRect();
     hover.replaceChildren();
-    if (it.kind === 'research') {
-      hover.append(el('strong', undefined, it.p.place), el('span', 'k', `${it.p.sectorId} ${it.p.sectorShort}${it.p.approx ? ', approximate location' : ''}`), el('p', undefined, it.p.what.length > 130 ? it.p.what.slice(0, 127) + '...' : it.p.what));
-    } else {
-      hover.append(el('strong', undefined, it.e.place), el('span', 'k', `${addedBy(it.e.by)}. ${POST_KINDS[it.e.kind].label}. Unverified`), el('p', undefined, it.e.text.length > 130 ? it.e.text.slice(0, 127) + '...' : it.e.text));
-    }
+    hover.append(el('strong', undefined, it.p.place), el('span', 'k', `${it.p.sectorId} ${it.p.sectorShort}${it.p.approx ? ', approximate location' : ''}`), el('p', undefined, it.p.what.length > 130 ? it.p.what.slice(0, 127) + '...' : it.p.what));
     hover.hidden = false;
     const x = Math.min(Math.max(8, r.left - rr.left + r.width / 2 - 136), rr.width - 288);
     const y = r.top - rr.top > 190 ? r.top - rr.top - hover.offsetHeight - 10 : r.bottom - rr.top + 10;
@@ -180,13 +190,13 @@ export function mountGlobalMap(root: HTMLElement): () => void {
     if (!it) return;
     openId = id;
     root.querySelectorAll('.pin.on').forEach((n) => n.classList.remove('on'));
-    const [lng, lat] = it.kind === 'research' ? [it.p.lng, it.p.lat] : [it.e.lng, it.e.lat];
+    const [lng, lat] = [it.p.lng, it.p.lat];
     map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 5.5), duration: reduced() ? 0 : 1100, offset: [window.innerWidth > 760 ? -180 : 0, 0] });
     drawerBody.replaceChildren();
     const h = el('h2', undefined, nameOf(it));
     h.id = 'drawer-h';
     const tags = el('div', 'tags');
-    if (it.kind === 'research') {
+    {
       const p = it.p;
       tags.append(el('span', 'tag', `${p.sectorId} ${p.sector}`));
       if (p.blackSwan) tags.append(el('span', 'tag swan', 'Black swan'));
@@ -222,14 +232,7 @@ export function mountGlobalMap(root: HTMLElement): () => void {
       const a1 = el('a', 'btn', 'Open this sector') as HTMLAnchorElement; a1.href = p.links.overview;
       const a2 = el('a', 'btn secondary', 'Its risks') as HTMLAnchorElement; a2.href = p.links.risks;
       go.append(a1, a2);
-      drawerBody.append(go, saveButton(p));
-    } else {
-      drawerBody.append(renderPost(it.e, { catalog, compact: true, onMap: true, onChange: () => { refresh(); if (ws.post(id)) open(id); else closeDrawer(); }, announce: (m) => { status.hidden = false; status.textContent = m; setTimeout(() => { status.hidden = true; }, 5000); } }));
-      drawerBody.querySelector('h3')!.id = 'drawer-h';
-      const more = el('a', 'btn secondary', 'Open in Share') as HTMLAnchorElement;
-      more.href = `${base()}share/?post=${encodeURIComponent(it.e.id)}`;
-      more.style.marginTop = '0.75rem';
-      drawerBody.append(more);
+      drawerBody.append(go);
     }
     drawer.hidden = false;
     markers.get(id)?.getElement().classList.add('on');
@@ -242,63 +245,34 @@ export function mountGlobalMap(root: HTMLElement): () => void {
     root.querySelectorAll('.pin.on').forEach((n) => n.classList.remove('on'));
   }
 
-  // Save a research place to MyEACP (sign-in required, browser only)
-  function saveButton(p: MapPoint) {
-    const key = `place:${p.id}`;
-    const b = el('button', 'save') as HTMLButtonElement;
-    b.type = 'button';
-    const sync = () => { const on = ws.isSaved(key); b.setAttribute('aria-pressed', String(on)); b.textContent = on ? 'Saved to MyEACP' : 'Save to MyEACP'; };
-    b.addEventListener('click', () => {
-      if (!getSession()) { requestSignIn(); return; }
-      ws.toggleSaved({ key, kind: 'place', title: p.caseTitle || p.place, href: `${base()}map/?place=${encodeURIComponent(p.id)}`, sectorId: p.sectorId });
-      sync();
-    });
-    sync();
-    return b;
-  }
-  const shareLink = q<HTMLAnchorElement>('[data-share-link]');
-  const syncShareLink = () => { shareLink.href = `${base()}share/${state.sector ? `?sector=${state.sector}` : ''}`; };
-  syncShareLink();
-  const onData = () => refresh();
-
   // ---- filters ----
   root.querySelectorAll<HTMLButtonElement>('[data-sector]').forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.sector === state.sector));
     b.addEventListener('click', () => {
       state.sector = b.dataset.sector || '';
       root.querySelectorAll('[data-sector]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      const u = new URL(location.href);
-      if (state.sector) u.searchParams.set('sector', state.sector); else u.searchParams.delete('sector');
-      history.replaceState(history.state, '', u);
-      syncShareLink();
+      if (!embedded) {
+        const u = new URL(location.href);
+        if (state.sector) u.searchParams.set('sector', state.sector); else u.searchParams.delete('sector');
+        history.replaceState(history.state, '', u);
+      }
       closeDrawer();
       refresh(true);
     });
   });
-  root.querySelectorAll<HTMLButtonElement>('[data-toggle]').forEach((b) => b.addEventListener('click', () => {
-    const k = b.dataset.toggle as 'shared';
-    state[k] = !state[k];
-    b.setAttribute('aria-pressed', String(state[k]));
-    closeDrawer();
-    refresh();
-  }));
   q<HTMLButtonElement>('[data-drawer-close]').addEventListener('click', closeDrawer);
   const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !drawer.hidden) closeDrawer(); };
   document.addEventListener('keydown', onKey);
 
   map.on('moveend', syncMarkers);
   map.on('sourcedata', (e) => { if (e.sourceId === 'pts' && e.isSourceLoaded) syncMarkers(); });
-  window.addEventListener(CHANGE_EVENT, onData);
-  window.addEventListener('eacp-auth-change', onData);
-  // Deep links: ?post=<shared post id> or ?place=<research pin id>
-  const deep = params.get('post') || params.get('place');
+  // Deep link: ?place=<research pin id>
+  const deep = params.get('place');
   if (deep) map.once('idle', () => setTimeout(() => open(deep), 200));
   (window as unknown as { __gmap?: unknown }).__gmap = { map, open, get count() { return items.length; } };
 
   return () => {
     document.removeEventListener('keydown', onKey);
-    window.removeEventListener(CHANGE_EVENT, onData);
-    window.removeEventListener('eacp-auth-change', onData);
     destroy();
   };
 }

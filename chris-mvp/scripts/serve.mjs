@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 const root = path.resolve(new URL('../dist', import.meta.url).pathname);
 const port = Number(process.argv[2] || process.env.PORT || 4322);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.geojson': 'application/geo+json', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.woff': 'font/woff', '.json': 'application/json' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.geojson': 'application/geo+json', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.woff': 'font/woff', '.json': 'application/json', '.wasm': 'application/wasm', '.md': 'text/markdown; charset=utf-8', '.glb': 'model/gltf-binary' };
 http.createServer((req, res) => {
   let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   let file = path.join(root, p);

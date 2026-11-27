@@ -695,6 +695,49 @@ regulations:
       covers: Clear authorization paths; UK names the company legally responsible when self-driving
       falls_short: Pace varies; China paused new licenses after Wuhan
       sources: []
+    - id: g-gr01-uk-av-act
+      name: Automated Vehicles Act 2024
+      level: international
+      level_label: United Kingdom
+      status: pending
+      covers: A legal framework for automated vehicles on roads and other public places, including authorisation of vehicles for automated use, criminal liability, civil sanctions and permits for automated passenger services.
+      falls_short: Several provisions are prospective, so much of the framework depends on secondary legislation that was still to come when the sources were written.
+      sources:
+        - s-gr01-uk-av-act-1
+      review: pending
+    - id: g-gr01-germany-level4
+      name: Act on Autonomous Driving (Level 4 in approved areas)
+      level: international
+      level_label: Germany
+      status: in_force
+      covers: Allows driverless (Level 4) vehicles on public roads within approved operating areas, with an implementing ordinance in force since July 2022. In force since July 28, 2021.
+      falls_short: Operation is limited to approved areas and is not unrestricted inside them; the law required a federal evaluation by the end of 2023.
+      sources:
+        - s-gr01-germany-level4-1
+        - s-gr01-germany-level4-2
+      review: pending
+    - id: g-gr01-japan-level4
+      name: Road Traffic Act amendment (Level 4 permission system)
+      level: international
+      level_label: Japan
+      status: in_force
+      covers: From April 1, 2023, driverless operation under specific conditions needs a permit, and operators must appoint supervisors for operation and emergencies. The first Level 4 service was approved in Eiheiji Town, Fukui, in 2023.
+      falls_short: Covers services on defined routes and conditions; it does not open driverless operation to private cars.
+      sources:
+        - s-gr01-japan-level4-1
+        - s-gr01-japan-level4-2
+      review: pending
+    - id: g-gr01-shenzhen-icv
+      name: Shenzhen Special Economic Zone Intelligent Connected Vehicle Management Regulations
+      level: international
+      level_label: Shenzhen, China
+      status: in_force
+      covers: In force since August 1, 2022, the first rules in mainland China on driverless liability. Driverless cars may run on roads designated by local transport authorities; with no driver, the owner or manager pays compensation when the vehicle is at fault.
+      falls_short: Reports differ on whether a safety operator must still be present, so how far fully driverless operation is allowed is unclear from the sources.
+      sources:
+        - s-gr01-shenzhen-icv-1
+        - s-gr01-shenzhen-icv-2
+      review: pending
   gaps:
     - A minimum performance "driving test" for the software before it gets public streets (NHTSA says it's coming).
     - "Rules on remote assistance: where operators sit, how many cars each one watches, training, and response times."
@@ -1497,6 +1540,38 @@ sources:
     publisher: City of San Antonio
     title: Driverless cars have come to San Antonio. Here's how to share the road
     url: https://www.sa.gov/Directory/Departments/Transportation/Initiatives/Vision-Zero/News/Driverless-Car-Safety
+  - id: s-gr01-uk-av-act-1
+    publisher: legislation.gov.uk
+    title: Automated Vehicles Act 2024 (c. 10)
+    url: https://www.legislation.gov.uk/ukpga/2024/10
+    published: 2024-05-20
+  - id: s-gr01-germany-level4-1
+    publisher: German Federal Ministry for Digital and Transport
+    title: Act on autonomous driving
+    url: https://www.bmv.de/SharedDocs/EN/Articles/DG/act-on-autonomous-driving.html
+  - id: s-gr01-germany-level4-2
+    publisher: Library of Congress
+    title: "Germany: Road Traffic Act Amendment Allows Driverless Vehicles on Public Roads"
+    url: https://www.loc.gov/item/global-legal-monitor/2021-08-09/germany-road-traffic-act-amendment-allows-driverless-vehicles-on-public-roads/
+    published: 2021-08-09
+  - id: s-gr01-japan-level4-1
+    publisher: National Police Agency of Japan
+    title: Automated Driving
+    url: https://www.npa.go.jp/english/bureau/traffic/selfdriving.html
+  - id: s-gr01-japan-level4-2
+    publisher: Ministry of Economy
+    title: Approval of the first Level 4 automated driving in Japan (Eiheiji Town)
+    url: https://www.meti.go.jp/english/press/2023/0331_003.html
+    published: 2023-03-31
+  - id: s-gr01-shenzhen-icv-1
+    publisher: TechCrunch
+    title: Real driverless cars are now legal in China's Shenzhen
+    url: https://techcrunch.com/2022/07/25/real-driverless-cars-legal-in-chinas-shenzhen
+    published: 2022-07-25
+  - id: s-gr01-shenzhen-icv-2
+    publisher: South China Morning Post
+    title: China's southern tech hub Shenzhen becomes first city on mainland to regulate driverless cars
+    url: https://www.scmp.com/tech/policy/article/3187483/chinas-southern-tech-hub-shenzhen-becomes-first-city-mainland-regulate
 todos:
   - Removed interview-based text in risk case; find a public source if it should stay.
   - "Malung-Salen (Sweden) case study and pin held back: interview-only. Add back with a public source on the SIKTA bus pilot."

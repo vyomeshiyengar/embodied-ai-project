@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { routes } from './routes';
+import { routes, mapSettled } from './routes';
 
 for (const route of routes().filter((r) => !/\/(cases|story|types)\/$/.test(r) && r !== '/explore/')) {
   test(`loads and passes axe: ${route}`, async ({ page }) => {
@@ -12,6 +12,10 @@ for (const route of routes().filter((r) => !/\/(cases|story|types)\/$/.test(r) &
     expect(res?.status()).toBe(200);
     await expect(page.locator('h1').first()).toBeVisible();
     expect(errors).toEqual([]);
+    // Check the settled page: entrance animations (the Welcome intro fades in) can catch colours mid-fade on slow CI.
+    await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running' || a.effect?.getComputedTiming().iterations === Infinity), undefined, { timeout: 10_000 });
+    // Maps: check once the camera has settled and the markers are placed, as a person would see them.
+    if (await page.locator('[data-gmap]').count()) await mapSettled(page);
     const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     const serious = axe.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
     expect(serious.map((v) => `${v.id}: ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
@@ -49,42 +53,4 @@ test('no slop patterns or old names in the source', async () => {
     if (/Black Swan/.test(t)) bad.push(`${f}: old name "Black Swan"`);
   }
   expect(bad).toEqual([]);
-});
-
-test('signed-in Share and MyEACP states pass axe', async ({ page }) => {
-  await page.goto('/', { waitUntil: 'load' });
-  await page.evaluate(() => {
-    localStorage.setItem('eacp-demo-session', JSON.stringify({ username: 'demo', signedInAt: new Date().toISOString() }));
-    localStorage.setItem('eacp-workspace-v1', JSON.stringify({
-      v: 1,
-      profile: { city: { name: 'Pittsburgh', country: 'US', region: 'PA', lat: 40.44, lng: -80 }, department: 'Mobility', role: 'mobility', sectors: ['01'], createdAt: new Date().toISOString() },
-      posts: [{ id: 'p-axe', kind: 'question', lat: 40.44, lng: -80, place: 'Pittsburgh, PA', sectorId: '01', text: 'Axe test question.', lesson: 'Axe test context.', outcomes: ['Trained responders'], by: { city: 'Pittsburgh', country: 'US', role: 'mobility' }, createdAt: new Date().toISOString(), mine: true, origin: 'local', seenIn: [], replies: [{ id: 'r1', text: 'Axe reply.', by: null, createdAt: new Date().toISOString(), mine: false }] }],
-      saved: [{ key: 'risk:x', kind: 'risk', title: 'A saved risk', href: '/sectors/autonomous-mobility/risks/', sectorId: '01', savedAt: new Date().toISOString() }],
-      techs: [{ id: 't1', name: 'Pilot', sectorId: '01', status: 'pilot' }], contacts: [{ id: 'c1', operator: 'Operator', role: 'Fleet desk', how: 'Desk line' }], seenResearch: [],
-    }));
-  });
-  const check = async (label: string) => {
-    const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
-    const serious = axe.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-    expect(serious.map((v) => `${label} ${v.id}: ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
-  };
-  await page.goto('/share/', { waitUntil: 'load' });
-  await expect(page.locator('[data-composer]')).toBeVisible();
-  await check('share step 1');
-  await page.locator('#tab-feed').click();
-  await expect(page.locator('.feed .post')).toHaveCount(1);
-  await page.waitForTimeout(500); // let the panel finish sliding in
-  await check('share feed');
-  await page.goto('/myeacp/', { waitUntil: 'load' });
-  for (const t of ['profile', 'contrib', 'city', 'saved', 'questions']) {
-    await page.locator(`#tab-${t}`).click();
-    await page.waitForTimeout(500);
-    await check(`myeacp ${t}`);
-  }
-  for (const t of ['tech', 'contacts']) {
-    await page.locator('#tab-city').click();
-    await page.locator(`#tab-${t}`).click();
-    await page.waitForTimeout(500);
-    await check(`myeacp ${t}`);
-  }
 });

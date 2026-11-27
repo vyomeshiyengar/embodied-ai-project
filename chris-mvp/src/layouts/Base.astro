@@ -1,7 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import '../styles/base.css';
-import SignIn from '../components/SignIn.astro';
 import Wordmark from '../components/Wordmark.astro';
 import { href } from '../lib/url';
 import { SITE_NAME, SITE_DESCRIPTION } from '../lib/site';
@@ -21,16 +20,13 @@ interface Props {
 const { title, description = SITE_DESCRIPTION, sector, bare = false, welcome = false } = Astro.props;
 const path = Astro.url.pathname;
 const under = (p: string) => path.startsWith(href(p));
+// One flat menu: the playbook flow first, then the reference pages.
 const primary = [
   { label: 'Playbook', href: href('/playbook/'), on: under('/playbook/') || under('/sectors/') || !!sector },
+  { label: 'Toolkit', href: href('/toolkit/'), on: under('/toolkit/') || under('/recommendations/') },
   { label: 'Map', href: href('/map/'), on: under('/map/') },
-  { label: 'Share', href: href('/share/'), on: under('/share/') },
-  { label: 'MyEACP', href: href('/myeacp/'), on: under('/myeacp/') },
-];
-const more = [
-  { label: 'Glossary', href: href('/glossary/') },
-  { label: 'Recommendations', href: href('/recommendations/') },
-  { label: 'About', href: href('/about/') },
+  { label: 'Glossary', href: href('/glossary/'), on: under('/glossary/') },
+  { label: 'About', href: href('/about/'), on: under('/about/') },
 ];
 const pageTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
 
@@ -68,27 +64,18 @@ const pageAnim = {
       <header class="site" transition:name="site-header" transition:animate="none">
         <div class="bar container">
           <a class="brand" href={href('/')} data-nav-dir="back"><Wordmark /></a>
-          <nav class="primary" aria-label="Main">
+          <nav class="primary" aria-label="Main" data-fade>
             <ul>
               {primary.map((n) => <li><a class="navlink" href={n.href} aria-current={n.on ? 'page' : undefined}>{n.label}</a></li>)}
             </ul>
           </nav>
           <div class="util">
-            <details class="menu more">
-              <summary>More</summary>
-              <ul>{more.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}</ul>
-            </details>
-            <button class="signin" type="button" data-signin-open>Sign in</button>
-            <span class="signed" data-signed hidden>
-              <span class="who" data-who>Signed in (demo)</span>
-              <button type="button" class="linkish" data-signout>Sign out</button>
-            </span>
             <button class="motion" type="button" aria-pressed="false" data-motion-toggle>Reduce motion</button>
           </div>
         </div>
       </header>
     )}
-    <main id="main" tabindex="-1" transition:name="page" transition:animate={pageAnim}>
+    <main id="main" tabindex="-1" data-sector={sector} transition:name="page" transition:animate={pageAnim}>
       <slot />
     </main>
     {!welcome && !bare && (
@@ -98,26 +85,14 @@ const pageAnim = {
         </div>
       </footer>
     )}
-    <SignIn />
     <script>
       import { initSwitchers, bindSwitcherResize, openFromHash } from '../scripts/switcher';
-      import { getSession, signOut } from '../lib/demo-auth';
-      import { ws, CHANGE_EVENT } from '../lib/workspace-store';
-      import { initSaveButtons } from '../scripts/save-buttons';
       import { initEdgeFades } from '../scripts/edge-fade';
+      import { initGlossaryHovers } from '../scripts/glossary-hover';
+      let unGloss: (() => void) | null = null;
 
       const root = document.documentElement;
       const reduced = () => root.dataset.motion === 'reduce' || (root.dataset.motion !== 'full' && matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-      function syncAuth() {
-        const s = getSession();
-        document.querySelectorAll<HTMLElement>('[data-signin-open]').forEach((b) => (b.hidden = !!s));
-        document.querySelectorAll<HTMLElement>('[data-signed]').forEach((b) => (b.hidden = !s));
-        const city = s ? ws.profile()?.city.name : undefined;
-        document.querySelectorAll<HTMLElement>('[data-who]').forEach((w) => (w.textContent = city ? `${city} (demo)` : 'Signed in (demo)'));
-        document.documentElement.dataset.signedIn = s ? '1' : '';
-        document.querySelectorAll<HTMLElement>('[data-guest]').forEach((g) => (g.textContent = s ? 'Continue' : 'Continue as guest'));
-      }
 
       function initChrome() {
         const btn = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
@@ -134,18 +109,16 @@ const pageAnim = {
         syncMotion();
         const menus = [...document.querySelectorAll<HTMLDetailsElement>('header.site details, details.switch')];
         menus.forEach((m) => m.addEventListener('toggle', () => { if (m.open) menus.forEach((o) => o !== m && (o.open = false)); }));
-        document.querySelectorAll<HTMLElement>('[data-signout]').forEach((b) => {
-          if (b.dataset.ready) return;
-          b.dataset.ready = '1';
-          b.addEventListener('click', () => signOut());
-        });
-        syncAuth();
         initSwitchers();
         bindSwitcherResize();
-        initSaveButtons();
         initEdgeFades();
         openFromHash();
+        const main = document.querySelector<HTMLElement>('main');
+        unGloss?.();
+        unGloss = null;
+        if (main) void initGlossaryHovers(main, main.dataset.sector).then((off) => { unGloss = off; });
       }
+      document.addEventListener('astro:before-swap', () => { unGloss?.(); unGloss = null; });
 
       document.addEventListener('click', (e) => {
         document.querySelectorAll<HTMLDetailsElement>('header.site details[open], details.switch[open]').forEach((m) => { if (!m.contains(e.target as Node)) m.open = false; });
@@ -162,8 +135,6 @@ const pageAnim = {
       document.addEventListener('astro:after-swap', () => {
         try { const m = localStorage.getItem('eacp-motion'); if (m) root.dataset.motion = m; } catch (e) {}
       });
-      window.addEventListener('eacp-auth-change', syncAuth);
-      window.addEventListener(CHANGE_EVENT, syncAuth);
       document.addEventListener('astro:page-load', initChrome);
     </script>
   </body>
@@ -179,31 +150,21 @@ const pageAnim = {
   .navlink:hover { background: var(--c-surface-alt); color: var(--c-heritage); }
   .navlink[aria-current='page'] { background: var(--c-selected); color: #fff; }
   .util { display: flex; align-items: center; gap: var(--sp-2) var(--sp-4); flex-wrap: wrap; margin-left: auto; }
-  .menu { position: relative; }
-  .menu summary { cursor: pointer; list-style: none; font-size: var(--fs-sm); font-weight: 600; color: var(--c-ink); min-height: 40px; display: flex; align-items: center; gap: 0.35rem; }
-  .menu summary::-webkit-details-marker { display: none; }
-  .menu summary::after { content: ''; width: 0.42em; height: 0.42em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin: -0.2em 0 0 0.2em; }
-  .menu ul { position: absolute; right: 0; top: calc(100% + 6px); min-width: 12rem; background: #fff; border: var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-panel); list-style: none; margin: 0; padding: var(--sp-2); z-index: 60; }
-  .menu li a { display: block; padding: var(--sp-2) var(--sp-3); border-radius: var(--radius-sm); color: var(--c-ink); text-decoration: none; font-size: var(--fs-sm); }
-  .menu li a:hover, .menu li a:focus-visible { background: var(--c-surface-alt); }
-  .menu li a[aria-current='page'] { background: var(--c-selected); color: #fff; }
-  .signin { font: 600 var(--fs-sm) var(--font-sans); color: #fff; background: var(--c-heritage); border: 0; border-radius: var(--radius-pill); padding: 0 1rem; min-height: 36px; cursor: pointer; }
-  .signin:hover { background: var(--c-heritage-deep); }
-  .signed { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--c-muted); }
-  .signed[hidden], .signin[hidden] { display: none; }
-  .linkish { font: inherit; color: var(--c-link); background: none; border: 0; padding: 0.4rem 0; text-decoration: underline; cursor: pointer; min-height: 32px; }
   .motion { font: 500 var(--fs-xs) var(--font-sans); color: var(--c-muted); background: none; border: 1px solid var(--c-line); border-radius: var(--radius-pill); padding: 0.35rem 0.7rem; min-height: 32px; cursor: pointer; }
   .motion[aria-pressed='true'] { background: var(--c-surface-alt); color: var(--c-ink); border-color: var(--c-spirit); }
   footer.site { border-top: var(--border); background: var(--c-surface-alt); padding-block: var(--sp-5); font-size: var(--fs-xs); color: var(--c-muted); }
   .foot p { max-width: 60rem; margin: 0; }
   main:focus { outline: none; }
+  /* Seven menu items: below laptop width the menu takes its own row and scrolls sideways. */
+  @media (max-width: 1100px) {
+    .primary { order: 3; width: 100%; overflow-x: auto; }
+    .primary ul { width: max-content; }
+  }
   @media (max-width: 760px) {
     header.site { position: static; }
     .bar { padding-block: var(--sp-2); }
     .bar { gap: var(--sp-2) var(--sp-3); }
-    .primary { order: 3; width: 100%; overflow-x: auto; }
     .util { gap: var(--sp-2); flex-wrap: nowrap; }
-    .who { display: none; }
     .motion { padding: 0.3rem 0.55rem; }
     .navlink { padding: 0 0.7rem; }
   }

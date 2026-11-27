@@ -1,8 +1,15 @@
 ---
-/** Step 1: Overview, and only the overview. Categories first, then Next. */
+/**
+ * Step 1: Overview. A short overview, then the sector's technologies as cards above a 3D world
+ * (Vyomesh Iyengar's low-poly scene, src/world/). Pick a card or a label in the world to read about it.
+ * The world is illustrative; every fact in the cards and panel comes from the sourced research.
+ */
 import Base from '../../../layouts/Base.astro';
 import SectorFlow from '../../../components/SectorFlow.astro';
 import StepNav from '../../../components/StepNav.astro';
+import Sources from '../../../components/Sources.astro';
+import WorldIsland from '../../../world/WorldIsland.tsx';
+import { worldFor } from '../../../world/layouts';
 import { sectors, type Sector } from '../../../lib/content';
 
 export function getStaticPaths() {
@@ -10,99 +17,151 @@ export function getStaticPaths() {
 }
 const { s } = Astro.props as { s: Sector };
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
-/** Split a point into its lead sentence and the rest. */
-const lead = (t: string) => {
-  const m = t.match(/^(.+?[.!?])\s+(.+)$/);
-  return m ? { head: m[1], rest: m[2] } : { head: t, rest: '' };
-};
-const points = s.overview.points.length ? s.overview.points : s.overview.summary && s.overview.summary.length > 160 ? s.overview.summary.split(/(?<=[.!?])\s+/) : [];
+const firstSentence = (t: string) => (t.match(/^.+?[.!?](\s|$)/) || [t])[0].trim();
+const points = (s.overview.points.length ? s.overview.points : s.overview.summary ? s.overview.summary.split(/(?<=[.!?])\s+/) : [])
+  .map(firstSentence).slice(0, 3);
+const stage = s.overview.points.length && s.overview.summary ? cap(s.overview.summary) : null;
+const players = [...new Set(s.players.map((p) => p.type))].slice(0, 8);
 
-// Who's involved: group the doc's "Key players" rows by keywords in their type. No new content.
-const GROUPS = [
-  { key: 'gov', label: 'Government', test: /federal|state|city|regional|government|agenc|ministr|municipal|county/i },
-  { key: 'research', label: 'Research', test: /research|lab|universit/i },
-  { key: 'community', label: 'Communities and labor', test: /civil society|labor|union|advoca|public/i },
-  { key: 'industry', label: 'Industry', test: /.*/ },
-];
-const grouped = GROUPS.map((g) => ({ ...g, rows: [] as Sector['players'] }));
-for (const p of s.players) grouped.find((g) => g.test.test(p.type))!.rows.push(p);
-const tabs = [
-  { id: 'today', label: 'Where it is today', show: points.length > 0 || !!s.overview.summary },
-  { id: 'why', label: 'Why it matters', show: !!s.overview.why_it_matters },
-  { id: 'shift', label: 'The core shift', show: !!s.overview.core_shift },
-  { id: 'who', label: "Who's involved", show: s.players.length > 0 },
-].filter((t) => t.show);
-const first = tabs[0]?.id;
+const world = worldFor(s);
+const zoneOf = (id: string) => {
+  const it = world.types.items.find((x) => x.id === id);
+  return world.types.zones.find((z) => z.id === it?.zoneId)?.name ?? '';
+};
 ---
 <Base title={s.name} sector={s.slug} sectorPage="">
   <SectorFlow sector={s} step="overview" title={s.name} />
   <div class="container page">
-    {tabs.length > 0 && (
-      <div class="cats big" role="tablist" aria-label="Overview" data-switch>
-        {tabs.map((t) => <button role="tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={t.id === first ? 'true' : 'false'}>{t.label}</button>)}
-      </div>
+    {(stage || points.length > 0) && (
+      <section class="brief" aria-label="In short">
+        {stage && <p class="stage"><span>Stage</span> {stage}</p>}
+        {points.length > 0 && <ul class="points">{points.map((p) => <li>{cap(p)}</li>)}</ul>}
+        {s.overview.why_it_matters && <p class="why"><strong>Why it matters.</strong> {cap(firstSentence(s.overview.why_it_matters))}</p>}
+        {players.length > 0 && <p class="who"><span class="k">Who's involved</span>{players.map((p) => <span class="chip">{p}</span>)}</p>}
+      </section>
     )}
 
-    <div class="panels">
-      {tabs.some((t) => t.id === 'today') && (
-        <section role="tabpanel" id="panel-today" aria-labelledby="tab-today" hidden={first !== 'today'}>
-          {s.overview.points.length > 0 && s.overview.summary && <p class="stage-line"><span>Stage</span> {cap(s.overview.summary)}</p>}
-          <ul class="tiles">
-            {points.map((p) => {
-              const { head, rest } = lead(p);
-              return rest ? (
-                <li><details><summary>{head}</summary><p>{rest}</p></details></li>
-              ) : <li><div class="tile">{head}</div></li>;
-            })}
-          </ul>
-        </section>
-      )}
-      {s.overview.why_it_matters && (
-        <section role="tabpanel" id="panel-why" aria-labelledby="tab-why" hidden={first !== 'why'}>
-          <p class="big">{cap(s.overview.why_it_matters)}</p>
-        </section>
-      )}
-      {s.overview.core_shift && (
-        <section role="tabpanel" id="panel-shift" aria-labelledby="tab-shift" hidden={first !== 'shift'}>
-          <p class="big">{cap(s.overview.core_shift)}</p>
-        </section>
-      )}
-      {s.players.length > 0 && (
-        <section role="tabpanel" id="panel-who" aria-labelledby="tab-who" hidden={first !== 'who'}>
-          <div class="who">
-            {grouped.filter((g) => g.rows.length).map((g) => (
-              <div class:list={['grp', g.key]}>
-                <h2>{g.label}</h2>
-                <ul>{g.rows.map((r) => <li><strong>{r.type}</strong><span>{r.who}</span></li>)}</ul>
-              </div>
+    {s.types.length > 0 ? (
+      <section class="tech" aria-labelledby="tech-h" data-overview>
+        <h2 id="tech-h" class="h2">Technologies</h2>
+        <ol class="type-cards" data-cards>
+          {s.types.map((t, i) => (
+            <li>
+              <button type="button" class="type-card" data-type={t.id} aria-pressed="false" aria-controls="type-detail">
+                <span class="dot" aria-hidden="true">{i + 1}</span>
+                <span class="nm">{t.name}</span>
+                <span class="zn">{zoneOf(t.id)}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+
+        <div class="world-layout">
+          <WorldIsland client:visible dept={world} />
+          <aside class="detail" id="type-detail" aria-live="polite">
+            <div class="intro" data-intro>
+              <h3>{s.short_name} in the city</h3>
+              <p class="small muted">The 3D world is illustrative.</p>
+              <button type="button" class="btn" data-tour>Start the tour</button>
+            </div>
+            {s.types.map((t) => (
+              <article data-detail={t.id} hidden>
+                <p class="zone">{zoneOf(t.id)}</p>
+                <h3>{t.name}</h3>
+                {(t.how || t.uses) && <div><h4>How it operates in the city</h4><p>{cap((t.how || t.uses)!)}</p></div>}
+                {t.running_in && <div><h4>Examples</h4><p>{cap(t.running_in)}</p></div>}
+                {t.city_response && <div class="happened"><h4>What happened when adopted</h4><p>{cap(t.city_response)}</p></div>}
+                {t.progression && <div><h4>Where it is heading</h4><p>{cap(t.progression)}</p></div>}
+                <Sources ids={t.sources} sector={s} unconfirmed={t.unconfirmed} compact />
+                <div class="nav">
+                  <button type="button" class="btn secondary" data-step="-1">Previous</button>
+                  <span class="pos small muted" data-pos></span>
+                  <button type="button" class="btn" data-step="1">Next</button>
+                </div>
+              </article>
             ))}
-          </div>
-        </section>
-      )}
-    </div>
-    {!tabs.length && <p class="muted">The overview for this sector is still being written.</p>}
+          </aside>
+        </div>
+      </section>
+    ) : <p class="muted">Technologies for this sector are still being written up.</p>}
   </div>
   <StepNav sector={s} step="overview" />
 </Base>
 
+<script>
+  let off: (() => void) | null = null;
+  function mount() {
+    const root = document.querySelector<HTMLElement>('[data-overview]');
+    if (!root) return;
+    const cards = [...root.querySelectorAll<HTMLButtonElement>('[data-type]')];
+    const ids = cards.map((c) => c.dataset.type!);
+    let current: string | null = null;
+
+    const show = (id: string | null, fromWorld = false) => {
+      current = id && ids.includes(id) ? id : null;
+      cards.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.type === current)));
+      root.querySelectorAll<HTMLElement>('[data-detail]').forEach((a) => (a.hidden = a.dataset.detail !== current));
+      root.querySelector<HTMLElement>('[data-intro]')!.hidden = !!current;
+      if (current) root.querySelector<HTMLElement>(`[data-detail="${CSS.escape(current)}"] [data-pos]`)!.textContent = `${ids.indexOf(current) + 1} / ${ids.length}`;
+      if (!fromWorld) window.dispatchEvent(new CustomEvent('eacp-world-select', { detail: current }));
+      const u = new URL(location.href);
+      if (current) u.searchParams.set('type', current); else u.searchParams.delete('type');
+      history.replaceState(history.state, '', u);
+    };
+    const step = (d: number) => show(ids[((current ? ids.indexOf(current) : -1) + d + ids.length) % ids.length]);
+
+    const onClick = (e: Event) => {
+      const t = e.target as HTMLElement;
+      const card = t.closest<HTMLElement>('[data-type]');
+      if (card) { show(card.dataset.type === current ? null : card.dataset.type!); return; }
+      const st = t.closest<HTMLElement>('[data-step]');
+      if (st) { step(Number(st.dataset.step)); return; }
+      if (t.closest('[data-tour]')) show(ids[0]);
+    };
+    const onPicked = (e: Event) => show((e as CustomEvent<string | null>).detail, true);
+    const onReady = () => { if (current) window.dispatchEvent(new CustomEvent('eacp-world-select', { detail: current })); };
+    root.addEventListener('click', onClick);
+    window.addEventListener('eacp-world-picked', onPicked);
+    window.addEventListener('eacp-world-ready', onReady);
+    const want = new URLSearchParams(location.search).get('type') || decodeURIComponent(location.hash.slice(1));
+    if (want && ids.includes(want)) show(want);
+    off = () => { root.removeEventListener('click', onClick); window.removeEventListener('eacp-world-picked', onPicked); window.removeEventListener('eacp-world-ready', onReady); };
+  }
+  document.addEventListener('astro:page-load', mount);
+  document.addEventListener('astro:before-swap', () => { off?.(); off = null; });
+</script>
+
 <style>
-  .panels { margin-top: var(--sp-5); min-height: 16rem; }
-  .stage-line { font-size: var(--fs-lg); color: var(--c-ink); }
-  .stage-line span { display: inline-block; font-size: var(--fs-xs); font-weight: 700; color: #fff; background: var(--c-heritage); border-radius: var(--radius-sm); padding: 0.15rem 0.5rem; margin-right: 0.4rem; vertical-align: middle; }
-  .tiles { list-style: none; padding: 0; display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
-  .tiles details, .tile { background: #fff; border: var(--border); border-radius: var(--radius-md); padding: var(--sp-4) var(--sp-5); height: 100%; }
-  .tiles summary { cursor: pointer; font-weight: 700; color: var(--c-ink); list-style: none; display: flex; justify-content: space-between; gap: var(--sp-3); }
-  .tiles summary::-webkit-details-marker { display: none; }
-  .tiles summary::after { content: '+'; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center; background: var(--c-surface-alt); color: var(--c-heritage); font-weight: 700; }
-  .tiles details[open] summary::after { content: '\2212'; background: var(--c-heritage); color: #fff; }
-  .tiles details[open] { border-color: var(--c-heritage); }
-  .tiles details p { margin: var(--sp-3) 0 0; font-size: var(--fs-sm); animation: panel-in var(--dur-panel) var(--ease-out) both; }
-  .tile { font-weight: 600; color: var(--c-ink); }
-  .big { font-size: var(--fs-lg); line-height: 1.55; color: var(--c-ink); max-width: 46rem; }
-  .who { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
-  .grp { border-radius: var(--radius-md); padding: var(--sp-4); background: var(--c-surface-alt); }
-  .grp.gov { background: #e3ecf8; }
-  .grp h2 { font-size: var(--fs-lg); }
-  .grp ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); }
-  .grp li { display: grid; gap: 2px; font-size: var(--fs-sm); background: #fff; border-radius: var(--radius-sm); padding: var(--sp-3); }
+  .brief { display: grid; gap: var(--sp-3); margin-bottom: var(--sp-6); max-width: 62rem; }
+  .stage { margin: 0; font-size: var(--fs-lg); color: var(--c-ink); }
+  .stage span { display: inline-block; font-size: var(--fs-xs); font-weight: 700; color: #fff; background: var(--c-heritage); border-radius: var(--radius-sm); padding: 0.15rem 0.5rem; margin-right: 0.4rem; vertical-align: middle; }
+  .points { margin: 0; padding-left: 1.1rem; display: grid; gap: var(--sp-2); color: var(--c-ink); }
+  .why { margin: 0; }
+  .who { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .who .k { font-weight: 700; font-size: var(--fs-sm); color: var(--c-ink); margin-right: var(--sp-2); }
+  .h2 { font-size: var(--fs-xl); margin: 0 0 var(--sp-3); }
+
+  /* Type cards (Vyomesh's chips, in EACP colors) */
+  .type-cards { list-style: none; margin: 0 0 var(--sp-4); padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: var(--sp-2); }
+  .type-card { width: 100%; height: 100%; text-align: left; display: grid; grid-template-columns: auto 1fr; column-gap: var(--sp-3); align-items: start; border: var(--border); background: #fff; border-radius: var(--radius-md); padding: 0.65rem 0.8rem; cursor: pointer; font: inherit; color: var(--c-ink); transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease); }
+  .type-card:hover { border-color: var(--c-selected); }
+  .type-card[aria-pressed='true'] { background: var(--c-selected); border-color: var(--c-selected); color: #fff; }
+  .dot { grid-row: span 2; width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; background: var(--c-heritage); color: #fff; font-size: var(--fs-xs); font-weight: 700; margin-top: 1px; }
+  .type-card[aria-pressed='true'] .dot { background: #fff; color: var(--c-selected); }
+  .nm { font-weight: 700; font-size: var(--fs-sm); line-height: 1.3; }
+  .zn { font-size: var(--fs-xs); opacity: 0.8; }
+
+  .world-layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: var(--sp-4); align-items: start; }
+  @media (max-width: 980px) { .world-layout { grid-template-columns: 1fr; } }
+  .detail { background: var(--c-surface-alt); border-radius: var(--radius-md); padding: var(--sp-5); display: grid; gap: var(--sp-3); align-content: start; max-height: 560px; overflow: auto; }
+  @media (max-width: 980px) { .detail { max-height: none; } }
+  .detail h3 { margin: 0; font-size: var(--fs-lg); color: var(--c-heritage); }
+  .detail h4 { margin: 0 0 2px; font: 700 var(--fs-sm) var(--font-sans); color: var(--c-ink); }
+  .detail p { margin: 0; font-size: var(--fs-sm); }
+  .detail article { display: grid; gap: var(--sp-3); }
+  .detail article[hidden], .intro[hidden] { display: none; }
+  .intro { display: grid; gap: var(--sp-3); justify-items: start; }
+  .zone { font-size: var(--fs-xs); font-weight: 700; color: var(--c-medium); }
+  .happened { background: var(--c-pending-bg); border: 1px solid #ecd88f; border-radius: var(--radius-sm); padding: var(--sp-3); }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-2); padding-top: var(--sp-2); }
 </style>

@@ -627,6 +627,17 @@ regulations:
       covers: When force is allowed
       falls_short: Almost none address robots directly
       sources: []
+    - id: g-gr02-eu-ai-act-rbi
+      name: EU AI Act ban on real-time remote biometric identification by police
+      level: international
+      level_label: European Union
+      status: in_force
+      covers: Since February 2, 2025, police may not use real-time remote biometric identification in publicly accessible spaces, apart from narrow exceptions (targeted searches for victims or missing persons, preventing specific threats, locating suspects of serious crimes). Applies to cameras on drones and robots as much as fixed cameras.
+      falls_short: The exceptions are broad enough to need national rules and authorisations; the ban covers use, not placing such systems on the market.
+      sources:
+        - s-gr02-eu-ai-act-rbi-1
+        - s-gr02-eu-ai-act-rbi-2
+      review: pending
   gaps:
     - A national standard for DFR flight purposes, data retention and AI analytics (privacy is left to each city).
     - Any clear rule on whether robots may use force, outside a few cities' policies.
@@ -1137,6 +1148,15 @@ sources:
     title: Mass. bill proposed to ban sales and operation of weaponized robots
     url: https://cssh.northeastern.edu/mass-bill-proposed-to-ban-sales-and-operation-of-weaponized-robots/
     published: "2023"
+  - id: s-gr02-eu-ai-act-rbi-1
+    publisher: European Commission
+    title: Guidelines on prohibited artificial intelligence practices
+    url: https://digital-strategy.ec.europa.eu/en/pages/ai-act-guidelines-prohibitions
+    published: 2025-02-04
+  - id: s-gr02-eu-ai-act-rbi-2
+    publisher: Bundesnetzagentur
+    title: Prohibited practices
+    url: https://bundesnetzagentur.de/EN/Areas/Digitalisation/AI/08_ProhibitedPractices/start.html
 todos:
   - Removed interview-based text in risk case; find a public source if it should stay.
   - 'Needs source: type "Tactical and indoor drones"'

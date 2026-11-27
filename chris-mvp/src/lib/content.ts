@@ -57,6 +57,8 @@ export const Rule = Base.extend({
   status: z.enum(['in_force', 'pending', 'proposed', 'vetoed']),
   covers: text,
   falls_short: text,
+  /** Found by web research for the team to check (docs/research/global-regulations.md). */
+  review: z.literal('pending').optional(),
 });
 
 export const CaseStudy = Base.extend({

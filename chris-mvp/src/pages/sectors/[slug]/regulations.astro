@@ -4,8 +4,6 @@ import Base from '../../../layouts/Base.astro';
 import SectorFlow from '../../../components/SectorFlow.astro';
 import StepNav from '../../../components/StepNav.astro';
 import Sources from '../../../components/Sources.astro';
-import SaveButton from '../../../components/SaveButton.astro';
-import { sectorHref } from '../../../lib/url';
 import { sectors, type Sector } from '../../../lib/content';
 
 export function getStaticPaths() {
@@ -13,15 +11,16 @@ export function getStaticPaths() {
 }
 const { s } = Astro.props as { s: Sector };
 const LAYERS = [
+  { key: 'international', label: 'Global', note: 'Notable rules outside the US' },
   { key: 'federal', label: 'Federal', note: 'National agencies and Congress' },
   { key: 'state', label: 'State', note: 'Legislatures, DMVs, state agencies' },
   { key: 'city', label: 'City and local', note: 'Councils, departments, airports' },
-  { key: 'international', label: 'Other countries', note: 'Models from abroad' },
   { key: 'voluntary', label: 'Standards', note: 'Voluntary industry standards' },
 ] as const;
 const rulesFor = (k: string) => s.regulations.rules.filter((r) => r.level === k);
 const STATUS: Record<string, string> = { in_force: 'In force', pending: 'Pending', proposed: 'Proposed', vetoed: 'Vetoed' };
-const first = LAYERS.find((l) => rulesFor(l.key).length)?.key ?? 'gaps';
+// Open on the US federal layer when it has rules (most familiar), else the first layer with any.
+const first = (rulesFor('federal').length ? 'federal' : LAYERS.find((l) => rulesFor(l.key).length)?.key) ?? 'gaps';
 ---
 <Base title={`Regulations: ${s.name}`} sector={s.slug} sectorPage="regulations">
   <SectorFlow sector={s} step="regulations" title="Regulations" />
@@ -50,12 +49,19 @@ const first = LAYERS.find((l) => rulesFor(l.key).length)?.key ?? 'gaps';
             <ol class="rules">
               {rulesFor(l.key).map((r) => (
                 <li class="rule" id={r.id}>
-                  <div class="head"><h3>{r.name}</h3><span class:list={['chip', r.status]}>{STATUS[r.status]}</span></div>
+                  <div class="head">
+                    <h3>{r.name}</h3>
+                    <span class="chips">
+                      {r.review && <span class="chip review">Pending team review</span>}
+                      <span class:list={['chip', r.status]}>{STATUS[r.status]}</span>
+                    </span>
+                  </div>
+                  {r.level === 'international' && r.level_label && <p class="where">{r.level_label}</p>}
                   <div class="cmp">
                     <div class="covers"><span class="k">Covers</span><p>{r.covers ?? 'Not recorded yet.'}</p></div>
                     <div class="short"><span class="k">Falls short</span><p>{r.falls_short ?? 'Not recorded yet.'}</p></div>
                   </div>
-                  <div class="foot"><Sources ids={r.sources} sector={s} unconfirmed={r.unconfirmed} compact /><SaveButton kind="rule" id={r.id} title={r.name} href={`${sectorHref(s.slug, 'regulations')}#${r.id}`} sector={s.id} /></div>
+                  <div class="foot"><Sources ids={r.sources} sector={s} unconfirmed={r.unconfirmed} compact /></div>
                 </li>
               ))}
             </ol>
@@ -94,6 +100,9 @@ const first = LAYERS.find((l) => rulesFor(l.key).length)?.key ?? 'gaps';
   .head h3 { font-size: var(--fs-md); font-family: var(--font-sans); font-weight: 700; margin: 0; }
   .chip.pending, .chip.proposed { background: var(--c-pending-bg); color: var(--c-pending); border-color: #e7cf7a; }
   .chip.vetoed { background: #eceef2; }
+  .chips { display: inline-flex; gap: var(--sp-2); flex-wrap: wrap; }
+  .chip.review { background: #eef2f7; color: var(--c-muted); }
+  .where { margin: 2px 0 0; font-size: var(--fs-sm); color: var(--c-muted); }
   .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-3); font-size: var(--fs-sm); }
   @media (max-width: 700px) { .cmp { grid-template-columns: 1fr; } }
   .cmp > div { border-radius: var(--radius-sm); padding: var(--sp-3); }

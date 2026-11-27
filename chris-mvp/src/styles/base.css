@@ -149,3 +149,11 @@ th { font-size: var(--fs-sm); color: var(--c-ink); font-weight: 600; background:
 [data-fade][data-fade-r] { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
 [data-fade][data-fade-l] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%); mask-image: linear-gradient(90deg, transparent, #000 15%); }
 [data-fade][data-fade-l][data-fade-r] { -webkit-mask-image: linear-gradient(90deg, transparent, #000 15% 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15% 85%, transparent); }
+
+/* Tooltip shared by glossary terms and toolkit cards (src/scripts/popover.ts). */
+.tip { position: absolute; z-index: 60; max-width: min(22rem, calc(100vw - 16px)); background: var(--c-heritage-deep); color: #fff; border-radius: var(--radius-sm); padding: 0.55rem 0.75rem; font: 400 var(--fs-sm)/1.45 var(--font-sans); box-shadow: 0 6px 20px rgb(0 29 74 / 0.25); pointer-events: none; }
+.tip[hidden] { display: none; }
+.tip strong { display: block; font-weight: 700; margin-bottom: 2px; }
+/* Glossary terms in running text (src/scripts/glossary-hover.ts) */
+a.term { color: inherit; text-decoration: underline dotted var(--c-medium); text-decoration-thickness: 1.5px; text-underline-offset: 3px; cursor: help; }
+a.term:hover, a.term:focus-visible { color: var(--c-link); }

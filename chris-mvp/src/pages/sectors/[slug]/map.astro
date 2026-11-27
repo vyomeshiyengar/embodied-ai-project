@@ -1,0 +1,25 @@
+---
+/** Last step of a sector: its cases and places on the map, without leaving the playbook. */
+import Base from '../../../layouts/Base.astro';
+import SectorFlow from '../../../components/SectorFlow.astro';
+import StepNav from '../../../components/StepNav.astro';
+import GlobalMap from '../../../components/GlobalMap.astro';
+import { sectors, type Sector } from '../../../lib/content';
+import { href } from '../../../lib/url';
+
+export function getStaticPaths() {
+  return sectors.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Sector };
+---
+<Base title={`On the map: ${s.name}`} sector={s.slug} sectorPage="map">
+  <SectorFlow sector={s} step="map" title="On the map" />
+  <div class="container page">
+    <GlobalMap sector={s.id} embedded />
+    <p class="full"><a href={href(`/map/?sector=${s.id}`)}>Open the full map</a></p>
+  </div>
+  <StepNav sector={s} step="map" />
+</Base>
+<style>
+  .full { margin: var(--sp-3) 0 0; font-size: var(--fs-sm); }
+</style>

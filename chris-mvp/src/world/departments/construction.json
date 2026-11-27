@@ -1,0 +1,120 @@
+{
+ "id": "construction",
+ "number": "06",
+ "types": {
+  "layout": "landscape",
+  "ground": [
+   36,
+   28
+  ],
+  "theme": "city",
+  "roads": [
+   {
+    "from": [
+     -18,
+     2.5
+    ],
+    "to": [
+     18,
+     2.5
+    ],
+    "width": 2.2
+   },
+   {
+    "from": [
+     0,
+     -14
+    ],
+    "to": [
+     0,
+     14
+    ],
+    "width": 2.2
+   }
+  ],
+  "zones": [
+   {
+    "id": "site-ground",
+    "name": "Construction site (ground)",
+    "setting": "construction-site",
+    "area": {
+     "x": -9,
+     "z": -6,
+     "w": 16,
+     "d": 9
+    }
+   },
+   {
+    "id": "site-air",
+    "name": "Airspace over the site",
+    "setting": "air",
+    "area": {
+     "x": -12,
+     "z": -8,
+     "w": 5,
+     "d": 3
+    }
+   },
+   {
+    "id": "structure",
+    "name": "Building structure & work faces",
+    "setting": "building-frame",
+    "area": {
+     "x": 9,
+     "z": -6,
+     "w": 15,
+     "d": 9
+    }
+   },
+   {
+    "id": "printing",
+    "name": "Public works & printed structures",
+    "setting": "print-site",
+    "area": {
+     "x": -9,
+     "z": 8,
+     "w": 16,
+     "d": 6
+    }
+   },
+   {
+    "id": "inspection",
+    "name": "Roofs, structures & utilities",
+    "setting": "utility",
+    "area": {
+     "x": 9,
+     "z": 8,
+     "w": 15,
+     "d": 6
+    }
+   }
+  ],
+  "items": [
+   {
+    "id": "amr",
+    "zoneId": "site-ground",
+    "model": "site-carrier"
+   },
+   {
+    "id": "arms-exoskeletons",
+    "zoneId": "structure",
+    "model": "robot-arm"
+   },
+   {
+    "id": "drones",
+    "zoneId": "site-air",
+    "model": "drone"
+   },
+   {
+    "id": "3d-printing",
+    "zoneId": "printing",
+    "model": "printer-gantry"
+   },
+   {
+    "id": "inspection-robots",
+    "zoneId": "inspection",
+    "model": "quadruped"
+   }
+  ]
+ }
+}

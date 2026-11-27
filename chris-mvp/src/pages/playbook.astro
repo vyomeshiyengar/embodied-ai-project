@@ -35,7 +35,6 @@ const ICONS: Record<string, string> = {
                 <span class="id num">{s.id}</span>
               </span>
               <span class="name">{s.name}</span>
-              <span class="yours" hidden>Your sector</span>
               <span class="counts">{s.types.length} types, {s.risks.length - swans} likely and {swans} black swan risks</span>
             </a>
           </li>
@@ -45,26 +44,11 @@ const ICONS: Record<string, string> = {
   </div>
 </Base>
 
-<script>
-  import { ws } from '../lib/workspace-store';
-  import { getSession } from '../lib/demo-auth';
-  document.addEventListener('astro:page-load', () => {
-    const mine = getSession() ? ws.profile()?.sectors ?? [] : [];
-    document.querySelectorAll<HTMLElement>('[data-sector-tile]').forEach((t) => {
-      const on = mine.includes(t.dataset.sectorTile || '');
-      t.classList.toggle('is-mine', on);
-      t.querySelector<HTMLElement>('.yours')!.hidden = !on;
-    });
-  });
-</script>
 
 <style>
   .intro { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-4); flex-wrap: wrap; margin-bottom: var(--sp-5); }
   .intro h1 { font-size: var(--fs-2xl); margin: 0; }
   .maplink { font-weight: 600; }
-  .yours { align-self: flex-start; font-size: var(--fs-xs); font-weight: 700; color: var(--c-heritage-deep); background: var(--c-gold); padding: 0.1rem 0.6rem; border-radius: var(--radius-pill); }
-  .yours[hidden] { display: none; }
-  .tile.is-mine { box-shadow: inset 0 0 0 2px var(--c-gold); }
   .tiles { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr)); }
   .tile { position: relative; display: flex; flex-direction: column; gap: var(--sp-2); height: 100%; min-height: 12rem; padding: var(--sp-5); border-radius: var(--radius-md); background: var(--c-surface-alt); color: var(--c-ink); text-decoration: none; overflow: hidden; transition: background-color var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out); }
   .top { display: flex; justify-content: space-between; align-items: center; }

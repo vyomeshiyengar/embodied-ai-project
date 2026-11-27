@@ -1,0 +1,275 @@
+---
+/**
+ * Toolkit: the team's mental model as a four-step cycle, then tools cities have used or are piloting
+ * (src/lib/toolkit.ts). Hover or focus a tool for a one-line summary; select it for examples and sources.
+ * Picking a step in the cycle filters the tools to that step. Replaces the old Recommendations page.
+ */
+import Base from '../layouts/Base.astro';
+import { toolkit, STATUS_LABEL } from '../lib/toolkit';
+import { fmtDate, sectorHref } from '../lib/url';
+
+const { steps, tools } = toolkit;
+const stepName = (n: number) => steps.find((s) => s.n === n)!.name;
+// Node positions on the ring (percent of the square): top, right, bottom, left, clockwise.
+const POS = [[50, 16], [84, 50], [50, 84], [16, 50]];
+const SHORT = ['Understand', 'Assess', 'Experiment', 'Decide'];
+const asOf = fmtDate(toolkit.as_of);
+---
+<Base title="Toolkit" description="A mental model for responding to embodied AI, and tools cities have used or are piloting.">
+  <div class="container page">
+    <div class="page-intro"><h1>Toolkit</h1></div>
+
+    <section class="model" aria-labelledby="model-h">
+      <h2 id="model-h" class="h2">Mental model</h2>
+      <div class="model-grid">
+        <div class="cycle" role="tablist" aria-label="Steps of the cycle" data-switch data-cycle>
+          <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="currentColor" />
+              </marker>
+            </defs>
+            <circle cx="50" cy="50" r="34" class="ring" />
+            {/* Clockwise arcs between the nodes, each ending in an arrow */}
+            <path class="arc" d="M 62.7 18.5 A 34 34 0 0 1 81.5 37.3" marker-end="url(#arrow)" />
+            <path class="arc" d="M 81.5 62.7 A 34 34 0 0 1 62.7 81.5" marker-end="url(#arrow)" />
+            <path class="arc" d="M 37.3 81.5 A 34 34 0 0 1 18.5 62.7" marker-end="url(#arrow)" />
+            <path class="arc" d="M 18.5 37.3 A 34 34 0 0 1 37.3 18.5" marker-end="url(#arrow)" />
+          </svg>
+          {steps.map((s, i) => (
+            <button role="tab" class="node" id={`tab-step-${s.n}`} aria-controls={`panel-step-${s.n}`} aria-selected={i === 0 ? 'true' : 'false'}
+              data-step={s.n} style={`left:${POS[i][0]}%;top:${POS[i][1]}%`}>
+              <span class="num" aria-hidden="true">{s.n}</span><span class="nm">{s.name}</span>
+            </button>
+          ))}
+          <p class="hub" aria-hidden="true">Repeat with what you learned</p>
+        </div>
+        <div class="step-panels">
+          {steps.map((s, i) => {
+            const n = tools.filter((t) => t.steps.includes(s.n)).length;
+            return (
+              <section role="tabpanel" id={`panel-step-${s.n}`} aria-labelledby={`tab-step-${s.n}`} hidden={i !== 0} class="step-panel">
+                <p class="eyebrow-num">Step {s.n} of 4</p>
+                <h3>{s.name}</h3>
+                <ul>{s.points.map((p) => <li>{p}</li>)}</ul>
+                <button type="button" class="btn secondary" data-show-step={s.n}>See {n} tools for this step</button>
+              </section>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <section class="kit" aria-labelledby="kit-h" data-kit>
+      <h2 id="kit-h" class="h2">Tools</h2>
+      <div class="filters">
+        <div class="fgroup" role="group" aria-label="Step">
+          <button type="button" aria-pressed="true" data-fstep="">All steps</button>
+          {steps.map((s) => <button type="button" aria-pressed="false" data-fstep={s.n}><span class="fnum" aria-hidden="true">{s.n}</span>{SHORT[s.n - 1]}</button>)}
+        </div>
+        <div class="fgroup" role="group" aria-label="Status">
+          <button type="button" aria-pressed="true" data-fstatus="">Any status</button>
+          {(['in_place', 'piloting', 'proposed'] as const).map((k) => <button type="button" aria-pressed="false" data-fstatus={k}>{STATUS_LABEL[k]}</button>)}
+        </div>
+      </div>
+      <p class="count small muted" aria-live="polite" data-count></p>
+
+      <div class="kit-grid">
+        <ul class="tools" data-tools>
+          {tools.map((t) => (
+            <li data-steps={t.steps.join(' ')} data-status={t.status}>
+              <button type="button" class:list={['tool', t.status]} data-tool={t.id} data-tip={t.oneliner} data-tip-title={t.examples[0] ? `${t.examples.map((e) => e.place).join('; ')}` : 'Proposed by the team'} aria-pressed="false">
+                <span class="tname">{t.name}</span>
+                <span class="tmeta">
+                  <span class:list={['chip', 'st', t.status]}>{STATUS_LABEL[t.status]}</span>
+                  <span class="tsteps" aria-label={`Steps ${t.steps.join(', ')}`}>{[1, 2, 3, 4].map((n) => <span class:list={['d', { on: t.steps.includes(n) }]} aria-hidden="true">{n}</span>)}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <aside class="detail" aria-live="polite" data-detail-wrap>
+          <p class="pick muted" data-pick>Pick a tool to see where it is used, with sources.</p>
+          {tools.map((t) => (
+            <article class="tool-detail" id={`tool-${t.id}`} data-detail={t.id} hidden>
+              <div class="dhead">
+                <span class:list={['chip', 'st', t.status]}>{STATUS_LABEL[t.status]}</span>
+                {t.review && <span class="chip review">Pending team review</span>}
+              </div>
+              <h3>{t.name}</h3>
+              <p class="lead">{t.oneliner}</p>
+              <p class="serves">{t.steps.map((n) => <span class="chip">{n} {stepName(n)}</span>)}</p>
+              {t.status === 'proposed' && t.sector && (
+                <div class="proposal">
+                  <p>{t.body}</p>
+                  <p class="small"><a href={sectorHref(t.sector.slug, 'risks')}>Black swans it answers in {t.sector.id} {t.sector.name}</a></p>
+                </div>
+              )}
+              {t.examples.length > 0 && (
+                <ol class="examples">
+                  {t.examples.map((e) => (
+                    <li>
+                      <p class="ex-h"><strong>{e.place}</strong>, {e.year}</p>
+                      <p>{e.what}</p>
+                      <p class="srcs small">
+                        {e.sources.map((x, i) => <>{i > 0 && '; '}<a href={x.url} rel="noopener">{x.publisher}: {x.title}</a>{x.published && ` (${fmtDate(x.published)})`}</>)}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              )}
+              <p class="asof small muted">As of {asOf}</p>
+            </article>
+          ))}
+        </aside>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { bindTips } from '../scripts/popover';
+  import { select } from '../scripts/switcher';
+  let cleanup: (() => void) | null = null;
+
+  function mount() {
+    const kit = document.querySelector<HTMLElement>('[data-kit]');
+    if (!kit) return;
+    const cycle = document.querySelector<HTMLElement>('[data-cycle]')!;
+    let fStep = '', fStatus = '';
+    const items = [...kit.querySelectorAll<HTMLElement>('[data-tools] > li')];
+    const count = kit.querySelector<HTMLElement>('[data-count]')!;
+
+    const apply = () => {
+      let n = 0;
+      for (const li of items) {
+        const on = (!fStep || li.dataset.steps!.split(' ').includes(fStep)) && (!fStatus || li.dataset.status === fStatus);
+        li.hidden = !on;
+        if (on) n++;
+      }
+      count.textContent = `${n} tool${n === 1 ? '' : 's'}`;
+      kit.querySelectorAll<HTMLElement>('[data-fstep]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fstep === fStep)));
+      kit.querySelectorAll<HTMLElement>('[data-fstatus]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fstatus === fStatus)));
+    };
+
+    const show = (id: string | null, push = true) => {
+      kit.querySelectorAll<HTMLElement>('[data-tool]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tool === id)));
+      kit.querySelectorAll<HTMLElement>('[data-detail]').forEach((a) => (a.hidden = a.dataset.detail !== id));
+      kit.querySelector<HTMLElement>('[data-pick]')!.hidden = !!id;
+      if (push) {
+        const u = new URL(location.href);
+        if (id) u.searchParams.set('tool', id); else u.searchParams.delete('tool');
+        history.replaceState(history.state, '', u);
+      }
+    };
+
+    const onClick = (e: Event) => {
+      const t = e.target as HTMLElement;
+      const tool = t.closest<HTMLElement>('[data-tool]');
+      if (tool) {
+        show(tool.dataset.tool!);
+        if (matchMedia('(max-width: 860px)').matches) kit.querySelector(`#tool-${CSS.escape(tool.dataset.tool!)}`)?.scrollIntoView({ block: 'start' });
+        return;
+      }
+      const fs = t.closest<HTMLElement>('[data-fstep]');
+      if (fs) {
+        fStep = fs.dataset.fstep!;
+        apply();
+        const tab = fStep && document.getElementById(`tab-step-${fStep}`);
+        if (tab) select(tab);
+        return;
+      }
+      const fst = t.closest<HTMLElement>('[data-fstatus]');
+      if (fst) { fStatus = fst.dataset.fstatus!; apply(); }
+    };
+    // The cycle and "See N tools" set the step filter.
+    const onCycle = (e: Event) => {
+      const t = e.target as HTMLElement;
+      const node = t.closest<HTMLElement>('[data-step]');
+      if (node) { fStep = node.dataset.step!; apply(); return; }
+      const go = t.closest<HTMLElement>('[data-show-step]');
+      if (go) { fStep = go.dataset.showStep!; apply(); kit.scrollIntoView({ block: 'start' }); }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'Home' || e.key === 'End') && cycle.contains(e.target as Node)) {
+        requestAnimationFrame(() => { const sel = cycle.querySelector<HTMLElement>('[aria-selected="true"]'); if (sel) { fStep = sel.dataset.step!; apply(); } });
+      }
+    };
+
+    kit.addEventListener('click', onClick);
+    document.addEventListener('click', onCycle);
+    cycle.addEventListener('keydown', onKey);
+    const untip = bindTips(kit, '[data-tool]', (el) => ({ title: el.dataset.tipTitle, body: el.dataset.tip! }));
+    apply();
+    const want = new URLSearchParams(location.search).get('tool');
+    if (want && kit.querySelector(`[data-tool="${CSS.escape(want)}"]`)) show(want, false);
+    cleanup = () => { kit.removeEventListener('click', onClick); document.removeEventListener('click', onCycle); cycle.removeEventListener('keydown', onKey); untip(); };
+  }
+  document.addEventListener('astro:page-load', mount);
+  document.addEventListener('astro:before-swap', () => { cleanup?.(); cleanup = null; });
+</script>
+
+<style>
+  .h2 { font-size: var(--fs-xl); margin: 0 0 var(--sp-4); }
+  .model { margin-bottom: var(--sp-8); }
+  .model-grid { display: grid; grid-template-columns: minmax(20rem, 30rem) minmax(0, 1fr); gap: var(--sp-6); align-items: center; }
+  @media (max-width: 860px) { .model-grid { grid-template-columns: 1fr; } }
+
+  /* The cycle: a ring with four step nodes and clockwise arrows. */
+  .cycle { position: relative; aspect-ratio: 1; width: 100%; max-width: 30rem; margin: 0 auto; }
+  .cycle svg { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--c-spirit); }
+  .ring { fill: none; stroke: #e3ecf8; stroke-width: 6; }
+  .arc { fill: none; stroke: currentColor; stroke-width: 1.4; }
+  .node { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 4px; width: 8.5rem; padding: 0.5rem 0.55rem; border-radius: var(--radius-md); background: #fff; border: 2px solid var(--c-line); color: var(--c-ink); font: 600 var(--fs-sm)/1.25 var(--font-sans); text-align: center; cursor: pointer; transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+  .node:hover { border-color: var(--c-selected); }
+  .node .num { width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; background: #e3ecf8; color: var(--c-heritage); font-weight: 700; }
+  .node[aria-selected='true'] { background: var(--c-selected); border-color: var(--c-selected); color: #fff; }
+  .node[aria-selected='true'] .num { background: #fff; color: var(--c-selected); }
+  .hub { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 8rem; margin: 0; text-align: center; font-size: var(--fs-xs); color: var(--c-muted); }
+  @media (max-width: 520px) {
+    .cycle { aspect-ratio: auto; display: grid; gap: var(--sp-2); }
+    .cycle svg, .hub { display: none; }
+    .node { position: static; transform: none; width: 100%; grid-template-columns: auto 1fr; justify-items: start; align-items: center; text-align: left; }
+  }
+  .step-panel h3 { font-size: var(--fs-xl); margin: 0 0 var(--sp-3); }
+  .eyebrow-num { margin: 0 0 var(--sp-1); font-size: var(--fs-sm); color: var(--c-muted); font-weight: 600; }
+  .step-panel ul { margin: 0 0 var(--sp-4); padding-left: 1.1rem; display: grid; gap: var(--sp-2); color: var(--c-ink); }
+
+  /* Tools */
+  .filters { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-2); }
+  .fgroup { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fgroup button { border: var(--border); background: #fff; border-radius: var(--radius-pill); padding: 0.35rem 0.85rem; font: 600 var(--fs-sm) var(--font-sans); color: var(--c-ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .fgroup button[aria-pressed='true'] { background: var(--c-selected); border-color: var(--c-selected); color: #fff; }
+  .fnum { font-size: var(--fs-xs); opacity: 0.8; }
+  .count { margin: 0 0 var(--sp-3); }
+  .kit-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem); gap: var(--sp-5); align-items: start; }
+  @media (max-width: 860px) { .kit-grid { grid-template-columns: 1fr; } }
+  .tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: var(--sp-3); }
+  .tool { width: 100%; height: 100%; text-align: left; display: grid; gap: var(--sp-2); align-content: space-between; padding: var(--sp-3) var(--sp-4); border: var(--border); border-radius: var(--radius-md); background: #fff; cursor: pointer; font: inherit; color: var(--c-ink); transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+  .tool:hover { border-color: var(--c-selected); }
+  .tool[aria-pressed='true'] { border-color: var(--c-selected); box-shadow: inset 0 0 0 2px var(--c-selected); }
+  .tname { font-weight: 700; line-height: 1.3; }
+  .tmeta { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+  .tsteps { display: inline-flex; gap: 3px; }
+  .tsteps .d { width: 1.2rem; height: 1.2rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.7rem; font-weight: 700; background: #eef2f7; color: #9aa3b2; }
+  .tsteps .d.on { background: var(--c-heritage); color: #fff; }
+  .chip.st.in_place { background: #e6f2ea; color: #1d5b33; border-color: #b9dcc6; }
+  .chip.st.piloting { background: #e8f1fb; color: var(--c-heritage); border-color: #c7dbf2; }
+  .chip.st.proposed { background: var(--c-pending-bg); color: var(--c-pending); border-color: #e7cf7a; }
+  .chip.review { background: #eef2f7; color: var(--c-muted); }
+  .detail { position: sticky; top: calc(var(--header-h, 4rem) + var(--sp-3)); background: var(--c-surface-alt); border-radius: var(--radius-md); padding: var(--sp-5); max-height: calc(100dvh - var(--header-h, 4rem) - var(--sp-6)); overflow: auto; }
+  @media (max-width: 860px) { .detail { position: static; max-height: none; } }
+  .pick { margin: 0; }
+  .dhead { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+  .tool-detail h3 { font-size: var(--fs-lg); margin: var(--sp-2) 0; }
+  .lead { color: var(--c-ink); }
+  .serves { display: flex; gap: 6px; flex-wrap: wrap; }
+  .examples { list-style: none; padding: 0; margin: var(--sp-3) 0 0; display: grid; gap: var(--sp-3); }
+  .examples li { background: #fff; border-radius: var(--radius-sm); padding: var(--sp-3) var(--sp-4); }
+  .examples p { margin: 0 0 var(--sp-1); }
+  .ex-h { color: var(--c-ink); }
+  .srcs { color: var(--c-muted); }
+  .proposal p { margin: 0 0 var(--sp-2); }
+  .asof { margin: var(--sp-3) 0 0; }
+</style>
